@@ -66,7 +66,7 @@ namespace Json.Facts
             Assert.True(IsJsonString(Quoted(@"\""a\"" b")));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void CanContainEscapedReverseSolidus()
         {
             Assert.True(IsJsonString(Quoted(@"a \\ b")));
@@ -108,7 +108,7 @@ namespace Json.Facts
             Assert.True(IsJsonString(Quoted(@"a \t b")));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void CanContainEscapedUnicodeCharacters()
         {
             Assert.True(IsJsonString(Quoted(@"a \u26Be b")));
@@ -126,7 +126,7 @@ namespace Json.Facts
             Assert.False(IsJsonString(Quoted(@"a\")));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void DoesNotEndWithAnUnfinishedHexNumber()
         {
             Assert.False(IsJsonString(Quoted(@"a\u")));

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace Json
 {
@@ -52,6 +53,17 @@ namespace Json
                 return false;
             }
 
+            const int four = 4;
+            if (input[position] == 'u')
+            {
+                if (input.Length - four > 1)
+                {
+                    return ValidUnicodeCharacter(input.Substring(position + 1, four));
+                }
+
+                return false;
+            }
+
             char[] characters = { '"', '\\', '/', 'b', 'f', 'n', 'r', 's', 't' };
             for (int i = 0; i < characters.Length; i++)
             {
@@ -62,6 +74,11 @@ namespace Json
             }
 
             return false;
+        }
+
+        static bool ValidUnicodeCharacter(string input)
+        {
+            return input.All(char.IsLetterOrDigit);
         }
     }
 }
