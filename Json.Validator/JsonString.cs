@@ -7,12 +7,12 @@ namespace Json
     {
         public static bool IsJsonString(string input)
         {
-            return !IsNullOrEmpty(input) && HaveQuotes(input) && !ContainControlCharacters(input) && ContainBackslash(input);
+            return !IsNullOrEmpty(input) && HaveQuotes(input) && !ContainControlCharacters(input) && ContainEscapedCharacters(input);
         }
 
         static bool HaveQuotes(string input)
         {
-            return input[0] == '"' && input[input.Length - 1] == '"' && input.Length > 1;
+            return input.Length > 1 && input[0] == '"' && input[input.Length - 1] == '"';
         }
 
         static bool IsNullOrEmpty(string input)
@@ -24,7 +24,7 @@ namespace Json
         {
             foreach (char c in input)
             {
-                if ((int)c < ' ')
+                if (c < ' ')
                 {
                     return true;
                 }
@@ -33,11 +33,11 @@ namespace Json
             return false;
         }
 
-        static bool ContainBackslash(string input)
+        static bool ContainEscapedCharacters(string input)
         {
             for (int i = 0; i < input.Length; i++)
             {
-                if (input[i] == '\\' && !ContainEscapedCharacters(input, i + 1))
+                if (input[i] == '\\' && !ContainCorectCharacters(input, i + 1))
                 {
                     return false;
                 }
@@ -46,7 +46,7 @@ namespace Json
             return true;
         }
 
-        static bool ContainEscapedCharacters(string input, int position)
+        static bool ContainCorectCharacters(string input, int position)
         {
             if (position == input.Length - 1)
             {
