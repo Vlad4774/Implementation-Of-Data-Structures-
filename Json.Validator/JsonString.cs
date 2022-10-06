@@ -53,27 +53,25 @@ namespace Json
                 return false;
             }
 
-            const int four = 4;
+            const int length = 4;
             if (input[position] == 'u')
             {
-                if (input.Length - four > 1)
+                if (input.Length - length > 1)
                 {
-                    return ValidUnicodeCharacter(input.Substring(position + 1, four));
+                    return ValidUnicodeCharacter(input.Substring(position + 1, length));
                 }
 
                 return false;
             }
 
-            char[] characters = { '"', '\\', '/', 'b', 'f', 'n', 'r', 's', 't' };
-            for (int i = 0; i < characters.Length; i++)
+            if (input[position - 1] == '\\')
             {
-                if (characters[i] == input[position])
-                {
-                    return true;
-                }
+                return true;
             }
 
-            return false;
+            string[] characters = { "\"", @"\", "/", "b", "f", "n", "r", "s", "t" };
+            string character_from_position = input[position].ToString();
+            return characters.Contains(character_from_position);
         }
 
         static bool ValidUnicodeCharacter(string input)
