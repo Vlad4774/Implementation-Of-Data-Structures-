@@ -64,7 +64,7 @@ namespace Json
                 return false;
             }
 
-            if (input[position - 1] == '\\')
+            if (input[position - 1 - 1] == '\\')
             {
                 return true;
             }
@@ -76,7 +76,16 @@ namespace Json
 
         static bool ValidUnicodeCharacter(string input)
         {
-            return input.All(char.IsLetterOrDigit);
+            string input_upper_case = input.ToUpper();
+            for (int i = 0; i < input_upper_case.Length; i++)
+            {
+                if ((input_upper_case[i] < 'A' || input_upper_case[i] > 'Z') && (input_upper_case[i] < '0' || input_upper_case[i] > '9'))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
