@@ -18,13 +18,13 @@ namespace Json.Facts
             Assert.False(IsJsonNumber("a"));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void CanHaveASingleDigit()
         {
             Assert.True(IsJsonNumber("7"));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void CanHaveMultipleDigits()
         {
             Assert.True(IsJsonNumber("70"));
@@ -48,7 +48,7 @@ namespace Json.Facts
             Assert.False(IsJsonNumber("07"));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void CanBeNegative()
         {
             Assert.True(IsJsonNumber("-26"));
