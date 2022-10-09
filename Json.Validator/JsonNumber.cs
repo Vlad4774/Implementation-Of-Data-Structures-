@@ -6,7 +6,7 @@ namespace Json
     {
         public static bool IsJsonNumber(string input)
         {
-            return !IsNotNullOrEmpty(input) && !ContainLetters(input);
+            return !IsNotNullOrEmpty(input) && !ContainLetters(input) && !CheckFirstDigitIs0(input);
         }
 
         static bool IsNotNullOrEmpty(string input)
@@ -25,6 +25,11 @@ namespace Json
             }
 
             return false;
+        }
+
+        static bool CheckFirstDigitIs0(string input)
+        {
+            return input[0] == '0' && input.Length > 1;
         }
     }
 }

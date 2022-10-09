@@ -6,7 +6,7 @@ namespace Json.Facts
 {
     public class JsonNumberFacts
     {
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void CanBeZero()
         {
             Assert.True(IsJsonNumber("0"));
@@ -42,7 +42,7 @@ namespace Json.Facts
             Assert.False(IsJsonNumber(string.Empty));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void DoesNotStartWithZero()
         {
             Assert.False(IsJsonNumber("07"));
@@ -54,7 +54,7 @@ namespace Json.Facts
             Assert.True(IsJsonNumber("-26"));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void CanBeMinusZero()
         {
             Assert.True(IsJsonNumber("-0"));
@@ -85,7 +85,7 @@ namespace Json.Facts
             Assert.False(IsJsonNumber("12.34.56"));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void TheDecimalPartDoesNotAllowLetters()
         {
             Assert.False(IsJsonNumber("12.3x"));
