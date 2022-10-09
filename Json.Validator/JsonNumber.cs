@@ -29,7 +29,7 @@ namespace Json
 
         static bool CheckFirstDigitIs0(string input)
         {
-            return input[0] == '0' && input.Length > 1;
+            return input[0] == '0' && (input.Length > 1 && input[1] != '.');
         }
 
         static bool ContainValidCharacter(string input, int position)
