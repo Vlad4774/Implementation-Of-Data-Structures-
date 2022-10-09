@@ -73,7 +73,7 @@ namespace Json.Facts
             Assert.True(IsJsonNumber("10.00000001"));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void DoesNotEndWithADot()
         {
             Assert.False(IsJsonNumber("12."));
@@ -133,7 +133,7 @@ namespace Json.Facts
             Assert.False(IsJsonNumber("22e323e33"));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void TheExponentIsAlwaysComplete()
         {
             Assert.False(IsJsonNumber("22e"));

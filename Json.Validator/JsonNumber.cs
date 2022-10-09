@@ -6,7 +6,7 @@ namespace Json
     {
         public static bool IsJsonNumber(string input)
         {
-            return !IsNullOrEmpty(input) && !ContainUnvalidCharacters(input) && !CheckFirstDigitIs0(input);
+            return !IsNullOrEmpty(input) && !ContainUnvalidCharacters(input) && !CheckFirstDigitIs0(input) && TheNumberEndsCorrectly(input);
         }
 
         static bool IsNullOrEmpty(string input)
@@ -71,6 +71,11 @@ namespace Json
             }
 
             return true;
+        }
+
+        static bool TheNumberEndsCorrectly(string input)
+        {
+            return !(input[input.Length - 1] < '0' || input[input.Length - 1] > '9');
         }
     }
 }
