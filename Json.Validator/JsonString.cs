@@ -77,16 +77,21 @@ namespace Json
 
         static bool ValidUnicodeCharacter(string input)
         {
-            string input_upper_case = input.ToUpper();
-            for (int i = 0; i < input_upper_case.Length; i++)
+            input = input.ToUpper();
+            foreach (var c in input)
             {
-                if ((input_upper_case[i] < 'A' || input_upper_case[i] > 'Z') && (input_upper_case[i] < '0' || input_upper_case[i] > '9'))
+                if (!IsHex(c))
                 {
                     return false;
                 }
             }
 
             return true;
+        }
+
+        static bool IsHex(char c)
+        {
+            return char.IsLetterOrDigit(c);
         }
     }
 }
