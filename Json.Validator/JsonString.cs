@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 namespace Json
 {
@@ -64,14 +63,16 @@ namespace Json
                 return false;
             }
 
-            if (input[position - 1 - 1] == '\\')
+            if (input[position] == '\\' && input[position + 1] == ' ')
+            {
+                return true;
+            }
+            else if (input[position - 1 - 1] == '\\' && input[position] == ' ')
             {
                 return true;
             }
 
-            string[] characters = { "\"", @"\", "/", "b", "f", "n", "r", "s", "t" };
-            string character_from_position = input[position].ToString();
-            return characters.Contains(character_from_position);
+            return "\"\\/bfnrst".Contains(input[position]);
         }
 
         static bool ValidUnicodeCharacter(string input)
