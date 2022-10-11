@@ -52,11 +52,11 @@ namespace Json
         {
             if (indexOfDot != -1 && indexOfExponent != -1)
             {
-                return input.Substring(indexOfDot + 1, indexOfExponent - indexOfDot);
+                return input.Substring(indexOfDot, indexOfExponent - indexOfDot);
             }
             else if (indexOfDot != -1)
             {
-                return input.Length - indexOfDot - 1 != 0 ? input.Substring(indexOfDot + 1, input.Length - indexOfDot - 1) : "0";
+                return input.Substring(indexOfDot, input.Length - indexOfDot);
             }
 
             return null;
@@ -68,14 +68,14 @@ namespace Json
             {
                 return true;
             }
-            else if (fractional == "0")
+            else if (fractional.Length == 1)
             {
                 return false;
             }
 
-            foreach (char c in fractional)
+            for (int i = 1; i < fractional.Length; i++)
             {
-                if (ContainUnvalidCharacter(c))
+                if (ContainUnvalidCharacter(fractional[i]))
                 {
                     return false;
                 }
