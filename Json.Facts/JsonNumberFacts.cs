@@ -6,25 +6,25 @@ namespace Json.Facts
 {
     public class JsonNumberFacts
     {
-        [Fact(Skip = "Remove")]
+        [Fact]
         public void CanBeZero()
         {
             Assert.True(IsJsonNumber("0"));
         }
 
-        [Fact(Skip = "Remove")]
+        [Fact]
         public void DoesNotContainLetters()
         {
             Assert.False(IsJsonNumber("a"));
         }
 
-        [Fact(Skip = "Remove")]
+        [Fact]
         public void CanHaveASingleDigit()
         {
             Assert.True(IsJsonNumber("7"));
         }
 
-        [Fact(Skip = "Remove")]
+        [Fact]
         public void CanHaveMultipleDigits()
         {
             Assert.True(IsJsonNumber("70"));
@@ -48,13 +48,13 @@ namespace Json.Facts
             Assert.False(IsJsonNumber("07"));
         }
 
-        [Fact(Skip = "Remove")]
+        [Fact]
         public void CanBeNegative()
         {
             Assert.True(IsJsonNumber("-26"));
         }
 
-        [Fact(Skip = "Remove")]
+        [Fact]
         public void CanBeMinusZero()
         {
             Assert.True(IsJsonNumber("-0"));
