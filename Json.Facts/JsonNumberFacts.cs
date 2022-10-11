@@ -91,13 +91,13 @@ namespace Json.Facts
             Assert.False(IsJsonNumber("12.3x"));
         }
 
-        [Fact(Skip = "Remove")]
+        [Fact]
         public void CanHaveAnExponent()
         {
             Assert.True(IsJsonNumber("12e3"));
         }
 
-        [Fact(Skip = "Remove")]
+        [Fact]
         public void TheExponentCanStartWithCapitalE()
         {
             Assert.True(IsJsonNumber("12E3"));
@@ -115,19 +115,19 @@ namespace Json.Facts
             Assert.True(IsJsonNumber("61e-9"));
         }
 
-        [Fact(Skip = "Remove")]
+        [Fact]
         public void CanHaveFractionAndExponent()
         {
             Assert.True(IsJsonNumber("12.34E3"));
         }
 
-        [Fact(Skip = "Remove")]
+        [Fact]
         public void TheExponentDoesNotAllowLetters()
         {
             Assert.False(IsJsonNumber("22e3x3"));
         }
 
-        [Fact(Skip = "Remove")]
+        [Fact]
         public void DoesNotHaveTwoExponents()
         {
             Assert.False(IsJsonNumber("22e323e33"));
@@ -141,7 +141,7 @@ namespace Json.Facts
             Assert.False(IsJsonNumber("23E-"));
         }
 
-        [Fact(Skip = "Remove")]
+        [Fact]
         public void TheExponentIsAfterTheFraction()
         {
             Assert.False(IsJsonNumber("22e3.3"));
