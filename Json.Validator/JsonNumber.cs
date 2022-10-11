@@ -48,6 +48,20 @@ namespace Json
             return true;
         }
 
+        static string Fractional(string input, int indexOfDot, int indexOfExponent)
+        {
+            if (indexOfDot != -1 && indexOfExponent != -1)
+            {
+                return input.Substring(indexOfDot + 1, indexOfExponent - indexOfDot);
+            }
+            else if (indexOfDot != -1)
+            {
+                return input.Substring(indexOfDot + 1, input.Length - indexOfDot - 1);
+            }
+
+            return null;
+        }
+
         static bool ContainUnvalidCharacter(char c)
         {
             return c < '0' || c > '9';
