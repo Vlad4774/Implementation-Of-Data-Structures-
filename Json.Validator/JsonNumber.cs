@@ -32,6 +32,11 @@ namespace Json
 
         static bool IsInteger(string integer)
         {
+            if (integer[0] == '0' && integer.Length > 1)
+            {
+                return false;
+            }
+
             foreach (char c in integer)
             {
                 if (ContainUnvalidCharacter(c) && c != '-')
