@@ -13,7 +13,7 @@ namespace Json
 
             var indexOfDot = input.IndexOf('.');
             var indexOfExponent = input.IndexOfAny("eE".ToCharArray());
-            return IsInteger(Integer(input, indexOfDot, indexOfExponent));
+            return IsInteger(Integer(input, indexOfDot, indexOfExponent)) && IsFraction(Fraction(input, indexOfDot, indexOfExponent));
         }
 
         static string Integer(string input, int indexOfDot, int indexOfExponent)
@@ -48,7 +48,7 @@ namespace Json
             return true;
         }
 
-        static string Fractional(string input, int indexOfDot, int indexOfExponent)
+        static string Fraction(string input, int indexOfDot, int indexOfExponent)
         {
             if (indexOfDot != -1 && indexOfExponent != -1)
             {
@@ -56,10 +56,32 @@ namespace Json
             }
             else if (indexOfDot != -1)
             {
-                return input.Substring(indexOfDot + 1, input.Length - indexOfDot - 1);
+                return input.Length - indexOfDot - 1 != 0 ? input.Substring(indexOfDot + 1, input.Length - indexOfDot - 1) : "0";
             }
 
             return null;
+        }
+
+        static bool IsFraction(string fractional)
+        {
+            if (fractional == null)
+            {
+                return true;
+            }
+            else if (fractional == "0")
+            {
+                return false;
+            }
+
+            foreach (char c in fractional)
+            {
+                if (ContainUnvalidCharacter(c))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         static bool ContainUnvalidCharacter(char c)
