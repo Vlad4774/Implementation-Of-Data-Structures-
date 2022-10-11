@@ -133,6 +133,14 @@ namespace Json.Facts
             Assert.False(IsJsonString(Quoted(@"a\u123")));
         }
 
+        [Fact]
+        
+        public void NewTests()
+        {
+            Assert.True(IsJsonString(Quoted(@"\\u2342")));
+            Assert.True(IsJsonString(Quoted(@"\\\u2342")));
+        }
+
         public static string Quoted(string text)
             => $"\"{text}\"";
     }

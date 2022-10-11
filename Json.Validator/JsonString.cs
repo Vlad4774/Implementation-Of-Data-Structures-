@@ -34,13 +34,22 @@ namespace Json
 
         static bool ContainEscapedCharacters(string input)
         {
-            for (int i = 0; i < input.Length; i++)
+            int i = 0;
+            do
             {
                 if (input[i] == '\\' && !ContainCorectCharacters(input, i + 1))
                 {
                     return false;
                 }
+
+                if (input[i] == '\\')
+                {
+                    i++;
+                }
+
+                i++;
             }
+            while (i < input.Length);
 
             return true;
         }
