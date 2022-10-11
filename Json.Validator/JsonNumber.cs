@@ -13,21 +13,25 @@ namespace Json
 
             var indexOfDot = input.IndexOf('.');
             var indexOfExponent = input.IndexOfAny("eE".ToCharArray());
-            return IsInteger(input, indexOfDot, indexOfExponent);
+            return IsInteger(Integer(input, indexOfDot, indexOfExponent));
         }
 
-        static bool IsInteger(string input, int indexOfDot, int indexOfExponent)
+        static string Integer(string input, int indexOfDot, int indexOfExponent)
         {
-            string integer = input;
             if (indexOfDot != -1)
             {
-                integer = input.Substring(0, indexOfDot);
+                return input.Substring(0, indexOfDot);
             }
             else if (indexOfExponent != -1)
             {
-                integer = input.Substring(0, indexOfExponent);
+                return input.Substring(0, indexOfExponent);
             }
 
+            return input;
+        }
+
+        static bool IsInteger(string integer)
+        {
             foreach (char c in integer)
             {
                 if (ContainUnvalidCharacter(c) && c != '-')
