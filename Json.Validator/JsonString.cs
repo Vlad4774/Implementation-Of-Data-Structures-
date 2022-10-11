@@ -72,11 +72,7 @@ namespace Json
                 return false;
             }
 
-            if (input[position] == '\\' && input[position + 1] == ' ')
-            {
-                return true;
-            }
-            else if (input[position - 1 - 1] == '\\' && input[position] == ' ')
+            if (input[position] == '\\')
             {
                 return true;
             }
