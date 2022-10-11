@@ -91,7 +91,7 @@ namespace Json
 
         static bool IsHex(char c)
         {
-            return char.IsLetterOrDigit(c);
+            return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z');
         }
     }
 }
