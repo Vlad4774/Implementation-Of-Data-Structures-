@@ -91,7 +91,7 @@ namespace Json
                 return null;
             }
 
-            return input.Substring(indexOfExponent + 1, input.Length - indexOfExponent - 1);
+            return input.Substring(indexOfExponent, input.Length - indexOfExponent);
         }
 
         static bool IsExponent(string exponent)
@@ -104,8 +104,12 @@ namespace Json
             {
                 return false;
             }
+            else if (exponent[1] != '+' && exponent[1] != '-' && ContainUnvalidCharacter(exponent[1]))
+            {
+                return false;
+            }
 
-            for (int i = 0; i < exponent.Length; i++)
+            for (int i = 2; i < exponent.Length; i++)
             {
                 if (ContainUnvalidCharacter(exponent[i]))
                 {
