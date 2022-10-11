@@ -6,134 +6,134 @@ namespace Json.Facts
 {
     public class JsonNumberFacts
     {
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void CanBeZero()
         {
             Assert.True(IsJsonNumber("0"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void DoesNotContainLetters()
         {
             Assert.False(IsJsonNumber("a"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void CanHaveASingleDigit()
         {
             Assert.True(IsJsonNumber("7"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void CanHaveMultipleDigits()
         {
             Assert.True(IsJsonNumber("70"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void IsNotNull()
         {
             Assert.False(IsJsonNumber(null));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void IsNotAnEmptyString()
         {
             Assert.False(IsJsonNumber(string.Empty));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void DoesNotStartWithZero()
         {
             Assert.False(IsJsonNumber("07"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void CanBeNegative()
         {
             Assert.True(IsJsonNumber("-26"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void CanBeMinusZero()
         {
             Assert.True(IsJsonNumber("-0"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void CanBeFractional()
         {
             Assert.True(IsJsonNumber("12.34"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void TheFractionCanHaveLeadingZeros()
         {
             Assert.True(IsJsonNumber("0.00000001"));
             Assert.True(IsJsonNumber("10.00000001"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void DoesNotEndWithADot()
         {
             Assert.False(IsJsonNumber("12."));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void DoesNotHaveTwoFractionParts()
         {
             Assert.False(IsJsonNumber("12.34.56"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void TheDecimalPartDoesNotAllowLetters()
         {
             Assert.False(IsJsonNumber("12.3x"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void CanHaveAnExponent()
         {
             Assert.True(IsJsonNumber("12e3"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void TheExponentCanStartWithCapitalE()
         {
             Assert.True(IsJsonNumber("12E3"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void TheExponentCanHavePositive()
         {
             Assert.True(IsJsonNumber("12e+3"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void TheExponentCanBeNegative()
         {
             Assert.True(IsJsonNumber("61e-9"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void CanHaveFractionAndExponent()
         {
             Assert.True(IsJsonNumber("12.34E3"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void TheExponentDoesNotAllowLetters()
         {
             Assert.False(IsJsonNumber("22e3x3"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void DoesNotHaveTwoExponents()
         {
             Assert.False(IsJsonNumber("22e323e33"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void TheExponentIsAlwaysComplete()
         {
             Assert.False(IsJsonNumber("22e"));
@@ -141,7 +141,7 @@ namespace Json.Facts
             Assert.False(IsJsonNumber("23E-"));
         }
 
-        [Fact]
+        [Fact(Skip = "Remove")]
         public void TheExponentIsAfterTheFraction()
         {
             Assert.False(IsJsonNumber("22e3.3"));
