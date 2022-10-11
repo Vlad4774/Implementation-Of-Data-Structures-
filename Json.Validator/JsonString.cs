@@ -72,11 +72,6 @@ namespace Json
                 return false;
             }
 
-            if (input[position] == '\\')
-            {
-                return true;
-            }
-
             return "\"\\/bfnrst".Contains(input[position]);
         }
 
