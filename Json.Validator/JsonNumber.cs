@@ -22,11 +22,11 @@ namespace Json
         {
             if (indexOfDot != -1)
             {
-                return input[0..indexOfDot];
+                return input[..indexOfDot];
             }
             else if (indexOfExponent != -1)
             {
-                return input[0..indexOfExponent];
+                return input[..indexOfExponent];
             }
 
             return input;
@@ -58,7 +58,7 @@ namespace Json
             }
             else if (indexOfDot != -1)
             {
-                return input[indexOfDot..input.Length];
+                return input[indexOfDot..];
             }
 
             return null;
@@ -93,7 +93,7 @@ namespace Json
                 return null;
             }
 
-            return input[indexOfExponent..input.Length];
+            return input[indexOfExponent..];
         }
 
         static bool IsExponent(string exponent)
