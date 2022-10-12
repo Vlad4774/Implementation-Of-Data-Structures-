@@ -24,7 +24,8 @@ namespace Json
             {
                 return input[..indexOfDot];
             }
-            else if (indexOfExponent != -1)
+
+            if (indexOfExponent != -1)
             {
                 return input[..indexOfExponent];
             }
@@ -41,7 +42,7 @@ namespace Json
 
             foreach (char c in integer)
             {
-                if (ContainUnvalidCharacter(c) && c != '-')
+                if (!IsDigit(c) && c != '-')
                 {
                     return false;
                 }
@@ -56,12 +57,13 @@ namespace Json
             {
                 return input[indexOfDot..indexOfExponent];
             }
-            else if (indexOfDot != -1)
+
+            if (indexOfDot == -1)
             {
-                return input[indexOfDot..];
+                return null;
             }
 
-            return null;
+            return input[indexOfDot..];
         }
 
         static bool IsFraction(string fractional)
@@ -70,14 +72,15 @@ namespace Json
             {
                 return true;
             }
-            else if (fractional.Length == 1)
+
+            if (fractional.Length == 1)
             {
                 return false;
             }
 
             for (int i = 1; i < fractional.Length; i++)
             {
-                if (ContainUnvalidCharacter(fractional[i]))
+                if (!IsDigit(fractional[i]))
                 {
                     return false;
                 }
@@ -102,18 +105,20 @@ namespace Json
             {
                 return true;
             }
-            else if (ContainUnvalidCharacter(exponent[exponent.Length - 1]))
+
+            if (!IsDigit(exponent[exponent.Length - 1]))
             {
                 return false;
             }
-            else if (exponent[1] != '+' && exponent[1] != '-' && ContainUnvalidCharacter(exponent[1]))
+
+            if (exponent[1] != '+' && exponent[1] != '-' && !IsDigit(exponent[1]))
             {
                 return false;
             }
 
             for (int i = 2; i < exponent.Length; i++)
             {
-                if (ContainUnvalidCharacter(exponent[i]))
+                if (!IsDigit(exponent[i]))
                 {
                     return false;
                 }
@@ -122,9 +127,9 @@ namespace Json
             return true;
         }
 
-        static bool ContainUnvalidCharacter(char c)
+        static bool IsDigit(char c)
         {
-            return c < '0' || c > '9';
+            return c >= '0' && c <= '9';
         }
     }
 }
