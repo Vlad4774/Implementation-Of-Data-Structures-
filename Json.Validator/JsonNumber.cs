@@ -14,19 +14,19 @@ namespace Json
             var indexOfDot = input.IndexOf('.');
             var indexOfExponent = input.IndexOfAny("eE".ToCharArray());
             return IsInteger(Integer(input, indexOfDot, indexOfExponent))
-            && IsFraction(Fraction(input, indexOfDot, indexOfExponent)) 
-            && IsExponent(Exponent(input, indexOfExponent));
+               && IsFraction(Fraction(input, indexOfDot, indexOfExponent))
+               && IsExponent(Exponent(input, indexOfExponent));
         }
 
         static string Integer(string input, int indexOfDot, int indexOfExponent)
         {
             if (indexOfDot != -1)
             {
-                return input[0..^(input.Length - indexOfDot)];
+                return input[0..indexOfDot];
             }
             else if (indexOfExponent != -1)
             {
-                return input[0..^(input.Length - indexOfExponent)];
+                return input[0..indexOfExponent];
             }
 
             return input;
@@ -54,11 +54,11 @@ namespace Json
         {
             if (indexOfDot != -1 && indexOfExponent != -1)
             {
-                return input[indexOfDot..^(input.Length - indexOfExponent)];
+                return input[indexOfDot..indexOfExponent];
             }
             else if (indexOfDot != -1)
             {
-                return input[indexOfDot..^0];
+                return input[indexOfDot..input.Length];
             }
 
             return null;
@@ -93,7 +93,7 @@ namespace Json
                 return null;
             }
 
-            return input[indexOfExponent..^0];
+            return input[indexOfExponent..input.Length];
         }
 
         static bool IsExponent(string exponent)
