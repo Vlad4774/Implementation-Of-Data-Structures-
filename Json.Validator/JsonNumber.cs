@@ -40,15 +40,12 @@ namespace Json
                 return false;
             }
 
-            foreach (char c in integer)
+            if (integer[0] == '-')
             {
-                if (!IsDigit(c) && c != '-')
-                {
-                    return false;
-                }
+                return IsDigit(integer, 1, integer.Length);
             }
 
-            return true;
+            return IsDigit(integer, 0, integer.Length);
         }
 
         static string Fraction(string input, int indexOfDot, int indexOfExponent)
@@ -78,15 +75,7 @@ namespace Json
                 return false;
             }
 
-            for (int i = 1; i < fractional.Length; i++)
-            {
-                if (!IsDigit(fractional[i]))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return IsDigit(fractional, 1, fractional.Length);
         }
 
         static string Exponent(string input, int indexOfExponent)
@@ -106,30 +95,31 @@ namespace Json
                 return true;
             }
 
-            if (!IsDigit(exponent[exponent.Length - 1]))
+            if (!IsDigit(exponent, exponent.Length - 1, exponent.Length))
             {
                 return false;
             }
 
-            if (exponent[1] != '+' && exponent[1] != '-' && !IsDigit(exponent[1]))
+            if (exponent[1] != '+' && exponent[1] != '-' && !IsDigit(exponent, 1, 1 + 1))
             {
                 return false;
             }
 
-            for (int i = 2; i < exponent.Length; i++)
+            const int start = 2;
+            return IsDigit(exponent, start, exponent.Length);
+        }
+
+        static bool IsDigit(string input, int start, int end)
+        {
+            for (int i = start; i < end; i++)
             {
-                if (!IsDigit(exponent[i]))
+                if (input[i] < '0' || input[i] > '9')
                 {
                     return false;
                 }
             }
 
             return true;
-        }
-
-        static bool IsDigit(char c)
-        {
-            return c >= '0' && c <= '9';
         }
     }
 }
