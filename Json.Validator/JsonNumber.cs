@@ -35,12 +35,12 @@ namespace Json
 
         static bool IsInteger(string integer)
         {
-            if (integer[0] == '0' && integer.Length > 1)
+            if (integer.StartsWith('0') && integer.Length > 1)
             {
                 return false;
             }
 
-            if (integer[0] == '-')
+            if (integer.StartsWith('-'))
             {
                 integer = integer[1..];
             }
@@ -65,12 +65,7 @@ namespace Json
 
         static bool IsFraction(string fractional)
         {
-            if (fractional == null)
-            {
-                return true;
-            }
-
-            return HaveDigits(fractional[1..]);
+            return fractional == null || HaveDigits(fractional[1..]);
         }
 
         static string Exponent(string input, int indexOfExponent)
@@ -90,18 +85,8 @@ namespace Json
                 return true;
             }
 
-            if (exponent.Length == 1)
-            {
-                return false;
-            }
-
             exponent = exponent[1..];
-            if ((exponent[0] == '+' || exponent[0] == '-') && exponent.Length == 1)
-            {
-                return false;
-            }
-
-            if (exponent[0] == '+' || exponent[0] == '-')
+            if (exponent.StartsWith('-') || exponent.StartsWith('+'))
             {
                 exponent = exponent[1..];
             }
