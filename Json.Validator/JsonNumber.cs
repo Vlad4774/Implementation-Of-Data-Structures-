@@ -42,10 +42,10 @@ namespace Json
 
             if (integer[0] == '-')
             {
-                return IsDigit(integer, 1, integer.Length);
+                return HaveDigits(integer[1..integer.Length]);
             }
 
-            return IsDigit(integer, 0, integer.Length);
+            return HaveDigits(integer[..integer.Length]);
         }
 
         static string Fraction(string input, int indexOfDot, int indexOfExponent)
@@ -75,7 +75,7 @@ namespace Json
                 return false;
             }
 
-            return IsDigit(fractional, 1, fractional.Length);
+            return HaveDigits(fractional[1..fractional.Length]);
         }
 
         static string Exponent(string input, int indexOfExponent)
@@ -95,23 +95,18 @@ namespace Json
                 return true;
             }
 
-            if (!IsDigit(exponent, exponent.Length - 1, exponent.Length))
+            const int start = 1;
+            if (exponent[1] == '+' || exponent[1] == '-')
             {
-                return false;
+                return HaveDigits(exponent[(start + 1) ..exponent.Length]);
             }
 
-            if (exponent[1] != '+' && exponent[1] != '-' && !IsDigit(exponent, 1, 1 + 1))
-            {
-                return false;
-            }
-
-            const int start = 2;
-            return IsDigit(exponent, start, exponent.Length);
+            return HaveDigits(exponent[start..exponent.Length]);
         }
 
-        static bool IsDigit(string input, int start, int end)
+        static bool HaveDigits(string input)
         {
-            for (int i = start; i < end; i++)
+            for (int i = 0; i < input.Length; i++)
             {
                 if (input[i] < '0' || input[i] > '9')
                 {
@@ -119,7 +114,7 @@ namespace Json
                 }
             }
 
-            return true;
+            return input.Length > 0;
         }
     }
 }
