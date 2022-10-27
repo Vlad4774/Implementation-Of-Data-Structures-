@@ -1,4 +1,4 @@
-
+﻿
 class Team
 {
     private string nameOfTeam;
@@ -17,6 +17,11 @@ class Team
             first = second;
             second = team;
         }
+    }
+
+    public string Raport(Team team)
+    {
+        return team.nameOfTeam.ToString() + " " + team.points.ToString();
     }
 }
 
@@ -47,7 +52,7 @@ class Ranking
     {
         for (int i = 0; i < teams.Length; i++)
         {
-            if (teams[i] == newTeam)
+            if(teams[i] == newTeam)
             {
                 return i + 1;
             }
