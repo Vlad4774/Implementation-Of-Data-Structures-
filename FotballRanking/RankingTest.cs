@@ -16,7 +16,7 @@
         [Fact]
         public void AddMultipleTeamsButInDescedindOrderOfPoints()
         {
-            Team[] teams = new Team[0];foratasayusa;
+            Team[] teams = new Team[0];
             var ranking = new Ranking(teams);
             var newTeam = new Team("fcsb", 20);
             ranking.Add(newTeam, ref teams);
