@@ -15,9 +15,12 @@
 
     public void SortRanking(ref Team[] teams)
     {
-        for (int i = 1; i < teams.Length; i++)
+        for (int i = 0; i < teams.Length - 1; i++)
         {
-            teams[i - 1].SwapTeams(ref teams[i - 1], ref teams[i]);
+            for (int j = i + 1; j < teams.Length; j++)
+            {
+                teams[i].SwapTeams(ref teams[i], ref teams[j]);
+            }
         }
     }
 
