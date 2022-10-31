@@ -49,7 +49,7 @@
             ranking.Add(newTeam);
             newTeam = new Team("Rapid", 25);
             ranking.Add(newTeam);
-            Assert.Equal(2, ranking.PositionOf(newTeam));
+            Assert.Equal(newTeam, ranking.TeamAtPosition(2));
         }
     }
 }

@@ -52,4 +52,9 @@ class Ranking
 
         return 0;
     }
+
+    public Team TeamAtPosition(int position)
+    {
+        return teams[position - 1];
+    }
 }
