@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FotballRanking;
+using System.Collections.Generic;
 using Xunit;
 
 class Ranking
@@ -30,6 +31,13 @@ class Ranking
                 }
             }
         }
+    }
+
+    public void Match(int position1, int position2, int goals1, int goals2)
+    {
+        var updateRanking = new UpdateRanking(teams);
+        updateRanking.Score(teams[position1 - 1], teams[position2 - 1], goals1, goals2);
+        SortRanking();
     }
 
     public int PositionOf(Team newTeam)

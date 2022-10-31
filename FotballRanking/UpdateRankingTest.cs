@@ -11,9 +11,7 @@
             ranking.Add(newTeam);
             newTeam = new Team("sepsi", 3);
             ranking.Add(newTeam);
-            var updateRanking = new UpdateRanking(teams);
-            updateRanking.Score(teams[0], teams[1], 2, 3);
-            ranking.SortRanking();
+            ranking.Match(1, 2, 1, 3);
             Assert.Equal(1, ranking.PositionOf(newTeam));
         }
 
@@ -28,9 +26,7 @@
             ranking.Add(newTeam);
             newTeam = new Team("Rapid", 19);
             ranking.Add(newTeam);
-            var updateRanking = new UpdateRanking(teams);
-            updateRanking.Score(teams[0], teams[2], 1, 3);
-            ranking.SortRanking();
+            ranking.Match(1, 3, 1, 2);
             Assert.Equal(2, ranking.PositionOf(newTeam));
         }
     }
