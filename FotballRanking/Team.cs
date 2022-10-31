@@ -24,9 +24,8 @@ class Team
         return team.nameOfTeam.ToString() + " " + team.points.ToString();
     }
 
-    public Team AddPoints(Team team, int points)
+    public void AddPoints(int points)
     {
-        team.points += points;
-        return team;
+        this.points += points;
     }
 }

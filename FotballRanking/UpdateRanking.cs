@@ -13,16 +13,16 @@ namespace FotballRanking
         {
             if (firstGoals > secondGoals)
             {
-                first.AddPoints(first, 3);
+                first.AddPoints(3);
             }
             else if (firstGoals < secondGoals)
             {
-                second.AddPoints(second, 3);
+                second.AddPoints(3);
             }
             else
             {
-                first.AddPoints(first, 1);
-                second.AddPoints(second, 1);
+                first.AddPoints(1);
+                second.AddPoints(1);
             }
         }
     }
