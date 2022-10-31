@@ -9,14 +9,14 @@ class Team
         this.points = points;
     }
 
-    public void SwapTeams(ref Team first, ref Team second)
+    public bool SwapTeams(Team that)
     {
-        if (first.points < second.points)
+        if (this.points < that.points)
         {
-            Team team = first;
-            first = second;
-            second = team;
+            return true;
         }
+
+        return false;
     }
 
     public string Raport(Team team)

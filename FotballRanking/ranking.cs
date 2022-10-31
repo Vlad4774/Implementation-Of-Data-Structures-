@@ -1,4 +1,7 @@
-﻿class Ranking
+﻿using System.Collections.Generic;
+using Xunit;
+
+class Ranking
 {
     Team[] teams;
     public Ranking(Team[] teams)
@@ -19,7 +22,12 @@
         {
             for (int j = i + 1; j < teams.Length; j++)
             {
-                teams[i].SwapTeams(ref teams[i], ref teams[j]);
+                if (teams[i].SwapTeams(teams[j]))
+                {
+                    Team team = teams[i];
+                    teams[i] = teams[j];
+                    teams[j] = team;
+                }
             }
         }
     }
