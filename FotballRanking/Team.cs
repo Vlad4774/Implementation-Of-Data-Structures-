@@ -9,19 +9,9 @@ class Team
         this.points = points;
     }
 
-    public bool SwapTeams(Team that)
+    public bool MorePoints(Team that)
     {
-        if (this.points < that.points)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    public string Raport(Team team)
-    {
-        return team.nameOfTeam.ToString() + " " + team.points.ToString();
+        return this.points < that.points;
     }
 
     public void AddPoints(int points)

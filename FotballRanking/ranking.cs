@@ -17,13 +17,13 @@ class Ranking
         SortRanking();
     }
 
-    public void SortRanking()
+    void SortRanking()
     {
         for (int i = 0; i < teams.Length - 1; i++)
         {
             for (int j = i + 1; j < teams.Length; j++)
             {
-                if (teams[i].SwapTeams(teams[j]))
+                if (teams[i].MorePoints(teams[j]))
                 {
                     Team team = teams[i];
                     teams[i] = teams[j];
@@ -33,10 +33,10 @@ class Ranking
         }
     }
 
-    public void Match(int position1, int position2, int goals1, int goals2)
+    public void Match(Team homeTeam, Team awayTeam, int homeGoals, int awayGoals)
     {
-        var updateRanking = new UpdateRanking(teams);
-        updateRanking.Score(teams[position1 - 1], teams[position2 - 1], goals1, goals2);
+        var updateRanking = new UpdatedRanking(teams);
+        updateRanking.Score(homeTeam, awayTeam, homeGoals, awayGoals);
         SortRanking();
     }
 

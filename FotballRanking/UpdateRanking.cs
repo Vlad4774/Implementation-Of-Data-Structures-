@@ -1,10 +1,10 @@
 ﻿
 namespace FotballRanking
 {
-    class UpdateRanking
+    class UpdatedRanking
     {
         Team[] teams;
-        public UpdateRanking(Team[] teams)
+        public UpdatedRanking(Team[] teams)
         {
             this.teams = teams;
         }
