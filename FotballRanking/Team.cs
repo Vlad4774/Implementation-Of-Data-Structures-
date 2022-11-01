@@ -9,7 +9,7 @@ class Team
         this.points = points;
     }
 
-    public bool MorePoints(Team that)
+    public bool HasMorePoints(Team that)
     {
         return this.points < that.points;
     }

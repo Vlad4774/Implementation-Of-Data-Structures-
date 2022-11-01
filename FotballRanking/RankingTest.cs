@@ -15,7 +15,6 @@
         [Fact]
         public void AddMultipleTeamsButInDescedindOrderOfPoints()
         {
-            Team[] teams = new Team[0];
             var ranking = new Ranking();
             var newTeam = new Team("fcsb", 20);
             ranking.Add(newTeam);
@@ -29,7 +28,6 @@
         [Fact]
         public void AddTwoTeamsButNotInOrderOfPoints()
         {
-            Team[] teams = new Team[0];
             var ranking = new Ranking();
             var newTeam = new Team("fcsb", 20);
             ranking.Add(newTeam);
@@ -41,7 +39,6 @@
         [Fact]
         public void AddMultipleTeamsButNotInOrderOfPoints()
         {
-            Team[] teams = new Team[0];
             var ranking = new Ranking();
             var newTeam = new Team("fcsb", 20);
             ranking.Add(newTeam);

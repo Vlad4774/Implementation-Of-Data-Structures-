@@ -17,7 +17,6 @@
         [Fact]
         public void ThirdTeamWinsMatch()
         {
-            Team[] teams = new Team[0];
             var ranking = new Ranking();
             var awayTeam = new Team("fcsb", 17);
             ranking.Add(awayTeam);

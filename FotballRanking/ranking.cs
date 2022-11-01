@@ -23,7 +23,7 @@ class Ranking
         {
             for (int j = i + 1; j < teams.Length; j++)
             {
-                if (teams[i].MorePoints(teams[j]))
+                if (teams[i].HasMorePoints(teams[j]))
                 {
                     Team team = teams[i];
                     teams[i] = teams[j];
@@ -33,10 +33,22 @@ class Ranking
         }
     }
 
-    public void Match(Team homeTeam, Team awayTeam, int homeGoals, int awayGoals)
+    public void Match(Team first, Team second, int firstGoals, int secondGoals)
     {
-        var updateRanking = new UpdatedRanking(teams);
-        updateRanking.Score(homeTeam, awayTeam, homeGoals, awayGoals);
+        if (firstGoals > secondGoals)
+        {
+            first.AddPoints(3);
+        }
+        else if (firstGoals < secondGoals)
+        {
+            second.AddPoints(3);
+        }
+        else
+        {
+            first.AddPoints(1);
+            second.AddPoints(1);
+        }
+
         SortRanking();
     }
 
