@@ -21,15 +21,16 @@ class Ranking
     {
         for (int step = 1; step < teams.Length; step++)
         {
-            Team team = teams[step];
-            int j = step - 1;
-            while (j >= 0 && team.HasMorePoints(teams[j]))
+            for (int j = step - 1; j >= 0; j--)
             {
-                teams[j + 1] = teams[j];
-                j--;
+                if (teams[step].HasMorePoints(teams[j]))
+                {
+                    Team aux = teams[step];
+                    teams[step] = teams[j];
+                    teams[j] = aux;
+                    step--;
+                }
             }
-
-            teams[j + 1] = team;
         }
     }
 
