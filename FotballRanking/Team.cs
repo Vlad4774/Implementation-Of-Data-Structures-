@@ -11,7 +11,7 @@ class Team
 
     public bool HasMorePoints(Team that)
     {
-        return this.points < that.points;
+        return this.points > that.points;
     }
 
     public void AddPoints(int points)
