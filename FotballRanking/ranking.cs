@@ -21,14 +21,13 @@ class Ranking
     {
         for (int step = 1; step < teams.Length; step++)
         {
-            for (int j = step - 1; j >= 0; j--)
+            for (int j = step; j >= 1; j--)
             {
-                if (teams[step].HasMorePoints(teams[j]))
+                if (teams[j].HasMorePoints(teams[j - 1]))
                 {
-                    Team aux = teams[step];
-                    teams[step] = teams[j];
+                    Team aux = teams[j - 1];
+                    teams[j - 1] = teams[j];
                     teams[j] = aux;
-                    step--;
                 }
             }
         }
