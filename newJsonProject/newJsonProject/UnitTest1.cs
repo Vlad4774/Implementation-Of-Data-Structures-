@@ -5,7 +5,6 @@ namespace newJsonProject
         [Fact]
         public void Test1()
         {
-            fortasteaua;
         }
     }
 }
