@@ -18,12 +18,9 @@ namespace newJsonProject
                 return false;
             }
 
-            foreach (var c in text)
+            if (text[0] < start || text[0] > end)
             {
-                if (c < start || c > end)
-                {
-                    return false;
-                }
+                return false;
             }
 
             return true; 
