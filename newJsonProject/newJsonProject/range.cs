@@ -1,7 +1,7 @@
 ﻿
 namespace newJsonProject
 {
-    class Range
+    class Range : IPattern
     {
         char start;
         char end;
