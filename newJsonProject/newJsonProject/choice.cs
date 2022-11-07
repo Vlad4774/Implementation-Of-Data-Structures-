@@ -1,11 +1,16 @@
 ﻿
 namespace newJsonProject
 {
+    interface IMatch
+    {
+        bool Success();
+        string RemainingText();
+    }
     interface IPattern
     {
         bool Match(string text);
     }
-    class Choice
+    class Choice : IPattern
     {
         IPattern[] patterns;
         public Choice(params IPattern[] patterns)
