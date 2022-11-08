@@ -1,14 +1,14 @@
 ﻿
 namespace newJsonProject
 {
-    class Match
+    class Match : IMatch
     {
-        bool Succes()
+        public bool Success()
         {
             return true;
         }
 
-        string RemainingText()
+        public string RemainingText()
         {
             return null;
         }

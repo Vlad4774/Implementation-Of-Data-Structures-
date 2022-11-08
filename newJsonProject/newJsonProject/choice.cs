@@ -20,16 +20,15 @@ namespace newJsonProject
 
         public bool Match(string text)
         {
-            int falsePropositions = 0;
             foreach (var pattern in patterns)
             {
-                if(!pattern.Match(text))
+                if(pattern.Match(text))
                 {
-                    falsePropositions++;
+                    return true;
                 }
             }
 
-            return !(falsePropositions == patterns.Length);
+            return false;
         }
     }
 }
