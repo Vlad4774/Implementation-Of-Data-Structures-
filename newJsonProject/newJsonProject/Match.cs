@@ -3,14 +3,18 @@ namespace newJsonProject
 {
     class Match : IMatch
     {
-        public bool Success()
+        bool success;
+        string remainingText;
+        public bool Success(bool result)
         {
-            return true;
+            this.success = result;
+            return success;
         }
 
-        public string RemainingText()
+        public string RemainingText(string text)
         {
-            return null;
+            this.remainingText = text;
+            return remainingText;
         }
     }
 }

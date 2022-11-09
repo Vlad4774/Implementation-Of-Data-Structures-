@@ -11,19 +11,21 @@ namespace newJsonProject
             this.end = end;
         }
 
-        public bool Match(string text)
+        public IMatch Match(string text)
         {
+            var result = new Match(false, text);
             if (string.IsNullOrEmpty(text))
             {
-                return false;
+                return result;
             }
 
             if (text[0] < start || text[0] > end)
             {
-                return false;
+                return result;
             }
 
-            return true; 
+            result = new Match(true, text);
+            return result; 
         }
     }
 }
