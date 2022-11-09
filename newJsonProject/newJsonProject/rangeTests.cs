@@ -12,7 +12,7 @@ namespace newJsonProject
         public void CasesTrue(string text)
         {
             var digit = new Range('a', 'f');
-            Assert.True(digit.Match(text));
+            Assert.True(digit.Match(text).Success());
 
         }
 
@@ -24,7 +24,7 @@ namespace newJsonProject
         public void CaseFalse(string text)
         {
             var digit = new Range('a', 'f');
-            Assert.False(digit.Match(text));
+            Assert.False(digit.Match(text).Success());
         }
     }
 }

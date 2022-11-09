@@ -9,17 +9,19 @@ namespace newJsonProject
             this.patterns = patterns;
         }
 
-        public bool Match(string text)
+        public IMatch Match(string text)
         {
             foreach (var pattern in patterns)
             {
-                if(pattern.Match(text))
+                if (pattern.Match(text).Success())
                 {
-                    return true;
+                    var isTrue = new Match(true, text);
+                    return isTrue;
                 }
             }
 
-            return false;
+            var result = new Match(false, text);
+            return result;
         }
     }
 }

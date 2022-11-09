@@ -5,16 +5,20 @@ namespace newJsonProject
     {
         bool success;
         string remainingText;
-        public bool Success(bool result)
+        public Match(bool result, string remainingText)
         {
             this.success = result;
-            return success;
+            this.remainingText = remainingText;
         }
 
-        public string RemainingText(string text)
+        public string RemainingText()
         {
-            this.remainingText = text;
             return remainingText;
+        }
+
+        public bool Success()
+        {
+            return success;
         }
     }
 }

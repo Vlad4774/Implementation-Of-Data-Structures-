@@ -12,7 +12,7 @@ namespace newJsonProject
         public void CasesTrue(char letter, string text)
         {
             var character = new Character(letter);
-            Assert.True(character.Match(text));
+            Assert.True(character.Match(text).Success());
 
         }
 
@@ -24,7 +24,7 @@ namespace newJsonProject
         public void CaseFalse(char letter, string text)
         {
             var character = new Character(letter);
-            Assert.False(character.Match(text));
+            Assert.False(character.Match(text).Success());
         }
     }
 }

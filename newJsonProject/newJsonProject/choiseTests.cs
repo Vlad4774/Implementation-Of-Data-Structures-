@@ -12,7 +12,7 @@ namespace newJsonProject
         {
             var digit = new Choice (new Character('0'),
                                    new Range('1', '9') );
-            Assert.True(digit.Match(text));
+            Assert.True(digit.Match(text).Success());
         }
 
         [Theory]
@@ -24,7 +24,7 @@ namespace newJsonProject
         {
             var digit = new Choice(new Character('0'),
                                    new Range('1', '9'));
-            Assert.False(digit.Match(text));
+            Assert.False(digit.Match(text).Success());
         }
 
         [Theory]
@@ -44,7 +44,7 @@ namespace newJsonProject
                      new Choice(
                      new Range('a', 'f'),
                        new Range('A', 'F')));
-            Assert.True(hex.Match(text));
+            Assert.True(hex.Match(text).Success());
         }
 
         [Theory]
@@ -61,7 +61,7 @@ namespace newJsonProject
                      new Choice(
                      new Range('a', 'f'),
                        new Range('A', 'F')));
-            Assert.False(hex.Match(text));
+            Assert.False(hex.Match(text).Success());
         }
     }
 }

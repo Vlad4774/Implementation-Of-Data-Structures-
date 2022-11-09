@@ -4,6 +4,6 @@ namespace newJsonProject
 {
     interface IPattern
     {
-        bool Match(string text);
+        IMatch Match(string text);
     }
 }

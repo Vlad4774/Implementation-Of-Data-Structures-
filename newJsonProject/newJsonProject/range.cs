@@ -14,12 +14,7 @@ namespace newJsonProject
         public IMatch Match(string text)
         {
             var result = new Match(false, text);
-            if (string.IsNullOrEmpty(text))
-            {
-                return result;
-            }
-
-            if (text[0] < start || text[0] > end)
+            if (string.IsNullOrEmpty(text) || (text[0] < start || text[0] > end))
             {
                 return result;
             }
