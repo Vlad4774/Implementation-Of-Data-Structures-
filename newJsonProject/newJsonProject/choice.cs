@@ -15,13 +15,11 @@ namespace newJsonProject
             {
                 if (pattern.Match(text).Success())
                 {
-                    var isTrue = new Match(true, text);
-                    return isTrue;
+                    return new Match(true, text); ;
                 }
             }
 
-            var result = new Match(false, text);
-            return result;
+            return new Match(false, text);
         }
     }
 }

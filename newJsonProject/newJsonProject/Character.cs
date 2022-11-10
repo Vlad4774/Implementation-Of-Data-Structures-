@@ -12,14 +12,12 @@ namespace newJsonProject
 
         public IMatch Match(string text)
         {
-            var result = new Match(false, text);
             if (string.IsNullOrEmpty(text) || text[0] != pattern)
             {
-                return result;
+                return new Match(false, text);
             }
 
-            result = new Match(true, text);
-            return result;
+            return new Match(true, text);
         }
     }
 }
