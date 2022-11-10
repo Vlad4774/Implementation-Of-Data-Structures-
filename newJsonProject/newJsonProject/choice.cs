@@ -15,7 +15,7 @@ namespace newJsonProject
             {
                 if (pattern.Match(text).Success())
                 {
-                    return new Match(true, text); ;
+                    return new Match(true, text.Substring(1));
                 }
             }
 

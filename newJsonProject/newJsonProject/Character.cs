@@ -3,7 +3,7 @@ namespace newJsonProject
 {
     class Character : IPattern
     {
-        readonly char pattern;
+        public char pattern;
 
         public Character(char pattern)
         {
@@ -17,7 +17,7 @@ namespace newJsonProject
                 return new Match(false, text);
             }
 
-            return new Match(true, text);
+            return new Match(true, text.Substring(1));
         }
     }
 }
