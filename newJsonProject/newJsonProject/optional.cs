@@ -11,7 +11,7 @@ namespace newJsonProject
 
         public IMatch Match(string text)
         {
-            return pattern.Match(text).Success() ? new Match(true, text.Substring(1)) : new Match(true, text);
+            return new Match(true, pattern.Match(text).RemainingText());
         }
     }
 }

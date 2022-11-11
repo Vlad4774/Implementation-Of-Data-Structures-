@@ -28,5 +28,12 @@ namespace newJsonProject
             var sign = new Optional(new Character('-'));
             Assert.Equal(result, sign.Match(text).RemainingText());
         }
+
+        [Fact]
+        public void NewCase()
+        {
+            var param = new Optional(new Sequence(new Character('a'), new Character('b')));
+            Assert.Equal("ccd", param.Match("abccd").RemainingText());
+        }
     }
 }
