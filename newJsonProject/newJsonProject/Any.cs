@@ -18,7 +18,7 @@ namespace newJsonProject
 
             foreach (char c in accepted)
             {
-                if (c == text[0])
+                if (text.StartsWith(c))
                 {
                     return new Match(true, text.Substring(1));
                 }

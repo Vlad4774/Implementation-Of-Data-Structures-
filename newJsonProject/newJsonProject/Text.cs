@@ -16,12 +16,9 @@ namespace newJsonProject
                 return new Match(false, text);
             }    
 
-            for (int i = 0; i < prefix.Length; i++)
+           if(!text.StartsWith(prefix))
             {
-                if (prefix[i] != text[i])
-                {
-                    return new Match(false, text);
-                }
+                return new Match(false, text);
             }
 
             return new Match(true, text.Substring(prefix.Length));
