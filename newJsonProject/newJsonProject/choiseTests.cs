@@ -63,5 +63,12 @@ namespace newJsonProject
                        new Range('A', 'F')));
             Assert.False(hex.Match(text).Success());
         }
+
+        [Fact]
+        public void NewCase()
+        {
+            var parameter = new Choice(new Sequence(new Character('a'), new Character('b')));
+            Assert.Equal("cd", parameter.Match("abcd").RemainingText());
+        }
     }
 }

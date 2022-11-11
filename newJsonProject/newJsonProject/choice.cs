@@ -1,5 +1,4 @@
-﻿
-namespace newJsonProject
+﻿namespace newJsonProject
 {
     class Choice : IPattern
     {
@@ -11,15 +10,19 @@ namespace newJsonProject
 
         public IMatch Match(string text)
         {
+            IMatch result = new Match(false, text);
+            bool par = false;
             foreach (var pattern in patterns)
             {
-                if (pattern.Match(text).Success())
+                result = pattern.Match(result.RemainingText());
+                if (result.Success())
                 {
-                    return new Match(true, text.Substring(1));
+                    par = true;
                 }
             }
 
-            return new Match(false, text);
+            result = new Match(par, result.RemainingText());
+            return result;
         }
     }
 }
