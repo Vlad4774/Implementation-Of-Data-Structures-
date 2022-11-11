@@ -1,4 +1,6 @@
 ﻿
+using static System.Net.Mime.MediaTypeNames;
+
 namespace newJsonProject
 {
     public class ManyTests
@@ -22,6 +24,13 @@ namespace newJsonProject
         {
             var digits = new Many(new Range('0', '9'));
             Assert.Equal(result, digits.Match(text).RemainingText());
+        }
+
+        [Fact]
+        public void NewCase()
+        {
+                var param = new Many(new Sequence(new Character('a'), new Character('b')));
+                Assert.Equal("ccd", param.Match("ababccd").RemainingText());
         }
     }
 }

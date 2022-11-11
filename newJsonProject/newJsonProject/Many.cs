@@ -12,12 +12,13 @@ namespace newJsonProject
 
         public IMatch Match(string text)
         {
-            while (pattern.Match(text).Success())
+            IMatch result = new Match(true, text);
+            while(result.Success())
             {
-                text = text.Substring(1);
+                result = pattern.Match(result.RemainingText());
             }
 
-            return new Match(true, text);
+            return new Match(true, result.RemainingText());
         }
     }
 }
