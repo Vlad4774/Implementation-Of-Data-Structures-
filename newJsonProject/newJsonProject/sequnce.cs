@@ -11,18 +11,17 @@ namespace newJsonProject
 
         public IMatch Match(string text)
         {
-            string copy = text;
-            IMatch consumed = new Match(true, text);
+            IMatch match = new Match(true, text);
             foreach (var pattern in patterns)
             {
-                consumed = pattern.Match(consumed.RemainingText());
-                if (!consumed.Success())
+                match = pattern.Match(match.RemainingText());
+                if (!match.Success())
                 {
-                    return new Match(false, copy);
+                    return new Match(false, text);
                 }
             }
 
-            return consumed;
+            return match;
         }
     }
 }
