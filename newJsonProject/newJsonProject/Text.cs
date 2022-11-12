@@ -11,17 +11,7 @@ namespace newJsonProject
 
         public IMatch Match(string text)
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                return new Match(false, text);
-            }    
-
-           if(!text.StartsWith(prefix))
-            {
-                return new Match(false, text);
-            }
-
-            return new Match(true, text.Substring(prefix.Length));
+            return string.IsNullOrEmpty(text) || !text.StartsWith(prefix) ? new Match(false, text) : new Match(true, text.Substring(prefix.Length));
         }
     }
 }

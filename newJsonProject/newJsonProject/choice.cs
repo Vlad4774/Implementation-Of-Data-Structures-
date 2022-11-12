@@ -11,17 +11,15 @@
         public IMatch Match(string text)
         {
             IMatch result = new Match(false, text);
-            bool par = false;
             foreach (var pattern in patterns)
             {
                 result = pattern.Match(result.RemainingText());
                 if (result.Success())
                 {
-                    par = true;
+                    return result;
                 }
             }
 
-            result = new Match(par, result.RemainingText());
             return result;
         }
     }
