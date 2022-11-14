@@ -16,12 +16,9 @@ namespace newJsonProject
                 return new Match(false, text);
             }
 
-            foreach (char c in accepted)
+            if (accepted.Contains(text[0]))
             {
-                if (text.StartsWith(c))
-                {
-                    return new Match(true, text.Substring(1));
-                }
+                return new Match(true, text.Substring(1));
             }
 
             return new Match(false, text);
