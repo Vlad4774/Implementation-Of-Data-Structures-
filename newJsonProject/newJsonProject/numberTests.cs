@@ -1,5 +1,7 @@
 ﻿
 
+using static System.Net.Mime.MediaTypeNames;
+
 namespace newJsonProject
 {
     public class numberTests
@@ -15,6 +17,7 @@ namespace newJsonProject
         }
 
         [Theory]
+        [InlineData("-0", "")]
         [InlineData("-2", "")]
         [InlineData("-345", "")]
         [InlineData("-986412", "")]
@@ -41,7 +44,7 @@ namespace newJsonProject
         [InlineData("3E3", "")]
         [InlineData("0.1231e+12", "")]
         [InlineData("-345.121E1", "")]
-        public void CanBeAExponantialNumber(string text, string result)
+         public void CanBeAExponantialNumber(string text, string result)
         {
             var number = new Number();
             Assert.Equal(result, number.Match(text).RemainingText());
