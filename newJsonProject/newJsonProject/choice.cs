@@ -22,5 +22,11 @@
 
             return result;
         }
+
+        public void Add(IPattern newPattern)
+        {
+            Array.Resize(ref patterns, patterns.Length + 1);
+            patterns[patterns.Length - 1] = newPattern;
+        }
     }
 }
