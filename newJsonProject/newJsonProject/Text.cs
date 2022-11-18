@@ -1,7 +1,7 @@
 ﻿
 namespace newJsonProject
 {
-    class Text
+    class Text : IPattern
     {
         string prefix;
         public Text(string prefix)

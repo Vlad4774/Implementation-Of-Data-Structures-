@@ -70,5 +70,14 @@ namespace newJsonProject
             var parameter = new Choice(new Sequence(new Character('a'), new Character('b')));
             Assert.Equal("cd", parameter.Match("abcd").RemainingText());
         }
+
+        [Fact]
+        public void CaseForFunctionAdd()
+        {
+            var parameter = new Choice(new Character('a'), new Character('b'));
+            var newPattern = new Character('c');
+            parameter.Add(newPattern);
+            Assert.Equal("d", parameter.Match("cd").RemainingText());
+        }
     }
 }
