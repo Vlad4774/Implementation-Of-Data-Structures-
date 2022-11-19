@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "newJsonProject": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\vladb\\OneDrive\\Documente\\json.txt\""
+    }
+  }
+}

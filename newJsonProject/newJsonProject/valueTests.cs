@@ -19,5 +19,21 @@ namespace newJsonProject
             string text = "[ \"false\" , \"Vlad\" ]";
             Assert.True(obj.Match(text).Success());
         }
+
+        [Fact]
+        public void ValidateEmptyObject()
+        {
+            var obj = new Value();
+            string text = "{ }";
+            Assert.True(obj.Match(text).Success());
+        }
+
+        [Fact]
+        public void ValidateEmptyArray()
+        {
+            var obj = new Value();
+            string text = "[ ]";
+            Assert.True(obj.Match(text).Success());
+        }
     }
 }
