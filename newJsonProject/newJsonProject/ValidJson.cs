@@ -6,8 +6,8 @@
         {
             string text = System.IO.File.ReadAllText(args[0]);
             var value = new Value();
-            bool result = value.Match(text).Success();
-            Console.WriteLine(result);
+            IMatch result = value.Match(text);
+            Console.WriteLine(result.Success() && string.IsNullOrEmpty(result.RemainingText()));
         }
     }
 }
