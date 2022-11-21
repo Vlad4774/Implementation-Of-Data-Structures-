@@ -16,13 +16,11 @@ namespace newJsonProject
             var separator = new Character(':');
             var element = new Sequence(ws, value, ws);
             var elements = new List(element, new Character(','));
-            var arr = new Choice(new Sequence(new Character('['), elements, new Character(']')),
-                                 new Sequence(new Character('['), ws , new Character(']')));
+            var arr = new Choice(new Sequence(new Character('['), elements, ws, new Character(']')));
             value.Add(arr);
             var member = new Sequence(ws, new String(), ws, separator, element);
             var members = new List(member, new Character(','));
-            var obj = new Choice(new Sequence(new Character('{'), members, new Character('}')),
-                                 new Sequence(new Character('{'), ws, new Character('}')));
+            var obj = new Choice(new Sequence(new Character('{'), members, ws, new Character('}')));
             value.Add(obj);
             pattern = value;
         }
