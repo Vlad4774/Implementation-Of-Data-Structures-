@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Collection
 {
     class IntArray
@@ -33,15 +35,7 @@ namespace Collection
 
         public bool Contains(int element)
         {
-            foreach(int number in numbers)
-            {
-                if (number == element)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return IndexOf(element) >= 0;
         }
 
         public int IndexOf(int element)
@@ -59,13 +53,17 @@ namespace Collection
 
         public void Insert(int index, int element)
         {
+            ShiftRight(index);
+            numbers[index] = element;
+        }
+
+        private void ShiftRight(int index)
+        {
             Array.Resize(ref numbers, numbers.Length + 1);
             for (int i = numbers.Length - 1; i > index; i--)
             {
                 numbers[i] = numbers[i - 1];
             }
-
-            numbers[index] = element;
         }
 
         public void Clear()
@@ -75,8 +73,14 @@ namespace Collection
 
         public void Remove(int element)
         {
+            int index = FindIndex(element);
+            RemoveAt(index);
+        }
+
+        private int FindIndex(int element)
+        {
             int index = 0;
-            while(index < numbers.Length)
+            while (index < numbers.Length)
             {
                 if (numbers[index] == element)
                 {
@@ -86,17 +90,21 @@ namespace Collection
                 index++;
             }
 
-            RemoveAt(index);
+            return index;
         }
 
         public void RemoveAt(int index)
+        {
+            ShiftLeft(index);
+            Array.Resize(ref numbers, numbers.Length - 1);
+        }
+
+        private void ShiftLeft(int index)
         {
             for (int i = numbers.Length - 1; i > index; i--)
             {
                 numbers[i - 1] = numbers[i];
             }
-
-            Array.Resize(ref numbers, numbers.Length - 1);
         }
 
     }
