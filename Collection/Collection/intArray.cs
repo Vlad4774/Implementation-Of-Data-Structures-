@@ -53,13 +53,13 @@ namespace Collection
 
         public void Insert(int index, int element)
         {
+            Array.Resize(ref numbers, numbers.Length + 1);
             ShiftRight(index);
             numbers[index] = element;
         }
 
         private void ShiftRight(int index)
         {
-            Array.Resize(ref numbers, numbers.Length + 1);
             for (int i = numbers.Length - 1; i > index; i--)
             {
                 numbers[i] = numbers[i - 1];
@@ -79,18 +79,15 @@ namespace Collection
 
         private int FindIndex(int element)
         {
-            int index = 0;
-            while (index < numbers.Length)
+            for (int index = 0; index < numbers.Length; index++)
             {
                 if (numbers[index] == element)
                 {
-                    break;
+                    return index;
                 }
-
-                index++;
             }
 
-            return index;
+            return -1;
         }
 
         public void RemoveAt(int index)
