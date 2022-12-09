@@ -6,21 +6,32 @@ namespace Collection
     class IntArray
     {
         int[] numbers;
+        int count;
 
 	    public IntArray()
         {
-            this.numbers = new int[0];
+            this.numbers = new int[4];
+            this.count = 0;
         }
 
         public void Add(int element)
         {
-            Array.Resize(ref numbers, numbers.Length + 1);
-            numbers[numbers.Length - 1] = element;
+            EnoughCapacity();
+            numbers[count] = element;
+            count++;
+        }
+
+        private void EnoughCapacity()
+        {
+            if (numbers.Length == count)
+            {
+                Array.Resize(ref numbers, numbers.Length * 2);
+            }
         }
 
         public int Count()
         {
-            return numbers.Length;
+            return count;
         }
 
         public int Element(int index)
@@ -53,9 +64,10 @@ namespace Collection
 
         public void Insert(int index, int element)
         {
-            Array.Resize(ref numbers, numbers.Length + 1);
+            EnoughCapacity();
             ShiftRight(index);
             numbers[index] = element;
+            count++;
         }
 
         private void ShiftRight(int index)
@@ -68,7 +80,8 @@ namespace Collection
 
         public void Clear()
         {
-            numbers = new int[0]; 
+            numbers = new int[4];
+            count = 0;
         }
 
         public void Remove(int element)
@@ -93,7 +106,7 @@ namespace Collection
         public void RemoveAt(int index)
         {
             ShiftLeft(index);
-            Array.Resize(ref numbers, numbers.Length - 1);
+            count--;
         }
 
         private void ShiftLeft(int index)
