@@ -23,7 +23,7 @@ namespace Collection
         public void LengthIfArrayIsEmpty()
         {
             var array = new IntArray();
-            Assert.Equal(0, array.Count());
+            Assert.Equal(0, array.Count);
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace Collection
             array.Add(7);
             array.Add(23);
             array.Add(1);
-            Assert.Equal(3, array.Count());
+            Assert.Equal(3, array.Count);
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace Collection
             array.Add(7);
             array.Add(23);
             array.Add(1);
-            Assert.Equal(1, array.Element(2));
+            Assert.Equal(1, array[2]);
         }
 
         [Theory]
@@ -56,8 +56,8 @@ namespace Collection
             array.Add(7);
             array.Add(23);
             array.Add(1);
-            array.SetElement(index, element);
-            Assert.Equal(element, array.Element(index));
+            array[index] = element;
+            Assert.Equal(element, array[index]);
         }
 
         [Theory]
@@ -117,7 +117,7 @@ namespace Collection
             array.Add(1);
             array.Add(67);
             array.Clear();
-            Assert.Equal(0, array.Count());
+            Assert.Equal(0, array.Count);
         }
 
         [Theory]
@@ -133,7 +133,7 @@ namespace Collection
             array.Add(1);
             array.Add(67);
             array.Remove(element);
-            Assert.Equal(3, array.Count());
+            Assert.Equal(3, array.Count);
         }
 
         [Theory]
@@ -148,7 +148,7 @@ namespace Collection
             array.Add(1);
             array.Add(67);
             array.RemoveAt(index);
-            Assert.Equal(3, array.Count());
+            Assert.Equal(3, array.Count);
         }
     }
 }

@@ -6,42 +6,33 @@ namespace Collection
     class IntArray
     {
         int[] numbers;
-        int count;
 
 	    public IntArray()
         {
             this.numbers = new int[4];
-            this.count = 0;
         }
 
         public void Add(int element)
         {
             EnoughCapacity();
-            numbers[count] = element;
-            count++;
+            numbers[Count] = element;
+            Count++;
         }
 
         private void EnoughCapacity()
         {
-            if (numbers.Length == count)
+            if (numbers.Length == Count)
             {
                 Array.Resize(ref numbers, numbers.Length * 2);
             }
         }
 
-        public int Count()
-        {
-            return count;
-        }
+        public int Count { get; private set; } = 0;
 
-        public int Element(int index)
+        public int this[int index]
         {
-            return numbers[index];
-        }
-
-        public void SetElement(int index, int element)
-        {
-            numbers[index] = element;
+            get => numbers[index];
+            set => numbers[index] = value;
         }
 
         public bool Contains(int element)
@@ -67,7 +58,7 @@ namespace Collection
             EnoughCapacity();
             ShiftRight(index);
             numbers[index] = element;
-            count++;
+            Count++;
         }
 
         private void ShiftRight(int index)
@@ -81,7 +72,7 @@ namespace Collection
         public void Clear()
         {
             numbers = new int[4];
-            count = 0;
+            Count = 0;
         }
 
         public void Remove(int element)
@@ -106,7 +97,7 @@ namespace Collection
         public void RemoveAt(int index)
         {
             ShiftLeft(index);
-            count--;
+            Count--;
         }
 
         private void ShiftLeft(int index)
