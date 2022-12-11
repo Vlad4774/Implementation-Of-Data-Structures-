@@ -5,7 +5,7 @@ namespace Collection
 {
     class IntArray
     {
-        int[] numbers;
+        protected int[] numbers;
 
 	    public IntArray()
         {
