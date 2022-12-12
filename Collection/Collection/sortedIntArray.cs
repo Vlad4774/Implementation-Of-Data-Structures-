@@ -8,7 +8,7 @@ namespace Collection
         {
             set
             {
-                if (CanBeSeted(index, value))   
+                if (ElementOrDefault(index - 1) <= value && value <= ElementOrDefault(index + 1))   
                 {
                     base[index] = value;
                 }
@@ -42,30 +42,18 @@ namespace Collection
             }
         }
 
-        private bool CanBeSeted(int index, int element)
+        private bool CanBeInserted(int index, int element)
         {
             if (index > 0 && index < Count - 1)
             {
-                return element >= this[index - 1] && element <= this[index + 1];
+                return element >= this[index - 1] && element <= this[index];
             }
             else if (index > 0)
             {
                 return element >= this[index - 1];
             }
 
-            return element <= this[index + 1];
-        }
-
-        private bool CanBeInserted(int index, int element)
-        {
-            int first = ElementOrDefault(index - 1);
-            int second = ElementOrDefault(index);
-            if (first == -1 || second == -1)
-            {
-                return false;
-            }
-
-            return first >= element && second <= element;
+            return element <= this[index];
         }
 
         private int ElementOrDefault(int index)
