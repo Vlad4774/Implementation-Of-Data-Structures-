@@ -6,10 +6,12 @@ namespace Collection
     {
         public override int this[int index]
         {
-            get => base[index];
             set
             {
-                base[index] = value;
+                if (CanBeInserted(index, value))
+                {
+                    base[index] = value;
+                }
             }
         }
 
@@ -18,16 +20,16 @@ namespace Collection
             if (Count == 0 || element >= this[Count - 1])
             {
                 base.Insert(Count, element);
+                return;
+
             }
-            else
+
+            for (int i = 0; i < Count; i++)
             {
-                for (int i = 0; i < Count; i++)
+                if (element <= this[i])
                 {
-                    if (element <= this[i])
-                    {
-                        base.Insert(i, element);
-                        break;
-                    }
+                    base.Insert(i, element);
+                    break;
                 }
             }
         }
@@ -42,7 +44,16 @@ namespace Collection
 
         private bool CanBeInserted(int index, int element)
         {
-            return element >= this[index - 1] && element <= this[index + 1];
+            if (index > 0 && index < Count - 1)
+            {
+                return element >= this[index - 1] && element <= this[index + 1];
+            }
+            else if (index > 0)
+            {
+                return element >= this[index - 1];
+            }
+
+            return element <= this[index + 1];
         }
     }
 }
