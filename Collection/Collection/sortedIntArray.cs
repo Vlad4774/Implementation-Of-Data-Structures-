@@ -8,7 +8,7 @@ namespace Collection
         {
             set
             {
-                if (CanBeInserted(index, value))
+                if (CanBeInsertedOrSeted(index, value, 0))
                 {
                     base[index] = value;
                 }
@@ -36,21 +36,22 @@ namespace Collection
 
         public override void Insert(int index, int element)
         {
-            if (!CanBeInserted(index, element))
+            if (!CanBeInsertedOrSeted(index, element, 1))
             {
                 return;
             }
         }
 
-        private bool CanBeInserted(int index, int element)
+        private bool CanBeInsertedOrSeted(int index, int element, int inserted)
         {
+            ///insert 1, set 0
             if (index > 0 && index < Count - 1)
             {
-                return element >= this[index - 1] && element <= this[index + 1];
+                return element >= this[index - inserted] && element <= this[index + 1];
             }
             else if (index > 0)
             {
-                return element >= this[index - 1];
+                return element >= this[index - inserted];
             }
 
             return element <= this[index + 1];
