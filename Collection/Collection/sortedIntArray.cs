@@ -1,26 +1,48 @@
 ﻿
-using System.Drawing;
 
 namespace Collection
 {
     class sortedIntArray : IntArray
     {
-        public void Sort()
+        public override int this[int index]
         {
-            for (int interval = Count / 2; interval > 0; interval /= 2)
+            get => base[index];
+            set
             {
-                for (int i = interval; i < Count; i++)
+                base[index] = value;
+            }
+        }
+
+        public override void Add(int element)
+        {
+            if (Count == 0 || element >= this[Count - 1])
+            {
+                base.Insert(Count, element);
+            }
+            else
+            {
+                for (int i = 0; i < Count; i++)
                 {
-                    var currentKey = numbers[i];
-                    var k = i;
-                    while (k >= interval && numbers[k - interval] > currentKey)
+                    if (element <= this[i])
                     {
-                        numbers[k] = numbers[k - interval];
-                        k -= interval;
+                        base.Insert(i, element);
+                        break;
                     }
-                    numbers[k] = currentKey;
                 }
             }
+        }
+
+        public override void Insert(int index, int element)
+        {
+            if (!CanBeInserted(index, element))
+            {
+                return;
+            }
+        }
+
+        private bool CanBeInserted(int index, int element)
+        {
+            return element >= this[index - 1] && element <= this[index + 1];
         }
     }
 }

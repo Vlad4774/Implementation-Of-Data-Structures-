@@ -5,14 +5,14 @@ namespace Collection
 {
     class IntArray
     {
-        protected int[] numbers;
+        private int[] numbers;
 
 	    public IntArray()
         {
             this.numbers = new int[4];
         }
 
-        public void Add(int element)
+        public virtual void Add(int element)
         {
             EnoughCapacity();
             numbers[Count] = element;
@@ -29,7 +29,7 @@ namespace Collection
 
         public int Count { get; private set; } = 0;
 
-        public int this[int index]
+        public virtual int this[int index]
         {
             get => numbers[index];
             set => numbers[index] = value;
@@ -53,7 +53,7 @@ namespace Collection
             return -1;
         }
 
-        public void Insert(int index, int element)
+        public virtual void Insert(int index, int element)
         {
             EnoughCapacity();
             ShiftRight(index);

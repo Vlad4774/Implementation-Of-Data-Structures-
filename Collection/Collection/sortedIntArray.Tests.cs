@@ -9,7 +9,6 @@ namespace Collection
             var array = new sortedIntArray();
             array.Add(23);
             array.Add(7);
-            array.Sort();
             Assert.Equal(1, array.IndexOf(23));
         }
 
@@ -29,7 +28,6 @@ namespace Collection
             array.Add(71);
             array.Add(1);
             array.Add(9);
-            array.Sort();
             Assert.Equal(index, array.IndexOf(number));
         }
     }
