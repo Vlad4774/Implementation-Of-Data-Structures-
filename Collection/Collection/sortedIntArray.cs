@@ -8,7 +8,7 @@ namespace Collection
         {
             set
             {
-                if (ElementOrDefault(index - 1) <= value && value <= ElementOrDefault(index + 1))   
+                if (ElementOrDefault(index - 1) <= value && value <= ElementOrDefault(index + 1) && ElementOrDefault(index - 1) != -1)   
                 {
                     base[index] = value;
                 }
