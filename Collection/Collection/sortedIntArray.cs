@@ -1,5 +1,7 @@
 ﻿
 
+using Newtonsoft.Json.Linq;
+
 namespace Collection
 {
     class sortedIntArray : IntArray
@@ -8,8 +10,7 @@ namespace Collection
         {
             set
             {
-                int Default = -1;
-                if (ElementOrDefault(index - 1, Default) <= value && value <= ElementOrDefault(index + 1, Default) && ElementOrDefault(index - 1, Default) != Default)   
+                if (ElementOrDefault(index - 1, value) <= value && value <= ElementOrDefault(index + 1, value))   
                 {
                     base[index] = value;
                 }
@@ -37,29 +38,15 @@ namespace Collection
 
         public override void Insert(int index, int element)
         {
-            if (!CanBeInserted(index, element))
+            if (ElementOrDefault(index - 1, element) > element || element > ElementOrDefault(index + 1, element))
             {
                 return;
             }
         }
 
-        private bool CanBeInserted(int index, int element)
+        private int ElementOrDefault(int index, int defaultValue)
         {
-            if (index > 0 && index < Count - 1)
-            {
-                return element >= this[index - 1] && element <= this[index];
-            }
-            else if (index > 0)
-            {
-                return element >= this[index - 1];
-            }
-
-            return element <= this[index];
-        }
-
-        private int ElementOrDefault(int index, int Default)
-        {
-            return index >= 0 && index < Count ? this[index] : Default;
+            return index >= 0 && index < Count ? this[index] : defaultValue;
         }
     }
 }
