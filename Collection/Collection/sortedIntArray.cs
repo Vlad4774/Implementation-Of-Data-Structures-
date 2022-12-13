@@ -38,7 +38,22 @@ namespace Collection
 
         public override void Insert(int index, int element)
         {
-            if (ElementOrDefault(index - 1, element) > element || element > ElementOrDefault(index + 1, element))
+            if (index > 0 && index < Count - 1)
+            {
+                if (ElementOrDefault(index - 1, element) > element || element > ElementOrDefault(index, element))
+                {
+                    return;
+                }
+            }
+            else if (index > 0)
+            {
+                if (element > ElementOrDefault(index, element))
+                {
+                    return;
+                }
+            }
+
+            if (ElementOrDefault(index - 1, element) > element)
             {
                 return;
             }
