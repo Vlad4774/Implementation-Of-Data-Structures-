@@ -3,25 +3,25 @@ namespace Collection
 {
     class ObjectArray
     {
-        protected object[] numbers;
+        protected object[] objects;
 
         public ObjectArray()
         {
-            this.numbers = new object[4];
+            this.objects = new object[4];
         }
 
         public void Add(object element)
         {
             EnoughCapacity();
-            numbers[Count] = element;
+            objects[Count] = element;
             Count++;
         }
 
         private void EnoughCapacity()
         {
-            if (numbers.Length == Count)
+            if (objects.Length == Count)
             {
-                Array.Resize(ref numbers, numbers.Length * 2);
+                Array.Resize(ref objects, objects.Length * 2);
             }
         }
 
@@ -29,8 +29,8 @@ namespace Collection
 
         public object this[int index]
         {
-            get => numbers[index];
-            set => numbers[index] = value;
+            get => objects[index];
+            set => objects[index] = value;
         }
 
         public bool Contains(object element)
@@ -40,9 +40,9 @@ namespace Collection
 
         public int IndexOf(object element)
         {
-            for (int i = 0; i < numbers.Length; i++)
+            for (int i = 0; i < objects.Length; i++)
             {
-                if (numbers[i].Equals(element))
+                if (objects[i].Equals(element))
                 {
                     return i;
                 }
@@ -55,21 +55,21 @@ namespace Collection
         {
             EnoughCapacity();
             ShiftRight(index);
-            numbers[index] = element;
+            objects[index] = element;
             Count++;
         }
 
         private void ShiftRight(int index)
         {
-            for (int i = numbers.Length - 1; i > index; i--)
-            {
-                numbers[i] = numbers[i - 1];
+            for (int i = objects.Length - 1; i > index; i--)
+            {   
+                objects[i] = objects[i - 1];
             }
         }
 
         public void Clear()
         {
-            numbers = new object[4];
+            objects = new object[4];
             Count = 0;
         }
 
@@ -81,9 +81,9 @@ namespace Collection
 
         private int FindIndex(object element)
         {
-            for (int index = 0; index < numbers.Length; index++)
+            for (int index = 0; index < objects.Length; index++)
             {
-                if (numbers[index] == element)
+                if (objects[index] == element)
                 {
                     return index;
                 }
@@ -100,9 +100,9 @@ namespace Collection
 
         private void ShiftLeft(int index)
         {
-            for (int i = numbers.Length - 1; i > index; i--)
+            for (int i = objects.Length - 1; i > index; i--)
             {
-                numbers[i - 1] = numbers[i];
+                objects[i - 1] = objects[i];
             }
         }
     }
