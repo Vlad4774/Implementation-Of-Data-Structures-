@@ -30,5 +30,34 @@ namespace Collection
             array.Add(9);
             Assert.Equal(index, array.IndexOf(number));
         }
+
+        [Fact]
+        public void InsertOneNumber()
+        {
+            var array = new sortedIntArray();
+            array.Insert(0, 1);
+            Assert.Equal(0, array.IndexOf(1));
+        }
+
+        [Fact]
+        public void InsertTwoNumbers()
+        {
+            var array = new sortedIntArray();
+            array.Insert(0, 1);
+            array.Insert(1, 7);
+            Assert.Equal(1, array.IndexOf(7));
+        }
+
+        [Fact]
+        public void InsertNumberInAExistingArray()
+        {
+            var array = new sortedIntArray();
+            array.Add(23);
+            array.Add(78);
+            array.Add(71);
+            array.Insert(0, 7);
+            Assert.Equal(0, array.IndexOf(7));
+        }
+
     }
 }
