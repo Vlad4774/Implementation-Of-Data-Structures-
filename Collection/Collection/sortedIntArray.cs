@@ -8,7 +8,8 @@ namespace Collection
         {
             set
             {
-                if (ElementOrDefault(index - 1) <= value && value <= ElementOrDefault(index + 1) && ElementOrDefault(index - 1) != -1)   
+                int Default = -1;
+                if (ElementOrDefault(index - 1, Default) <= value && value <= ElementOrDefault(index + 1, Default) && ElementOrDefault(index - 1, Default) != Default)   
                 {
                     base[index] = value;
                 }
@@ -56,9 +57,9 @@ namespace Collection
             return element <= this[index];
         }
 
-        private int ElementOrDefault(int index)
+        private int ElementOrDefault(int index, int Default)
         {
-            return index >= 0 && index < Count ? this[index] : -1;
+            return index >= 0 && index < Count ? this[index] : Default;
         }
     }
 }
