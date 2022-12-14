@@ -1,7 +1,8 @@
-﻿
+﻿using System.Collections;
+
 namespace Collection
 {
-    class ObjectArray
+    class ObjectArray : IEnumerable
     {
         protected object[] objects;
 
@@ -104,6 +105,11 @@ namespace Collection
             {
                 objects[i - 1] = objects[i];
             }
+        }
+        
+        public IEnumerator GetEnumerator()
+        {
+            return new ClassIEnumerator(objects);
         }
     }
 }
