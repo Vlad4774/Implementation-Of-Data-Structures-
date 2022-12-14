@@ -1,4 +1,7 @@
 ﻿
+using System;
+using System.Xml.Linq;
+
 namespace Collection
 {
     public class ObjectArrayTests
@@ -25,6 +28,19 @@ namespace Collection
             array.Add("text");
             array.Add(false);
             array.Add(23.32);
+            Assert.Equal(result, array.Contains(element));
+        }
+
+        [Theory]
+        [InlineData(1, true)]
+        [InlineData("text", true)]
+        [InlineData(3.123, true)]
+        [InlineData(false, true)]
+        [InlineData(true, false)]
+        [InlineData(212, false)]
+        public void UsingIEnumerable(object element, bool result)
+        {
+            var array = new ObjectArray { 1, "text", 3.123, false };
             Assert.Equal(result, array.Contains(element));
         }
     }
