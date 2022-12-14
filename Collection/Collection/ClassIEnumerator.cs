@@ -15,7 +15,8 @@ namespace Collection
         public object Current => objects[index]; 
 
         public bool MoveNext()
-        { 
+        {
+            index++;
             return index < objects.Length; 
         }
 
