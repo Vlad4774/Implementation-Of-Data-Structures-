@@ -109,7 +109,10 @@ namespace Collection
         
         public IEnumerator GetEnumerator()
         {
-            return new ClassIEnumerator(objects);
+            for (int i = 0; i < Count; i++)
+            {
+                yield return objects[i];
+            }
         }
     }
 }
