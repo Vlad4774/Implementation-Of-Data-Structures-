@@ -7,17 +7,19 @@ namespace Collection
     {
         private object[] objects;
         private int index = -1;
-        public ClassIEnumerator(object[] objects)
+        private int count;
+        public ClassIEnumerator(object[] objects, int count)
         {
             this.objects = objects;
+            this.count = count;
         }
 
-        public object Current => objects[index]; 
+        public object Current => objects[index];
 
         public bool MoveNext()
         {
             index++;
-            return index < objects.Length; 
+            return index < count;
         }
 
         public void Reset()
