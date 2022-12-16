@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace Collection
 {
@@ -109,7 +110,8 @@ namespace Collection
         
         public IEnumerator GetEnumerator()
         {
-            return new ClassIEnumerator(objects, Count);
+            var array = this;
+            return new ClassIEnumerator(this);
         }
     }
 }

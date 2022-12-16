@@ -5,19 +5,18 @@ namespace Collection
 {
     class ClassIEnumerator : IEnumerator
     {
-        private object[] objects;
+        private ObjectArray objects;
         private int index = -1;
-        private int count;
-        public ClassIEnumerator(object[] objects, int count)
+        public ClassIEnumerator(ObjectArray objects)
         {
             this.objects = objects;
-            this.count = count;
         }
 
         public object Current => objects[index];
 
         public bool MoveNext()
         {
+            int count = objects.Count;
             index++;
             return index < count;
         }
