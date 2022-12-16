@@ -110,7 +110,6 @@ namespace Collection
         
         public IEnumerator GetEnumerator()
         {
-            var array = this;
             return new ClassIEnumerator(this);
         }
     }
