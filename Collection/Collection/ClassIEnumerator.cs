@@ -16,9 +16,8 @@ namespace Collection
 
         public bool MoveNext()
         {
-            int count = objects.Count;
             index++;
-            return index < count;
+            return index < objects.Count;
         }
 
         public void Reset()
