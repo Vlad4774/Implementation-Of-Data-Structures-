@@ -2,7 +2,7 @@
 
 namespace Collection
 {
-    class List<T> : IEnumerable
+    class List<T> : IList<T>
     {
         protected T[] objects;
 
@@ -74,10 +74,16 @@ namespace Collection
             Count = 0;
         }
 
-        public void Remove(T element)
+        public bool Remove(T element)
         {
             int index = FindIndex(element);
+            if (index == -1)
+            {
+                return false;
+            }
+
             RemoveAt(index);
+            return true;
         }
 
         private int FindIndex(T element)
@@ -107,12 +113,27 @@ namespace Collection
             }
         }
 
-        public IEnumerator GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return (IEnumerator)GetEnumerator();
+        }
+
+        public IEnumerator<T> GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
             {
                 yield return objects[i];
             }
         }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                array[arrayIndex++] = objects[i];
+            }
+        }
+
+        public bool IsReadOnly => false;
     }
 }
