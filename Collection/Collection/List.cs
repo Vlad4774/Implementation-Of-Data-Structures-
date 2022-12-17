@@ -11,7 +11,7 @@ namespace Collection
             this.objects = new T[4];
         }
 
-        public void Add(T element)
+        public virtual void Add(T element)
         {
             EnoughCapacity();
             objects[Count] = element;
@@ -28,7 +28,7 @@ namespace Collection
 
         public int Count { get; private set; } = 0;
 
-        public T this[int index]
+        public virtual T this[int index]
         {
             get => objects[index];
             set => objects[index] = value;
@@ -52,7 +52,7 @@ namespace Collection
             return -1;
         }
 
-        public void Insert(int index, T element)
+        public virtual void Insert(int index, T element)
         {
             EnoughCapacity();
             ShiftRight(index);
