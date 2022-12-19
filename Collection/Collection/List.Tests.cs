@@ -45,6 +45,5 @@ namespace Collection
             list[index] = element;
             Assert.Equal(element, list[index]);
         }
-
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Data;
+using System.Text.Json;
 
 namespace Collection
 {
@@ -13,6 +15,7 @@ namespace Collection
 
         public virtual void Add(T element)
         {
+            IsReadOnlyException();
             EnoughCapacity();
             objects[Count] = element;
             Count++;
@@ -30,8 +33,17 @@ namespace Collection
 
         public virtual T this[int index]
         {
-            get => objects[index];
-            set => objects[index] = value;
+            get
+            {
+                InvalidIndexException(index);
+                return objects[index];
+            }
+            set
+            {
+                IsReadOnlyException();
+                InvalidIndexException(index);
+                objects[index] = value; 
+            }
         }
 
         public bool Contains(T element)
@@ -54,6 +66,8 @@ namespace Collection
 
         public virtual void Insert(int index, T element)
         {
+            InvalidIndexException(index);
+            IsReadOnlyException();
             EnoughCapacity();
             ShiftRight(index);
             objects[index] = element;
@@ -76,6 +90,7 @@ namespace Collection
 
         public bool Remove(T element)
         {
+            IsReadOnlyException();
             int index = FindIndex(element);
             if (index == -1)
             {
@@ -101,6 +116,8 @@ namespace Collection
 
         public void RemoveAt(int index)
         {
+            InvalidIndexException(index);
+            IsReadOnlyException();
             ShiftLeft(index);
             Count--;
         }
@@ -128,6 +145,9 @@ namespace Collection
 
         public void CopyTo(T[] array, int arrayIndex)
         {
+            InvalidIndexException(arrayIndex);
+            ArrayNullException(array);
+            NotEnoughCapacityException(array.Length, arrayIndex);
             for (int i = 0; i < Count; i++)
             {
                 array[arrayIndex++] = objects[i];
@@ -135,5 +155,37 @@ namespace Collection
         }
 
         public bool IsReadOnly => false;
+
+        private void InvalidIndexException(int index)
+        {
+            if (index < 0 || index > Count)
+            {
+                throw new IndexOutOfRangeException("Index is invalid");
+            }
+        }
+
+        private void IsReadOnlyException()
+        {
+            if (IsReadOnly)
+            {
+                throw new ReadOnlyException("Is Read Only");
+            }
+        }
+
+        private void ArrayNullException(T[] array)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException("Array Is Null");
+            }
+        }
+
+        private void NotEnoughCapacityException(int lengthArray, int arrayIndex)
+        {
+            if (lengthArray - arrayIndex < Count)
+            {
+                throw new ArgumentException("NotEnoughCapacity");
+            }
+        }
     }
 }
