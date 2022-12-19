@@ -1,4 +1,6 @@
 ﻿
+using Newtonsoft.Json.Linq;
+
 namespace Collection
 {
     public class ListTests
@@ -44,6 +46,38 @@ namespace Collection
             list.Add(1);
             list[index] = element;
             Assert.Equal(element, list[index]);
+        }
+
+        [Fact]
+        public void IndexIsNotInRange()
+        {
+            var list = new List<int>();
+            list.Add(7);
+            list.Add(23);
+            list.Add(1);
+            Exception exception = Assert.Throws<IndexOutOfRangeException>(() => list.Insert(7,3));
+        }
+
+        [Fact]
+        public void ArrayIsNull()
+        {
+            var list = new List<int>();
+            list.Add(7);
+            list.Add(23);
+            list.Add(1);
+            int[] array = null;
+            Exception exception = Assert.Throws<ArgumentNullException>(() => list.CopyTo(array, 3));
+        }
+
+        [Fact]
+        public void NotEnoughCapacity()
+        {
+            var list = new List<int>();
+            list.Add(7);
+            list.Add(23);
+            list.Add(1);
+            int[] array = new int[4];
+            Exception exception = Assert.Throws<ArgumentException>(() => list.CopyTo(array, 3));
         }
     }
 }
