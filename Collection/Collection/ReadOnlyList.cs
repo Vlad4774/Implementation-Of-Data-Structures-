@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Collection
 {
-    class ReadOnlyList<T> : List<T>, IList<T>
+    class ReadOnlyList<T> : IList<T>
     {
         private IList<T> objects;
         public ReadOnlyList(IList<T> list)
@@ -16,12 +17,12 @@ namespace Collection
             this.objects = list;
         }
 
-        public override void Add(T element)
+        public void Add(T element)
         {
             IsReadOnlyException();
         }
 
-        public override T this[int index]
+        public T this[int index]
         {
             get
             {
@@ -34,33 +35,55 @@ namespace Collection
             }
         }
 
-        public override void Insert(int index, T element)
+        public int IndexOf(T element)
+        {
+            return objects.IndexOf(element);
+        }
+
+        public bool Contains(T element)
+        {
+            return objects.Contains(element);
+        }
+
+        public int Count => objects.Count;
+
+        public void Insert(int index, T element)
         {
             IsReadOnlyException();
         }
 
-        public override void Clear()
+        public void Clear()
         {
             IsReadOnlyException();
         }
 
-        public override bool Remove(T element)
+        public bool Remove(T element)
         {
             IsReadOnlyException();
             return false;
         }
 
-        public override void RemoveAt(int index)
+        public void RemoveAt(int index)
         {
             IsReadOnlyException();
         }
 
-        public override void CopyTo(T[] array, int arrayIndex)
+        public void CopyTo(T[] array, int arrayIndex)
         {
             IsReadOnlyException();
         }
 
-        public override bool IsReadOnly => true;
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return (IEnumerator)GetEnumerator();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return objects.GetEnumerator();
+        }
+
+        public  bool IsReadOnly => true;
 
         private void IsReadOnlyException()
         {
