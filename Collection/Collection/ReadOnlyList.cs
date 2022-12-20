@@ -8,22 +8,20 @@ using System.Threading.Tasks;
 
 namespace Collection
 {
-    class ReadOnlyList<T> : IList<T>
+    class ReadOnlyList<T> : List<T>, IList<T>
     {
-        private List<T> objects;
-        public ReadOnlyList(List<T> list)
+        private IList<T> objects;
+        public ReadOnlyList(IList<T> list)
         {
             this.objects = list;
         }
 
-        public virtual void Add(T element)
+        public override void Add(T element)
         {
             IsReadOnlyException();
         }
 
-        public int Count { get; private set; } = 0;
-
-        public virtual T this[int index]
+        public override T this[int index]
         {
             get
             {
@@ -36,77 +34,33 @@ namespace Collection
             }
         }
 
-        public bool Contains(T element)
-        {
-            return IndexOf(element) >= 0;
-        }
-
-        public int IndexOf(T element)
-        {
-            for (int i = 0; i < objects.Count; i++)
-            {
-                if (objects[i].Equals(element))
-                {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
-        public virtual void Insert(int index, T element)
+        public override void Insert(int index, T element)
         {
             IsReadOnlyException();
         }
 
-        public void Clear()
+        public override void Clear()
         {
             IsReadOnlyException();
         }
 
-        public bool Remove(T element)
+        public override bool Remove(T element)
         {
             IsReadOnlyException();
             return false;
         }
 
-        private int FindIndex(T element)
-        {
-            for (int index = 0; index < objects.Count; index++)
-            {
-                if (objects[index].Equals(element))
-                {
-                    return index;
-                }
-            }
-
-            return -1;
-        }
-
-        public void RemoveAt(int index)
+        public override void RemoveAt(int index)
         {
             IsReadOnlyException();
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return (IEnumerator)GetEnumerator();
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            for (int i = 0; i < Count; i++)
-            {
-                yield return objects[i];
-            }
-        }
-
-        public void CopyTo(T[] array, int arrayIndex)
+        public override void CopyTo(T[] array, int arrayIndex)
         {
             IsReadOnlyException();
         }
 
-        public bool IsReadOnly => true;
+        public override bool IsReadOnly => true;
 
         private void IsReadOnlyException()
         {
@@ -115,7 +69,7 @@ namespace Collection
 
         private void InvalidIndexException(int index)
         {
-            if (index < 0 || index > Count)
+            if (index < 0 || index > objects.Count)
             {
                 throw new IndexOutOfRangeException("Index is invalid");
             }

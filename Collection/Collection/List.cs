@@ -82,13 +82,13 @@ namespace Collection
             }
         }
 
-        public void Clear()
+        public virtual void Clear()
         {
             objects = new T[4];
             Count = 0;
         }
 
-        public bool Remove(T element)
+        public virtual bool Remove(T element)
         {
             IsReadOnlyException();
             int index = FindIndex(element);
@@ -114,7 +114,7 @@ namespace Collection
             return -1;
         }
 
-        public void RemoveAt(int index)
+        public virtual void RemoveAt(int index)
         {
             InvalidIndexException(index);
             IsReadOnlyException();
@@ -143,7 +143,7 @@ namespace Collection
             }
         }
 
-        public void CopyTo(T[] array, int arrayIndex)
+        public virtual void CopyTo(T[] array, int arrayIndex)
         {
             InvalidIndexException(arrayIndex);
             ArrayNullException(array);
@@ -154,7 +154,7 @@ namespace Collection
             }
         }
 
-        public bool IsReadOnly => false;
+        public virtual bool IsReadOnly => false;
 
         private void InvalidIndexException(int index)
         {
