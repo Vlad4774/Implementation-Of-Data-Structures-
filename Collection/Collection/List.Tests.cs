@@ -1,5 +1,4 @@
 ﻿
-using System.Data;
 
 namespace Collection
 {
@@ -55,7 +54,7 @@ namespace Collection
             list.Add(7);
             list.Add(23);
             list.Add(1);
-            Exception exception = Assert.Throws<IndexOutOfRangeException>(() => list.Insert(7,3));
+            Assert.Throws<IndexOutOfRangeException>(() => list.Insert(7,3));
         }
 
         [Fact]
@@ -66,7 +65,7 @@ namespace Collection
             list.Add(23);
             list.Add(1);
             int[] array = null;
-            Exception exception = Assert.Throws<ArgumentNullException>(() => list.CopyTo(array, 2));
+            Assert.Throws<ArgumentNullException>(() => list.CopyTo(array, 2));
         }
 
         [Fact]
@@ -77,15 +76,7 @@ namespace Collection
             list.Add(23);
             list.Add(1);
             int[] array = new int[4];
-            Exception exception = Assert.Throws<ArgumentException>(() => list.CopyTo(array, 2));
-        }
-
-        [Fact]
-        public void ReadOnlyException()
-        {
-            var list = new List<int>();
-            list.IsReadOnly = true;
-            Exception exception = Assert.Throws<ReadOnlyException>(() => list.Add(3));
+            Assert.Throws<ArgumentException>(() => list.CopyTo(array, 2));
         }
 
         [Fact]
@@ -95,7 +86,7 @@ namespace Collection
             list.Add("1");
             list.Add("2");
             list.Add("3");
-            Exception exception = Assert.Throws<IndexOutOfRangeException>(() => list.RemoveAt(4));
+            Assert.Throws<IndexOutOfRangeException>(() => list.RemoveAt(4));
         }
 
         [Fact]
@@ -105,7 +96,7 @@ namespace Collection
             list.Add('a');
             list.Add('c');
             list.Add('d');
-            Exception exception = Assert.Throws<IndexOutOfRangeException>(() => list[4]);
+            Assert.Throws<IndexOutOfRangeException>(() => list[4]);
         }
     }
 }

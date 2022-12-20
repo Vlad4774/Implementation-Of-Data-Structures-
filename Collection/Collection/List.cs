@@ -154,7 +154,7 @@ namespace Collection
             }
         }
 
-        public bool IsReadOnly { get; set; } = false;
+        public bool IsReadOnly => false;
 
         private void InvalidIndexException(int index)
         {
