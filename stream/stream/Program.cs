@@ -8,9 +8,16 @@ namespace ConsoleApplication
     {
         static void Main(string[] args)
         {
-            using (StreamWriter writer = new StreamWriter("C:\\Users\\vladb\\OneDrive\\Documente\\file.txt"))
+            using (Stream stream = new FileStream(("C:\\Users\\vladb\\OneDrive\\Documente\\file.txt"), FileMode.Open))
             {
-                writer.WriteLine("Am reusit");
+                StreamWriter writer = new StreamWriter(stream);
+                writer.WriteLine("Am reusit!");
+
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string line = reader.ReadLine();
+                    Console.WriteLine(line);
+                }
             }
         }
     }
