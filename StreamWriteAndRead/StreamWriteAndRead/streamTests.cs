@@ -7,8 +7,9 @@ namespace StreamWriteAndRead
         {
             string text = "Am reusit";
             string resultText = text + "\r" + "\n";
-            var str = new stream();
-            Assert.Equal(resultText, str.WriteAndRead(text, "C:\\Users\\vladb\\OneDrive\\Documente\\file1.txt"));
+            var str = new Stream();
+            str.Write(text);
+            Assert.Equal(resultText, str.Read());
 
         }
 
@@ -17,8 +18,9 @@ namespace StreamWriteAndRead
         {
             string text = "Am reusit \n sa scriu \n in fisier";
             string resultText = text + "\r" + "\n";
-            var str = new stream();
-            Assert.Equal(resultText, str.WriteAndRead(text, "C:\\Users\\vladb\\OneDrive\\Documente\\file2.txt"));
+            var str = new Stream();
+            str.Write(text);
+            Assert.Equal(resultText, str.Read());
 
         }
 
@@ -27,8 +29,9 @@ namespace StreamWriteAndRead
         {
             string text = "Am reusit \n sa scriu \n in fisier";
             string resultText = text + "\r" + "\n";
-            var str = new stream();
-            Assert.Equal(resultText, str.WriteAndRead(text, "C:\\Users\\vladb\\OneDrive\\Documente\\newfile.txt"));
+            var str = new Stream();
+            str.Write(text);
+            Assert.Equal(resultText, str.Read());
 
         }
     }
