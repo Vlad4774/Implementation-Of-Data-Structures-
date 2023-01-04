@@ -1,15 +1,15 @@
 ﻿
 namespace StreamWriteAndRead
 {
-    class Stream
+    class StreamWriteAndRead
     {
         private MemoryStream stream;
         private StreamReader reader;
         private StreamWriter writer;
 
-        public Stream()
+        public StreamWriteAndRead(MemoryStream newStream)
         {
-            stream = new MemoryStream();
+            this.stream = newStream;
             reader = new StreamReader(stream);
             writer = new StreamWriter(stream);
         }
