@@ -1,4 +1,4 @@
-namespace StreamWriteAndRead
+namespace WorkWithStream
 {
     public class streamTests
     {

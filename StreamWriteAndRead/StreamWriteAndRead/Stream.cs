@@ -1,5 +1,5 @@
 ﻿
-namespace StreamWriteAndRead
+namespace WorkWithStream
 {
     class StreamWriteAndRead
     {
