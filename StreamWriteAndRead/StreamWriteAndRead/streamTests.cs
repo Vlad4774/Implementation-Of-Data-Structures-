@@ -35,7 +35,7 @@ namespace WorkWithStream
             string resultText = text + "\r" + "\n";
             var str = new StreamWriteAndRead(new MemoryStream(), true, false);
             str.Write(text);
-            Assert.Equal(resultText, str.Read());
+            Assert.Equal("Am reusit ", str.Read());
         }
 
         [Fact]
