@@ -37,10 +37,9 @@ namespace WorkWithStream
             StreamWriter writer = new StreamWriter(outputStream);
             writer.WriteLine(text);
             writer.Flush();
-            stream.Position = 0;
-            if (outputStream is CryptoStream)
+            if (outputStream is CryptoStream cryptoStream)
             {
-                outputStream.Flush();
+                cryptoStream.FlushFinalBlock();
             }
         }
 
@@ -61,15 +60,7 @@ namespace WorkWithStream
             }
 
             StreamReader reader = new StreamReader(inputStream);
-            try
-            {
-                string result = reader.ReadToEnd();
-                return result;
-            }
-            catch
-            {
-                return "ceva nu este bine";
-            }
+            return reader.ReadToEnd();
         }
     }
 
