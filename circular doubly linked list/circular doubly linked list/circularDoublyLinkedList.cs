@@ -68,10 +68,7 @@ namespace circular_doubly_linked_list
             } while (current != head);
         }
 
-        public bool IsReadOnly
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public bool IsReadOnly => false;
 
         public bool Remove()
         {
