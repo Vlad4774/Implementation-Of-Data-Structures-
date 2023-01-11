@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace circular_doubly_linked_list
 {
@@ -49,11 +50,11 @@ namespace circular_doubly_linked_list
                 {
                     return true;
                 }
-                
+
                 current = current.Next;
-                
+
             } while (current != head);
-            
+
             return false;
         }
 
@@ -90,22 +91,27 @@ namespace circular_doubly_linked_list
                     Count--;
                     return true;
                 }
-                
+
                 current = current.Next;
-                
+
             } while (current != head);
-            
+
             return false;
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            var current = head;
+            do
+            {
+                yield return current.Value;
+                current = current.Next;
+            } while (current != head);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
-    } 
+    }
 }
