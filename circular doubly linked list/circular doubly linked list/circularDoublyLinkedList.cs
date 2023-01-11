@@ -1,0 +1,77 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace circular_doubly_linked_list
+{
+
+    public class CircularDoublyLinkedList<T> : ICollection<T>
+    {
+        private Node<T> head = null;
+        private Node<T> tail = null;
+        public int Count { get; private set; } = 0;
+
+        public void Add(T Value)
+        {
+            var newNode = new Node<T>(Value);
+            if (head == null)
+            {
+                head = newNode;
+                tail = newNode;
+                head.Next = head;
+                head.Previous = head;
+            }
+            else
+            {
+                tail.Next = newNode;
+                newNode.Previous = tail;
+                newNode.Next = head;
+                head.Previous = newNode;
+                tail = newNode;
+            }
+
+            Count++;
+        }
+
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsReadOnly
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool Remove()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+    } 
+}
