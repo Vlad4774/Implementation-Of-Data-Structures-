@@ -70,9 +70,32 @@ namespace circular_doubly_linked_list
 
         public bool IsReadOnly => false;
 
-        public bool Remove()
+        public bool Remove(T Element)
         {
-            throw new NotImplementedException();
+            var current = head;
+            do
+            {
+                if (current.Value.Equals(Element))
+                {
+                    if (current == head)
+                    {
+                        head = head.Next;
+                    }
+                    if (current == tail)
+                    {
+                        tail = tail.Previous;
+                    }
+                    current.Previous.Next = current.Next;
+                    current.Next.Previous = current.Previous;
+                    Count--;
+                    return true;
+                }
+                
+                current = current.Next;
+                
+            } while (current != head);
+            
+            return false;
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -84,11 +107,5 @@ namespace circular_doubly_linked_list
         {
             throw new NotImplementedException();
         }
-
-        public bool Remove(T item)
-        {
-            throw new NotImplementedException();
-        }
-
     } 
 }
