@@ -42,7 +42,19 @@ namespace circular_doubly_linked_list
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            var current = head;
+            do
+            {
+                if (current.Value.Equals(item))
+                {
+                    return true;
+                }
+                
+                current = current.Next;
+                
+            } while (current != head);
+            
+            return false;
         }
 
         public void CopyTo(T[] array, int arrayIndex)

@@ -26,5 +26,25 @@ namespace circular_doubly_linked_list
             Assert.Equal(0, list.Count);
         }
 
+        [Fact]
+        public void ContainsElement()
+        {
+            var list = new CircularDoublyLinkedList<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+            Assert.True(list.Contains(2));
+        }
+
+        [Fact]
+        public void DoesntContainsElement()
+        {
+            var list = new CircularDoublyLinkedList<string>();
+            list.Add("yes");
+            list.Add("Hello World");
+            list.Add("no");
+            Assert.False(list.Contains("maybe"));
+        }
+
     }
 }
