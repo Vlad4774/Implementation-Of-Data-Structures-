@@ -59,7 +59,13 @@ namespace circular_doubly_linked_list
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            var current = head;
+            do
+            {
+                array[arrayIndex++] = current.Value;
+                current = current.Next;
+
+            } while (current != head);
         }
 
         public bool IsReadOnly
