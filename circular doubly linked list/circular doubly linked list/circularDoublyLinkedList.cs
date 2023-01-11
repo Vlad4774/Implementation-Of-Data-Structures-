@@ -35,7 +35,9 @@ namespace circular_doubly_linked_list
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            head = null;
+            tail = null;
+            Count = 0;
         }
 
         public bool Contains(T item)
