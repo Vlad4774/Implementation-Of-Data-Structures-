@@ -45,5 +45,26 @@ namespace circular_doubly_linked_list
             list.Add("no");
             Assert.False(list.Contains("maybe"));
         }
+
+        [Fact]
+        public void RemoveElement()
+        {
+            var list = new CircularDoublyLinkedList<string>();
+            list.Add("yes");
+            list.Add("Hello World");
+            list.Add("no");
+            Assert.True(list.Remove("yes"));
+        }
+
+        [Fact]
+        public void ReturningFalseWhenElementIsNotInListAndTryToRemovingIt()
+        {
+            var list = new CircularDoublyLinkedList<string>();
+            list.Add("yes");
+            list.Add("Hello World");
+            list.Add("no");
+            Assert.False(list.Remove("maybe"));
+        }
+
     }
 }

@@ -73,7 +73,19 @@ namespace circular_doubly_linked_list
 
         public bool Remove(T Element)
         {
-            throw new NotImplementedException();
+            Node<T> current = sentinel.Next;
+            while (current != sentinel)
+            {
+                if (current.Value.Equals(Element))
+                {
+                    current.Previous.Next = current.Next;
+                    current.Next.Previous = current.Previous;
+                    Count--;
+                    return true;
+                }
+                current = current.Next;
+            }
+            return false;
         }
 
         public IEnumerator<T> GetEnumerator()
