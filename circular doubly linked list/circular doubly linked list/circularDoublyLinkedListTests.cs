@@ -66,5 +66,17 @@ namespace circular_doubly_linked_list
             Assert.False(list.Remove("maybe"));
         }
 
+        [Fact]
+        public void GetEnumeratorTestForCaseOf3Elements()
+        {
+            var list = new CircularDoublyLinkedList<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+
+            var enumerator = list.GetEnumerator();
+            int[] items = new[] { 1, 2, 3 };
+            Assert.Equal(items, list);
+        }
     }
 }
