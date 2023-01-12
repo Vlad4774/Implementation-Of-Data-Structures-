@@ -8,27 +8,31 @@ namespace circular_doubly_linked_list
 
     public class CircularDoublyLinkedList<T> : ICollection<T>
     {
-        private Node<T> head = null;
-        private Node<T> tail = null;
+        private Node<T> sentinel;
+
+        public CircularDoublyLinkedList()
+        {
+            sentinel = new Node<T>(default);
+        }
         public int Count { get; private set; } = 0;
 
         public void Add(T Value)
         {
             var newNode = new Node<T>(Value);
-            if (head == null)
+            if (Count == 0)
             {
-                head = newNode;
-                tail = newNode;
-                head.Next = head;
-                head.Previous = head;
+                sentinel.Next = newNode;
+                sentinel.Previous = newNode;
+                newNode.Next = sentinel;
+                newNode.Previous = sentinel;
             }
             else
             {
-                tail.Next = newNode;
-                newNode.Previous = tail;
-                newNode.Next = head;
-                head.Previous = newNode;
-                tail = newNode;
+                var sentinelPrevious = sentinel.Previous;
+                sentinelPrevious.Next = newNode;
+                newNode.Previous = sentinelPrevious;
+                newNode.Next = sentinel;
+                sentinel.Previous = newNode;
             }
 
             Count++;
@@ -36,82 +40,34 @@ namespace circular_doubly_linked_list
 
         public void Clear()
         {
-            head = null;
-            tail = null;
-            Count = 0;
+            throw new NotImplementedException();
         }
 
         public bool Contains(T item)
         {
-            var current = head;
-            do
-            {
-                if (current.Value.Equals(item))
-                {
-                    return true;
-                }
-
-                current = current.Next;
-
-            } while (current != head);
-
-            return false;
+            throw new NotImplementedException();
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            var current = head;
-            do
-            {
-                array[arrayIndex++] = current.Value;
-                current = current.Next;
-
-            } while (current != head);
+            throw new NotImplementedException();
         }
 
         public bool IsReadOnly => false;
 
         public bool Remove(T Element)
         {
-            var current = head;
-            do
-            {
-                if (current.Value.Equals(Element))
-                {
-                    if (current == head)
-                    {
-                        head = head.Next;
-                    }
-                    if (current == tail)
-                    {
-                        tail = tail.Previous;
-                    }
-                    current.Previous.Next = current.Next;
-                    current.Next.Previous = current.Previous;
-                    Count--;
-                    return true;
-                }
-
-                current = current.Next;
-
-            } while (current != head);
-
-            return false;
+            throw new NotImplementedException();
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            var current = head;
-            do
-            {
-                yield return current.Value;
-                current = current.Next;
-            } while (current != head);
+            throw new NotImplementedException();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            throw new NotImplementedException();
         }
     }
 }
