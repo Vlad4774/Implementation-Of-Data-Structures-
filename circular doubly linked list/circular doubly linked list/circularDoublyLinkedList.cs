@@ -61,7 +61,12 @@ namespace circular_doubly_linked_list
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            Node<T> current = sentinel.Next;
+            while (current != sentinel)
+            {
+                array[arrayIndex++] = current.Value;
+                current = current.Next;
+            }
         }
 
         public bool IsReadOnly => false;
