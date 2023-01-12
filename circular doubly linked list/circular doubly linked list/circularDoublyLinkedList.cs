@@ -40,7 +40,9 @@ namespace circular_doubly_linked_list
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            sentinel.Next = sentinel;
+            sentinel.Previous = sentinel;
+            Count = 0;
         }
 
         public bool Contains(T item)
