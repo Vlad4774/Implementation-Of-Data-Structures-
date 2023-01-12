@@ -47,7 +47,16 @@ namespace circular_doubly_linked_list
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            Node<T> current = sentinel.Next;
+            while (current != sentinel)
+            {
+                if (current.Value.Equals(item))
+                {
+                    return true;
+                }
+                current = current.Next;
+            }
+            return false;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
