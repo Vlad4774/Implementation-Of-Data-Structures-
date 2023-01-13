@@ -151,5 +151,34 @@ namespace circular_doubly_linked_list
             string[] items = new[] { "maybe", "yes", "Hello World", "no" };
             Assert.Equal(items, list);
         }
+
+        [Fact]
+        public void Find_ReturnsCorrectNode()
+        {
+            var list = new CircularDoublyLinkedList<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+
+            var node = list.Find(2);
+
+            Assert.Equal(2, node.Value);
+            Assert.Equal(3, node.Next.Value);
+            Assert.Equal(1, node.Previous.Value);
+        }
+
+        [Fact]
+        public void Find_ValueNotFound_ReturnsNull()
+        {
+            var list = new CircularDoublyLinkedList<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+            
+            var node = list.Find(4);
+
+            Assert.Null(node);
+        }
+
     }
 }

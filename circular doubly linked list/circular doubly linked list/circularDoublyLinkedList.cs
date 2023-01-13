@@ -81,6 +81,21 @@ namespace circular_doubly_linked_list
             Count = 0;
         }
 
+        public Node<T> Find(T value)
+        {
+            var current = First;
+            for (int i = 0; i < Count; i++)
+            {
+                if (current.Value.Equals(value))
+                {
+                    return current;
+                }
+                current = current.Next;
+            }
+            
+            return null;
+        }
+
         public bool Contains(T item)
         {
             Node<T> current = sentinel.Next;
