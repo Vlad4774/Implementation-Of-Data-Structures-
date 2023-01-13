@@ -22,7 +22,7 @@ namespace circular_doubly_linked_list
         { 
             get
             {
-               return sentinel.Next;
+                return sentinel.Next == sentinel ? null : sentinel.Next;
             }
         }
 
@@ -30,7 +30,7 @@ namespace circular_doubly_linked_list
         {
             get
             {
-                return sentinel.Previous;
+                return sentinel.Previous == sentinel ? null : sentinel.Previous;
             }
         }
 
@@ -48,20 +48,20 @@ namespace circular_doubly_linked_list
         public void AddBefore(T beforeValue, T value)
         {
             var newNode = new Node<T>(value);
-            var current = First;
-            for (int i = 0; i < Count; i++)
+            var beforeNode = Find(beforeValue);
+            if (beforeNode != null)
             {
-                if (current.Value.Equals(beforeValue))
-                {
-                    newNode.Previous = current.Previous;
-                    newNode.Next = current;
-                    current.Previous.Next = newNode;
-                    current.Previous = newNode;
-                    Count++;
-                    break;
-                }
-                current = current.Next;
+                LinkTwoNodes(newNode, beforeNode);
+                Count++;
             }
+        }
+
+        private void LinkTwoNodes(Node<T> first, Node<T> second)
+        {
+            first.Previous = second.Previous;
+            first.Next = second;
+            second.Previous.Next = first;
+            second.Previous = first;
         }
 
         public void AddLast(T value)
@@ -110,18 +110,9 @@ namespace circular_doubly_linked_list
             return null;
         }
 
-        public bool Contains(T item)
+        public bool Contains(T value)
         {
-            Node<T> current = sentinel.Next;
-            for(int i = 0; i < Count; i++)
-            {
-                if (current.Value.Equals(item))
-                {
-                    return true;
-                }
-                current = current.Next;
-            }
-            return false;
+            return Find(value) != null;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -139,18 +130,21 @@ namespace circular_doubly_linked_list
         public bool Remove(T Element)
         {
             Node<T> current = sentinel.Next;
-            for (int i = 0; i < Count; i++)
+            var node = Find(Element);
+            if (node != null)
             {
-                if (current.Value.Equals(Element))
-                {
-                    current.Previous.Next = current.Next;
-                    current.Next.Previous = current.Previous;
-                    Count--;
-                    return true;
-                }
-                current = current.Next;
+                RemoveNode(node);
+                return true;
             }
+            
             return false;
+        }
+
+        private void RemoveNode(Node<T> node)
+        {
+            node.Previous.Next = node.Next;
+            node.Next.Previous = node.Previous;
+            Count--;
         }
 
         public void RemoveFirst()

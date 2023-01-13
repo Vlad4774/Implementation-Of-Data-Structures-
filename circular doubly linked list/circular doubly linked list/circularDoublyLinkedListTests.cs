@@ -102,7 +102,7 @@ namespace circular_doubly_linked_list
         }
 
         [Fact]
-        public void AddBeforeAddsNodeCorrectlyAsFirstElement()
+        public void AddNodeAsFirstElementUsingAddBefore()
         {
             var list = new CircularDoublyLinkedList<int>();
             list.Add(1);
@@ -115,7 +115,7 @@ namespace circular_doubly_linked_list
         }
 
         [Fact]
-        public void AddBeforeNodeNotExist()
+        public void AddBeforeAValueWhichDoesntExist()
         {
             var list = new CircularDoublyLinkedList<int>();
             list.Add(1);
@@ -127,7 +127,7 @@ namespace circular_doubly_linked_list
         }
 
         [Fact]
-        public void AddLastWorks()
+        public void AddLastInAListOfStrings()
         {
             var list = new CircularDoublyLinkedList<string>();
             list.Add("yes");
@@ -139,7 +139,7 @@ namespace circular_doubly_linked_list
         }
 
         [Fact]
-        public void AddFirstWorks()
+        public void AddFirstInAListOfStrings()
         {
             var list = new CircularDoublyLinkedList<string>();
             list.Add("yes");
