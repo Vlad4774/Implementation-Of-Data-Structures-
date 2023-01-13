@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Xunit.Sdk;
 
 namespace circular_doubly_linked_list
 {
@@ -36,6 +38,8 @@ namespace circular_doubly_linked_list
 
         public void Add(T Value)
         {
+            NullException(Value);
+            
             var newNode = new Node<T>(Value);
             var sentinelPrevious = sentinel.Previous;
             sentinelPrevious.Next = newNode;
@@ -47,13 +51,14 @@ namespace circular_doubly_linked_list
 
         public void AddBefore(T beforeValue, T value)
         {
-            var newNode = new Node<T>(value);
+            NullException(beforeValue);
+            NullException(value);
+            NodeNotInTheListException(beforeValue);
+            
             var beforeNode = Find(beforeValue);
-            if (beforeNode != null)
-            {
-                LinkTwoNodes(newNode, beforeNode);
-                Count++;
-            }
+            var newNode = new Node<T>(value);
+            LinkTwoNodes(newNode, beforeNode);
+            Count++;
         }
 
         private void LinkTwoNodes(Node<T> first, Node<T> second)
@@ -117,6 +122,9 @@ namespace circular_doubly_linked_list
 
         public void CopyTo(T[] array, int arrayIndex)
         {
+            InvalidIndexException(arrayIndex);
+            ArrayNullException(array);
+            NotEnoughCapacityException(array.Length, arrayIndex);
             Node<T> current = sentinel.Next;
             for (int i = 0; i < Count; i++)
             {
@@ -129,15 +137,12 @@ namespace circular_doubly_linked_list
 
         public bool Remove(T Element)
         {
-            Node<T> current = sentinel.Next;
-            var node = Find(Element);
-            if (node != null)
-            {
-                RemoveNode(node);
-                return true;
-            }
+            NullException(Element);
+            NodeNotInTheListException(Element);
             
-            return false;
+            var node = Find(Element);
+            RemoveNode(node);
+            return true;
         }
 
         private void RemoveNode(Node<T> node)
@@ -170,6 +175,46 @@ namespace circular_doubly_linked_list
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        private void NullException(T Value)
+        {
+            if (Value == null)
+            {
+                throw new ArgumentNullException();
+            }
+        }
+
+        private void NotEnoughCapacityException(int lengthArray, int arrayIndex)
+        {
+            if (lengthArray - arrayIndex < Count)
+            {
+                throw new ArgumentException("NotEnoughCapacity");
+            }
+        }
+
+        private void ArrayNullException(T[] array)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException("Array Is Null");
+            }
+        }
+
+        private void InvalidIndexException(int index)
+        {
+            if (index < 0 || index > Count)
+            {
+                throw new IndexOutOfRangeException("Index is invalid");
+            }
+        }
+
+        private void NodeNotInTheListException(T value)
+        {
+            if (!Contains(value))
+            {
+                throw new ArgumentException("Node is not in the list");
+            }
         }
     }
 }

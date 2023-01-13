@@ -57,13 +57,13 @@ namespace circular_doubly_linked_list
         }
 
         [Fact]
-        public void ReturningFalseWhenElementIsNotInListAndTryToRemovingIt()
+        public void ThrowExceptionWhenElementIsNotInListAndTryToRemovingIt()
         {
             var list = new CircularDoublyLinkedList<string>();
             list.Add("yes");
             list.Add("Hello World");
             list.Add("no");
-            Assert.False(list.Remove("maybe"));
+            Assert.Throws<ArgumentException>(() => list.Remove("maybe"));
         }
 
         [Fact]
@@ -120,10 +120,7 @@ namespace circular_doubly_linked_list
             var list = new CircularDoublyLinkedList<int>();
             list.Add(1);
             list.Add(2);
-            list.AddBefore(3, 2);
-            Assert.Equal(2, list.Count);
-            Assert.Equal(1, list.First.Value);
-            Assert.Equal(2, list.Last.Value);
+            Assert.Throws<ArgumentException>(() => list.AddBefore(3, 2));
         }
 
         [Fact]
@@ -239,5 +236,14 @@ namespace circular_doubly_linked_list
             Assert.Equal(2, list.Last.Value);
         }
 
+        [Fact]
+        public void ThrowExceptionWhenArrayLengthIsSmallerThanCount()
+        {
+            var list = new CircularDoublyLinkedList<string>();
+            list.Add("yes");
+            list.Add("Hello World");
+            list.Add("no");
+            Assert.Throws<ArgumentException>(() => list.CopyTo(new string[3], 2));
+        }
     }
 }
