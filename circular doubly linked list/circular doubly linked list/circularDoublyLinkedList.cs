@@ -13,6 +13,8 @@ namespace circular_doubly_linked_list
         public CircularDoublyLinkedList()
         {
             sentinel = new Node<T>(default);
+            sentinel.Next = sentinel;
+            sentinel.Previous = sentinel;
         }
         public int Count { get; private set; } = 0;
 
