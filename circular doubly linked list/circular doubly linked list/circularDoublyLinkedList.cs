@@ -21,21 +21,11 @@ namespace circular_doubly_linked_list
         public void Add(T Value)
         {
             var newNode = new Node<T>(Value);
-            if (Count == 0)
-            {
-                sentinel.Next = newNode;
-                sentinel.Previous = newNode;
-                newNode.Next = sentinel;
-                newNode.Previous = sentinel;
-            }
-            else
-            {
-                var sentinelPrevious = sentinel.Previous;
-                sentinelPrevious.Next = newNode;
-                newNode.Previous = sentinelPrevious;
-                newNode.Next = sentinel;
-                sentinel.Previous = newNode;
-            }
+            var sentinelPrevious = sentinel.Previous;
+            sentinelPrevious.Next = newNode;
+            newNode.Previous = sentinelPrevious;
+            newNode.Next = sentinel;
+            sentinel.Previous = newNode;
 
             Count++;
         }
@@ -50,7 +40,7 @@ namespace circular_doubly_linked_list
         public bool Contains(T item)
         {
             Node<T> current = sentinel.Next;
-            while (current != sentinel)
+            for(int i = 0; i < Count; i++)
             {
                 if (current.Value.Equals(item))
                 {
@@ -64,7 +54,7 @@ namespace circular_doubly_linked_list
         public void CopyTo(T[] array, int arrayIndex)
         {
             Node<T> current = sentinel.Next;
-            while (current != sentinel)
+            for (int i = 0; i < Count; i++)
             {
                 array[arrayIndex++] = current.Value;
                 current = current.Next;
@@ -76,7 +66,7 @@ namespace circular_doubly_linked_list
         public bool Remove(T Element)
         {
             Node<T> current = sentinel.Next;
-            while (current != sentinel)
+            for (int i = 0; i < Count; i++)
             {
                 if (current.Value.Equals(Element))
                 {
