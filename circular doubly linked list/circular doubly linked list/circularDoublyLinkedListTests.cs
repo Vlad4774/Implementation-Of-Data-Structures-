@@ -115,18 +115,27 @@ namespace circular_doubly_linked_list
         }
 
         [Fact]
-        public void AddBefore_NodeNotFound_DoesNotAddNode()
+        public void AddBeforeNodeNotExist()
         {
             var list = new CircularDoublyLinkedList<int>();
             list.Add(1);
             list.Add(2);
-
             list.AddBefore(3, 2);
-
             Assert.Equal(2, list.Count);
             Assert.Equal(1, list.First.Value);
             Assert.Equal(2, list.Last.Value);
         }
 
+        [Fact]
+        public void AddLast()
+        {
+            var list = new CircularDoublyLinkedList<string>();
+            list.Add("yes");
+            list.Add("Hello World");
+            list.Add("no");
+            list.AddLast("maybe");
+            Assert.Equal(4, list.Count);
+            Assert.Equal("maybe", list.Last.Value);
+        }
     }
 }

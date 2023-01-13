@@ -64,6 +64,11 @@ namespace circular_doubly_linked_list
             }
         }
 
+        public void AddLast(T value)
+        {
+            Add(value);
+        }
+
         public void Clear()
         {
             sentinel.Next = sentinel;
