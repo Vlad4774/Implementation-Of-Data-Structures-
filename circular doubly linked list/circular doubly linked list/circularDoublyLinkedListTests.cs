@@ -209,6 +209,35 @@ namespace circular_doubly_linked_list
             Assert.Null(node);
         }
 
+        [Fact]
+        public void RemoveFirstRemovesCorrectNode()
+        {
+            var list = new CircularDoublyLinkedList<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+
+            list.RemoveFirst();
+
+            Assert.Equal(2, list.Count);
+            Assert.Equal(2, list.First.Value);
+            Assert.Equal(3, list.Last.Value);
+        }
+
+        [Fact]
+        public void RemoveLastRemovesCorrectNode()
+        {
+            var list = new CircularDoublyLinkedList<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+
+            list.RemoveLast();
+
+            Assert.Equal(2, list.Count);
+            Assert.Equal(1, list.First.Value);
+            Assert.Equal(2, list.Last.Value);
+        }
 
     }
 }

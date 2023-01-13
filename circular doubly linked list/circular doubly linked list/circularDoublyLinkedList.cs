@@ -153,6 +153,16 @@ namespace circular_doubly_linked_list
             return false;
         }
 
+        public void RemoveFirst()
+        {
+            Remove(First.Value);
+        }
+
+        public void RemoveLast()
+        {
+            Remove(Last.Value);
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             Node<T> current = sentinel.Next;
