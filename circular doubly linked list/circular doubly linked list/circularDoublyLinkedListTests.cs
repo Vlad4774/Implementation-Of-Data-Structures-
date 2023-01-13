@@ -127,7 +127,7 @@ namespace circular_doubly_linked_list
         }
 
         [Fact]
-        public void AddLast()
+        public void AddLastWorks()
         {
             var list = new CircularDoublyLinkedList<string>();
             list.Add("yes");
@@ -136,6 +136,20 @@ namespace circular_doubly_linked_list
             list.AddLast("maybe");
             Assert.Equal(4, list.Count);
             Assert.Equal("maybe", list.Last.Value);
+        }
+
+        [Fact]
+        public void AddFirstWorks()
+        {
+            var list = new CircularDoublyLinkedList<string>();
+            list.Add("yes");
+            list.Add("Hello World");
+            list.Add("no");
+            list.AddFirst("maybe");
+            Assert.Equal(4, list.Count);
+            var enumerator = list.GetEnumerator();
+            string[] items = new[] { "maybe", "yes", "Hello World", "no" };
+            Assert.Equal(items, list);
         }
     }
 }

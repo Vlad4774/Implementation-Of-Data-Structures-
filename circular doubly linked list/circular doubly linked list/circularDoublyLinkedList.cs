@@ -69,6 +69,11 @@ namespace circular_doubly_linked_list
             Add(value);
         }
 
+        public void AddFirst(T value)
+        {
+            AddBefore(First.Value, value);
+        }
+
         public void Clear()
         {
             sentinel.Next = sentinel;
