@@ -42,8 +42,26 @@ namespace circular_doubly_linked_list
             newNode.Previous = sentinelPrevious;
             newNode.Next = sentinel;
             sentinel.Previous = newNode;
-
             Count++;
+        }
+
+        public void AddBefore(T beforeValue, T value)
+        {
+            var newNode = new Node<T>(value);
+            var current = First;
+            for (int i = 0; i < Count; i++)
+            {
+                if (current.Value.Equals(beforeValue))
+                {
+                    newNode.Previous = current.Previous;
+                    newNode.Next = current;
+                    current.Previous.Next = newNode;
+                    current.Previous = newNode;
+                    Count++;
+                    break;
+                }
+                current = current.Next;
+            }
         }
 
         public void Clear()
