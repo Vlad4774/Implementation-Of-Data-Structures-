@@ -96,6 +96,20 @@ namespace circular_doubly_linked_list
             return null;
         }
 
+        public Node<T> FindLast(T value)
+        {
+            var current = Last;
+            for (int i = 0; i < Count; i++)
+            {
+                if (current.Value.Equals(value))
+                {
+                    return current;
+                }
+                current = current.Previous;
+            }
+            return null;
+        }
+
         public bool Contains(T item)
         {
             Node<T> current = sentinel.Next;

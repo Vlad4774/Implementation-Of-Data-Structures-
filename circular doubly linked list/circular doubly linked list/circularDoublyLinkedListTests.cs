@@ -153,7 +153,7 @@ namespace circular_doubly_linked_list
         }
 
         [Fact]
-        public void Find_ReturnsCorrectNode()
+        public void FindReturnsCorrectNode()
         {
             var list = new CircularDoublyLinkedList<int>();
             list.Add(1);
@@ -168,7 +168,7 @@ namespace circular_doubly_linked_list
         }
 
         [Fact]
-        public void Find_ValueNotFound_ReturnsNull()
+        public void FindValueNotFoundReturnsNull()
         {
             var list = new CircularDoublyLinkedList<int>();
             list.Add(1);
@@ -179,6 +179,36 @@ namespace circular_doubly_linked_list
 
             Assert.Null(node);
         }
+
+        [Fact]
+        public void FindLastReturnsCorrectNode()
+        {
+            var list = new CircularDoublyLinkedList<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(2);
+            list.Add(3);
+
+            var node = list.FindLast(2);
+
+            Assert.Equal(2, node.Value);
+            Assert.Equal(3, node.Next.Value);
+            Assert.Equal(2, node.Previous.Value);
+        }
+
+        [Fact]
+        public void FindLastValueNotFoundReturnsNull()
+        {
+            var list = new CircularDoublyLinkedList<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+
+            var node = list.FindLast(4);
+
+            Assert.Null(node);
+        }
+
 
     }
 }
