@@ -78,5 +78,27 @@ namespace circular_doubly_linked_list
             int[] items = new[] { 1, 2, 3 };
             Assert.Equal(items, list);
         }
+
+        [Fact]
+        public void FirstReturnFirstNode()
+        {
+            var list = new CircularDoublyLinkedList<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+
+            Assert.Equal(1, list.First.Value);
+        }
+
+        [Fact]
+        public void LastReturnLastNode()
+        {
+            var list = new CircularDoublyLinkedList<string>();
+            list.Add("yes");
+            list.Add("Hello World");
+            list.Add("no");
+
+            Assert.Equal("no", list.Last.Value);
+        }
     }
 }

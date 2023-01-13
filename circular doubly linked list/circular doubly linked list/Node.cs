@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace circular_doubly_linked_list
 {
-    class Node<T>
+    public class Node<T>
     {
         public Node(T value)
         {

@@ -18,6 +18,22 @@ namespace circular_doubly_linked_list
         }
         public int Count { get; private set; } = 0;
 
+        public Node<T> First 
+        { 
+            get
+            {
+               return sentinel.Next;
+            }
+        }
+
+        public Node<T> Last
+        {
+            get
+            {
+                return sentinel.Previous;
+            }
+        }
+
         public void Add(T Value)
         {
             var newNode = new Node<T>(Value);
