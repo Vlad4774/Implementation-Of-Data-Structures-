@@ -41,11 +41,7 @@ namespace circular_doubly_linked_list
             NullException(Value);
             
             var newNode = new Node<T>(Value);
-            var sentinelPrevious = sentinel.Previous;
-            sentinelPrevious.Next = newNode;
-            newNode.Previous = sentinelPrevious;
-            newNode.Next = sentinel;
-            sentinel.Previous = newNode;
+            LinkTwoNodes(newNode, sentinel);
             Count++;
         }
 
@@ -61,12 +57,16 @@ namespace circular_doubly_linked_list
             Count++;
         }
 
-        private void LinkTwoNodes(Node<T> first, Node<T> second)
+        public void AddAfter(T afterValue, T value)
         {
-            first.Previous = second.Previous;
-            first.Next = second;
-            second.Previous.Next = first;
-            second.Previous = first;
+            NullException(afterValue);
+            NullException(value);
+            NodeNotInTheListException(afterValue);
+
+            var afterNode = Find(afterValue);
+            var newNode = new Node<T>(value);
+            LinkTwoNodes(newNode, afterNode.Next);
+            Count++;
         }
 
         public void AddLast(T value)
@@ -77,6 +77,14 @@ namespace circular_doubly_linked_list
         public void AddFirst(T value)
         {
             AddBefore(First.Value, value);
+        }
+
+        private void LinkTwoNodes(Node<T> first, Node<T> second)
+        {
+            first.Previous = second.Previous;
+            first.Next = second;
+            second.Previous.Next = first;
+            second.Previous = first;
         }
 
         public void Clear()

@@ -245,5 +245,18 @@ namespace circular_doubly_linked_list
             list.Add("no");
             Assert.Throws<ArgumentException>(() => list.CopyTo(new string[3], 2));
         }
+
+        [Fact]
+        public void AddNodeAfterASpecificNode()
+        {
+            var list = new CircularDoublyLinkedList<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+            list.AddAfter(2, 1);
+            var enumerator = list.GetEnumerator();
+            int[] items = new[] { 1, 2, 1, 3};
+            Assert.Equal(items, list);
+        }
     }
 }
