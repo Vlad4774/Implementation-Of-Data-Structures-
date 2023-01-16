@@ -36,55 +36,34 @@ namespace circular_doubly_linked_list
             }
         }
 
-        public void Add(T Value)
+        public void Add(T value)
         {
-            NullException(Value);
-
-            var newNode = new Node<T>(Value);
-            LinkTwoNodes(newNode, sentinel);
-            Count++;
+            NullException(value);
+            AddBefore(sentinel, new Node<T>(value));
         }
 
         public void AddBefore(Node<T> beforeNode, T value)
         {
-            NullException(beforeNode.Value);
-            NullException(value);
-            NodeNotInTheListException(beforeNode.Value);
-
-            var newNode = new Node<T>(value);
-            LinkTwoNodes(newNode, beforeNode);
-            Count++;
+            AddBefore(beforeNode, new Node<T>(value));
         }
 
         public void AddBefore(Node<T> beforeNode, Node<T> newNode)
         {
-            NullException(beforeNode.Value);
-            NullException(newNode.Value);
-            NodeNotInTheListException(beforeNode.Value);
-
-            LinkTwoNodes(newNode, beforeNode);
+            newNode.Previous = beforeNode.Previous;
+            newNode.Next = beforeNode;
+            beforeNode.Previous.Next = newNode;
+            beforeNode.Previous = newNode;
             Count++;
         }
 
         public void AddAfter(Node<T> afterNode, T value)
         {
-            NullException(afterNode.Value);
-            NullException(value);
-            NodeNotInTheListException(afterNode.Value);
-
-            var newNode = new Node<T>(value);
-            LinkTwoNodes(newNode, afterNode.Next);
-            Count++;
+            AddBefore(afterNode.Next, new Node<T>(value));
         }
 
         public void AddAfter(Node<T> afterNode, Node<T> newNode)
         {
-            NullException(afterNode.Value);
-            NullException(newNode.Value);
-            NodeNotInTheListException(afterNode.Value);
-
-            LinkTwoNodes(newNode, afterNode.Next);
-            Count++;
+            AddBefore(afterNode.Next, newNode);
         }
 
         public void AddLast(T value)
@@ -105,14 +84,6 @@ namespace circular_doubly_linked_list
         public void AddFirst(Node<T> newNode)
         {
             AddBefore(First, newNode);
-        }
-
-        private void LinkTwoNodes(Node<T> first, Node<T> second)
-        {
-            first.Previous = second.Previous;
-            first.Next = second;
-            second.Previous.Next = first;
-            second.Previous = first;
         }
 
         public void Clear()

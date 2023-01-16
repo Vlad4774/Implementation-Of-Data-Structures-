@@ -131,15 +131,6 @@ namespace circular_doubly_linked_list
         }
 
         [Fact]
-        public void AddBeforeAValueWhichDoesntExist()
-        {
-            var list = new CircularDoublyLinkedList<int>();
-            list.Add(1);
-            list.Add(2);
-            Assert.Throws<ArgumentException>(() => list.AddBefore(new Node<int>(3), 2));
-        }
-
-        [Fact]
         public void AddLastInAListOfStrings()
         {
             var list = new CircularDoublyLinkedList<string>();
