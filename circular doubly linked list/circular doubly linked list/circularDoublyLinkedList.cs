@@ -20,8 +20,8 @@ namespace circular_doubly_linked_list
         }
         public int Count { get; private set; } = 0;
 
-        public Node<T> First 
-        { 
+        public Node<T> First
+        {
             get
             {
                 return sentinel.Next == sentinel ? null : sentinel.Next;
@@ -39,44 +39,72 @@ namespace circular_doubly_linked_list
         public void Add(T Value)
         {
             NullException(Value);
-            
+
             var newNode = new Node<T>(Value);
             LinkTwoNodes(newNode, sentinel);
             Count++;
         }
 
-        public void AddBefore(T beforeValue, T value)
+        public void AddBefore(Node<T> beforeNode, T value)
         {
-            NullException(beforeValue);
+            NullException(beforeNode.Value);
             NullException(value);
-            NodeNotInTheListException(beforeValue);
-            
-            var beforeNode = Find(beforeValue);
+            NodeNotInTheListException(beforeNode.Value);
+
             var newNode = new Node<T>(value);
             LinkTwoNodes(newNode, beforeNode);
             Count++;
         }
 
-        public void AddAfter(T afterValue, T value)
+        public void AddBefore(Node<T> beforeNode, Node<T> newNode)
         {
-            NullException(afterValue);
-            NullException(value);
-            NodeNotInTheListException(afterValue);
+            NullException(beforeNode.Value);
+            NullException(newNode.Value);
+            NodeNotInTheListException(beforeNode.Value);
 
-            var afterNode = Find(afterValue);
+            LinkTwoNodes(newNode, beforeNode);
+            Count++;
+        }
+
+        public void AddAfter(Node<T> afterNode, T value)
+        {
+            NullException(afterNode.Value);
+            NullException(value);
+            NodeNotInTheListException(afterNode.Value);
+
             var newNode = new Node<T>(value);
+            LinkTwoNodes(newNode, afterNode.Next);
+            Count++;
+        }
+
+        public void AddAfter(Node<T> afterNode, Node<T> newNode)
+        {
+            NullException(afterNode.Value);
+            NullException(newNode.Value);
+            NodeNotInTheListException(afterNode.Value);
+
             LinkTwoNodes(newNode, afterNode.Next);
             Count++;
         }
 
         public void AddLast(T value)
         {
-            Add(value);
+            AddAfter(Last, value);
+        }
+
+        public void AddLast(Node<T> value)
+        {
+            AddAfter(Last, value);
         }
 
         public void AddFirst(T value)
         {
-            AddBefore(First.Value, value);
+            AddBefore(First, value);
+        }
+
+        public void AddFirst(Node<T> newNode)
+        {
+            AddBefore(First, newNode);
         }
 
         private void LinkTwoNodes(Node<T> first, Node<T> second)
@@ -105,7 +133,7 @@ namespace circular_doubly_linked_list
                 }
                 current = current.Next;
             }
-            
+
             return null;
         }
 
@@ -147,7 +175,7 @@ namespace circular_doubly_linked_list
         {
             NullException(Element);
             NodeNotInTheListException(Element);
-            
+
             var node = Find(Element);
             RemoveNode(node);
             return true;

@@ -107,10 +107,26 @@ namespace circular_doubly_linked_list
             var list = new CircularDoublyLinkedList<int>();
             list.Add(1);
             list.Add(2);
-            list.AddBefore(1, 0);
+            var beforeNode = list.First;
+            list.AddBefore(beforeNode, 0);
             Assert.Equal(3, list.Count);
             var enumerator = list.GetEnumerator();
             int[] items = new[] { 0, 1, 2 };
+            Assert.Equal(items, list);
+        }
+
+        [Fact]
+        public void AddNodeAsSecondElementUsingAddBefore()
+        {
+            var list = new CircularDoublyLinkedList<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+            var beforeNode = list.Find(2);
+            list.AddBefore(beforeNode, new Node<int>(4));
+            Assert.Equal(4, list.Count);
+            var enumerator = list.GetEnumerator();
+            int[] items = new[] { 1, 4, 2, 3 };
             Assert.Equal(items, list);
         }
 
@@ -120,7 +136,7 @@ namespace circular_doubly_linked_list
             var list = new CircularDoublyLinkedList<int>();
             list.Add(1);
             list.Add(2);
-            Assert.Throws<ArgumentException>(() => list.AddBefore(3, 2));
+            Assert.Throws<ArgumentException>(() => list.AddBefore(new Node<int>(3), 2));
         }
 
         [Fact]
@@ -150,6 +166,20 @@ namespace circular_doubly_linked_list
         }
 
         [Fact]
+        public void AddFirstInAListOfFloat()
+        {
+            var list = new CircularDoublyLinkedList<double>();
+            list.Add(0.12);
+            list.Add(0.47);
+            list.Add(5.6);
+            list.AddFirst(new Node<double>(23));
+            Assert.Equal(4, list.Count);
+            var enumerator = list.GetEnumerator();
+            double[] items = new[] { 23, 0.12, 0.47, 5.6 };
+            Assert.Equal(items, list);
+        }
+
+        [Fact]
         public void FindReturnsCorrectNode()
         {
             var list = new CircularDoublyLinkedList<int>();
@@ -171,7 +201,7 @@ namespace circular_doubly_linked_list
             list.Add(1);
             list.Add(2);
             list.Add(3);
-            
+
             var node = list.Find(4);
 
             Assert.Null(node);
@@ -247,15 +277,30 @@ namespace circular_doubly_linked_list
         }
 
         [Fact]
+        public void AddValueAfterASpecificNode()
+        {
+            var list = new CircularDoublyLinkedList<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+            var afterNode = list.Find(2);
+            list.AddAfter(afterNode, 1);
+            var enumerator = list.GetEnumerator();
+            int[] items = new[] { 1, 2, 1, 3 };
+            Assert.Equal(items, list);
+        }
+
+        [Fact]
         public void AddNodeAfterASpecificNode()
         {
             var list = new CircularDoublyLinkedList<int>();
             list.Add(1);
             list.Add(2);
             list.Add(3);
-            list.AddAfter(2, 1);
+            var afterNode = list.Find(1);
+            list.AddAfter(afterNode, new Node<int>(4));
             var enumerator = list.GetEnumerator();
-            int[] items = new[] { 1, 2, 1, 3};
+            int[] items = new[] { 1, 4, 2, 3 };
             Assert.Equal(items, list);
         }
     }
