@@ -63,7 +63,18 @@ namespace circular_doubly_linked_list
             list.Add("yes");
             list.Add("Hello World");
             list.Add("no");
-            Assert.Throws<ArgumentException>(() => list.Remove("maybe"));
+            Assert.Throws<ArgumentNullException>(() => list.Remove("maybe"));
+        }
+
+        [Fact]
+        public void AddBeforeANodeWhichDoesntExist()
+        {
+            var list = new CircularDoublyLinkedList<string>();
+            list.Add("yes");
+            list.Add("Hello World");
+            list.Add("no");
+            var node = new Node<string>("sure");
+            Assert.Throws<InvalidOperationException>(() => list.AddBefore(node, "maybe"));
         }
 
         [Fact]

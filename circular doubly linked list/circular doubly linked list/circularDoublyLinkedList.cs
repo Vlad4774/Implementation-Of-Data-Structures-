@@ -51,11 +51,7 @@ namespace circular_doubly_linked_list
         {
             NullException(beforeNode);
             NullException(newNode);
-            if(!Contains(beforeNode.Value) && beforeNode != sentinel)
-            {
-                throw new ArgumentException("Node is not in the list");
-            }
-            
+            NodeNotInTheListException(beforeNode);
             newNode.Previous = beforeNode.Previous;
             newNode.Next = beforeNode;
             beforeNode.Previous.Next = newNode;
@@ -91,7 +87,7 @@ namespace circular_doubly_linked_list
 
         public void AddFirst(Node<T> newNode)
         {
-           AddBefore(sentinel.Next, newNode);
+            AddBefore(sentinel.Next, newNode);
         }
 
         public void Clear()
@@ -116,12 +112,14 @@ namespace circular_doubly_linked_list
 
         public Node<T> FindLast(T value)
         {
+            var current = Last;
             for (Node<T> node = sentinel.Previous; node != sentinel; node = node.Previous)
             {
-                if (node.Value.Equals(value))
+                if (current.Value.Equals(value))
                 {
-                    return node;
+                    return current;
                 }
+                current = current.Previous;
             }
             return null;
         }
@@ -148,13 +146,14 @@ namespace circular_doubly_linked_list
 
         public bool Remove(T value)
         {
-            if (!Contains(value))
+            var node = Find(value);
+            NullException(node);
+            NodeNotInTheListException(node);
+            if (node == sentinel)
             {
-                throw new ArgumentException("Node is not in the list");
+                return false;
             }
 
-            var node = Find(value);
-            NodeIsTheSentinelException(node);
             RemoveNode(node);
             return true;
         }
@@ -178,9 +177,11 @@ namespace circular_doubly_linked_list
 
         public IEnumerator<T> GetEnumerator()
         {
-            for (Node<T> node = sentinel.Next; node != sentinel; node = node.Next)
+            Node<T> current = sentinel.Next;
+            for (int i = 0; i < Count; i++)
             {
-                yield return node.Value;
+                yield return current.Value;
+                current = current.Next;
             }
         }
 
@@ -221,11 +222,11 @@ namespace circular_doubly_linked_list
             }
         }
 
-        private void NodeIsTheSentinelException(Node<T> node)
+        private void NodeNotInTheListException(Node<T> node)
         {
-            if (node == sentinel)
+            if (node.Next == null || node.Previous == null)
             {
-                throw new ArgumentException("You can't remove the sentinel");
+                throw new InvalidOperationException("Node is not in the list");
             }
         }
     }
