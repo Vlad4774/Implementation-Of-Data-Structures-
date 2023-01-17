@@ -11,7 +11,6 @@ namespace circular_doubly_linked_list
     public class CircularDoublyLinkedList<T> : ICollection<T>
     {
         private Node<T> sentinel;
-        private HashSet<Node<T>> nodes = new HashSet<Node<T>>();
 
         public CircularDoublyLinkedList()
         {
@@ -52,12 +51,15 @@ namespace circular_doubly_linked_list
         {
             NullException(beforeNode);
             NullException(newNode);
-            NodeNotInTheListException(beforeNode);
+            if(!Contains(beforeNode.Value) && beforeNode != sentinel)
+            {
+                throw new ArgumentException("Node is not in the list");
+            }
+            
             newNode.Previous = beforeNode.Previous;
             newNode.Next = beforeNode;
             beforeNode.Previous.Next = newNode;
             beforeNode.Previous = newNode;
-            nodes.Add(newNode);
             Count++;
         }
 
@@ -146,15 +148,13 @@ namespace circular_doubly_linked_list
 
         public bool Remove(T value)
         {
-            var node = Find(value);
-            NodeNotInTheListException(node);
-            if (node == sentinel)
+            if (!Contains(value))
             {
-                return false;
+                throw new ArgumentException("Node is not in the list");
             }
 
-            nodes.Remove(node);
-            node = Find(value);
+            var node = Find(value);
+            NodeIsTheSentinelException(node);
             RemoveNode(node);
             return true;
         }
@@ -221,11 +221,11 @@ namespace circular_doubly_linked_list
             }
         }
 
-        private void NodeNotInTheListException(Node<T> node)
+        private void NodeIsTheSentinelException(Node<T> node)
         {
-            if (!nodes.Contains(node) && node != sentinel)
+            if (node == sentinel)
             {
-                throw new ArgumentException("Node is not in the list");
+                throw new ArgumentException("You can't remove the sentinel");
             }
         }
     }
