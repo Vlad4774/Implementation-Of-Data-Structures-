@@ -52,6 +52,7 @@ namespace circular_doubly_linked_list
             NullException(beforeNode);
             NullException(newNode);
             NodeNotInTheListException(beforeNode);
+            NodeBelongsToAnotherListException(newNode);
             newNode.Previous = beforeNode.Previous;
             newNode.Next = beforeNode;
             beforeNode.Previous.Next = newNode;
@@ -227,6 +228,14 @@ namespace circular_doubly_linked_list
             if (node.Next == null || node.Previous == null)
             {
                 throw new InvalidOperationException("Node is not in the list");
+            }
+        }
+
+        private void NodeBelongsToAnotherListException(Node<T> node)
+        {
+            if (node.Next != null || node.Previous != null)
+            {
+                throw new InvalidOperationException("Node belongs to another list");
             }
         }
     }

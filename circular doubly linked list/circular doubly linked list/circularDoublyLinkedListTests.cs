@@ -305,5 +305,20 @@ namespace circular_doubly_linked_list
             int[] items = new[] { 1, 4, 2, 3 };
             Assert.Equal(items, list);
         }
+
+        [Fact]
+        public void AddANodeWhichBelongsToAnotherLinkedList()
+        {
+            var list = new CircularDoublyLinkedList<string>();
+            list.Add("yes");
+            list.Add("Hello World");
+            list.Add("no");
+            var secondList = new CircularDoublyLinkedList<string>();
+            secondList.Add("maybe");
+            secondList.Add("sure");
+            var newNode = list.Find("Hello World");
+            var beforeNode = secondList.Find("sure");
+            Assert.Throws<InvalidOperationException>(() => secondList.AddBefore(beforeNode, newNode));
+        }
     }
 }
