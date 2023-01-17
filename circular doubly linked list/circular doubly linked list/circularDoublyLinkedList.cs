@@ -44,10 +44,7 @@ namespace circular_doubly_linked_list
         public void AddBefore(Node<T> beforeNode, T value)
         {
             var newNode = new Node<T>(value);
-            NullException(beforeNode);
-            NullException(newNode);
-            NodeNotInTheListException(beforeNode);
-            InsertBeforeNode(beforeNode, newNode);
+            AddBefore(beforeNode, newNode);
         }
 
         public void AddBefore(Node<T> beforeNode, Node<T> newNode)
@@ -55,11 +52,6 @@ namespace circular_doubly_linked_list
             NullException(beforeNode);
             NullException(newNode);
             NodeNotInTheListException(beforeNode);
-            InsertBeforeNode(beforeNode, newNode);
-        }
-
-        private void InsertBeforeNode(Node<T> beforeNode, Node<T> newNode)
-        {
             newNode.Previous = beforeNode.Previous;
             newNode.Next = beforeNode;
             beforeNode.Previous.Next = newNode;
@@ -67,26 +59,15 @@ namespace circular_doubly_linked_list
             Count++;
         }
 
-        private void InsertBeforeNode(Node<T> beforeNode, T value)
-        {
-            InsertBeforeNode(beforeNode, new Node<T>(value));
-        }
-
         public void AddAfter(Node<T> afterNode, T value)
         {
             var newNode = new Node<T>(value);
-            NullException(afterNode);
-            NullException(newNode);
-            NodeNotInTheListException(afterNode);
-            InsertBeforeNode(afterNode.Next, newNode);
+            AddBefore(afterNode.Next, newNode);
         }
 
         public void AddAfter(Node<T> afterNode, Node<T> newNode)
         {
-            NullException(afterNode);
-            NullException(newNode);
-            NodeNotInTheListException(afterNode);
-            InsertBeforeNode(afterNode.Next, newNode);
+            AddBefore(afterNode.Next, newNode);
         }
 
         public void AddLast(T value)
