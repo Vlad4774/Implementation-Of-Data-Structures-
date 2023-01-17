@@ -11,6 +11,7 @@ namespace circular_doubly_linked_list
     public class CircularDoublyLinkedList<T> : ICollection<T>
     {
         private Node<T> sentinel;
+        private HashSet<Node<T>> nodes = new HashSet<Node<T>>();
 
         public CircularDoublyLinkedList()
         {
@@ -56,6 +57,7 @@ namespace circular_doubly_linked_list
             newNode.Next = beforeNode;
             beforeNode.Previous.Next = newNode;
             beforeNode.Previous = newNode;
+            nodes.Add(newNode);
             Count++;
         }
 
@@ -112,14 +114,12 @@ namespace circular_doubly_linked_list
 
         public Node<T> FindLast(T value)
         {
-            var current = Last;
             for (Node<T> node = sentinel.Previous; node != sentinel; node = node.Previous)
             {
-                if (current.Value.Equals(value))
+                if (node.Value.Equals(value))
                 {
-                    return current;
+                    return node;
                 }
-                current = current.Previous;
             }
             return null;
         }
@@ -146,13 +146,14 @@ namespace circular_doubly_linked_list
 
         public bool Remove(T value)
         {
-            var node = new Node<T>(value);
+            var node = Find(value);
             NodeNotInTheListException(node);
             if (node == sentinel)
             {
                 return false;
             }
 
+            nodes.Remove(node);
             node = Find(value);
             RemoveNode(node);
             return true;
@@ -177,11 +178,9 @@ namespace circular_doubly_linked_list
 
         public IEnumerator<T> GetEnumerator()
         {
-            Node<T> current = sentinel.Next;
-            for (int i = 0; i < Count; i++)
+            for (Node<T> node = sentinel.Next; node != sentinel; node = node.Next)
             {
-                yield return current.Value;
-                current = current.Next;
+                yield return node.Value;
             }
         }
 
@@ -224,7 +223,7 @@ namespace circular_doubly_linked_list
 
         private void NodeNotInTheListException(Node<T> node)
         {
-            if (!Contains(node.Value) && node != sentinel)
+            if (!nodes.Contains(node) && node != sentinel)
             {
                 throw new ArgumentException("Node is not in the list");
             }
