@@ -10,7 +10,7 @@ namespace circular_doubly_linked_list
 
     public class CircularDoublyLinkedList<T> : ICollection<T>
     {
-        private Node<T> sentinel;
+        public Node<T> sentinel;
 
         public CircularDoublyLinkedList()
         {
@@ -225,7 +225,7 @@ namespace circular_doubly_linked_list
 
         private void NodeNotInTheListException(Node<T> node)
         {
-            if (node.Next == null || node.Previous == null)
+            if (node.Next == null && node.Previous == null && node != sentinel)
             {
                 throw new InvalidOperationException("Node is not in the list");
             }
