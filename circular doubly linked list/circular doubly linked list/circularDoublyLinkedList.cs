@@ -40,14 +40,12 @@ namespace circular_doubly_linked_list
         public void Add(T value)
         {
             var node = new Node<T>(value);
-            node.List = this;
             AddLast(node);
         }
 
         public void AddBefore(Node<T> beforeNode, T value)
         {
             var newNode = new Node<T>(value);
-            newNode.List = this;
             AddBefore(beforeNode, newNode);
         }
 
@@ -55,9 +53,10 @@ namespace circular_doubly_linked_list
         {
             NullException(beforeNode);
             NullException(newNode);
-            NodeBelongsToAnotherListException(newNode);
+            NewNodeBelongsToAnotherListException(newNode);
             NodeBelongsToAnotherListException(beforeNode);
             NodeNotInTheListException(beforeNode);
+            newNode.List = this;
             newNode.Previous = beforeNode.Previous;
             newNode.Next = beforeNode;
             beforeNode.Previous.Next = newNode;
@@ -68,7 +67,6 @@ namespace circular_doubly_linked_list
         public void AddAfter(Node<T> afterNode, T value)
         {
             var newNode = new Node<T>(value);
-            newNode.List = this;
             AddBefore(afterNode.Next, newNode);
         }
 
@@ -241,6 +239,14 @@ namespace circular_doubly_linked_list
         private void NodeBelongsToAnotherListException(Node<T> node)
         {
             if (node.List != this)
+            {
+                throw new InvalidOperationException("Node belongs to another list");
+            }
+        }
+
+        private void NewNodeBelongsToAnotherListException(Node<T> node)
+        {
+            if (node.List != null)
             {
                 throw new InvalidOperationException("Node belongs to another list");
             }
