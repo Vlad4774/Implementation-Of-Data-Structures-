@@ -17,6 +17,8 @@ namespace circular_doubly_linked_list
 
         public Node<T> Next { get; set; }
 
+        public CircularDoublyLinkedList<T>  List { get; set; }
+
         public Node<T> Previous { get; set; }
     }
 }

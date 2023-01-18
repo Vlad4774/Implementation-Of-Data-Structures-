@@ -134,7 +134,9 @@ namespace circular_doubly_linked_list
             list.Add(2);
             list.Add(3);
             var beforeNode = list.Find(2);
-            list.AddBefore(beforeNode, new Node<int>(4));
+            var newNode = new Node<int>(4);
+            newNode.List = list;
+            list.AddBefore(beforeNode, newNode);
             Assert.Equal(4, list.Count);
             var enumerator = list.GetEnumerator();
             int[] items = new[] { 1, 4, 2, 3 };
@@ -174,7 +176,9 @@ namespace circular_doubly_linked_list
             list.Add(0.12);
             list.Add(0.47);
             list.Add(5.6);
-            list.AddFirst(new Node<double>(23));
+            var node = new Node<double>(23);
+            node.List = list;
+            list.AddFirst(node);
             Assert.Equal(4, list.Count);
             var enumerator = list.GetEnumerator();
             double[] items = new[] { 23, 0.12, 0.47, 5.6 };
@@ -300,7 +304,9 @@ namespace circular_doubly_linked_list
             list.Add(2);
             list.Add(3);
             var afterNode = list.Find(1);
-            list.AddAfter(afterNode, new Node<int>(4));
+            var newNode = new Node<int>(4);
+            newNode.List = list;
+            list.AddAfter(afterNode, newNode);
             var enumerator = list.GetEnumerator();
             int[] items = new[] { 1, 4, 2, 3 };
             Assert.Equal(items, list);

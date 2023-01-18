@@ -17,6 +17,7 @@ namespace circular_doubly_linked_list
             sentinel = new Node<T>(default);
             sentinel.Next = sentinel;
             sentinel.Previous = sentinel;
+            sentinel.List = this;
         }
         public int Count { get; private set; } = 0;
 
@@ -38,12 +39,15 @@ namespace circular_doubly_linked_list
 
         public void Add(T value)
         {
-            AddLast(new Node<T>(value));
+            var node = new Node<T>(value);
+            node.List = this;
+            AddLast(node);
         }
 
         public void AddBefore(Node<T> beforeNode, T value)
         {
             var newNode = new Node<T>(value);
+            newNode.List = this;
             AddBefore(beforeNode, newNode);
         }
 
@@ -51,8 +55,9 @@ namespace circular_doubly_linked_list
         {
             NullException(beforeNode);
             NullException(newNode);
-            NodeNotInTheListException(beforeNode);
             NodeBelongsToAnotherListException(newNode);
+            NodeBelongsToAnotherListException(beforeNode);
+            NodeNotInTheListException(beforeNode);
             newNode.Previous = beforeNode.Previous;
             newNode.Next = beforeNode;
             beforeNode.Previous.Next = newNode;
@@ -63,6 +68,7 @@ namespace circular_doubly_linked_list
         public void AddAfter(Node<T> afterNode, T value)
         {
             var newNode = new Node<T>(value);
+            newNode.List = this;
             AddBefore(afterNode.Next, newNode);
         }
 
@@ -225,7 +231,7 @@ namespace circular_doubly_linked_list
 
         private void NodeNotInTheListException(Node<T> node)
         {
-            if (node.Next == null && node.Previous == null && node != sentinel)
+            if (node.Next == null || node.Previous == null)
             {
                 throw new InvalidOperationException("Node is not in the list");
             }
@@ -233,7 +239,7 @@ namespace circular_doubly_linked_list
 
         private void NodeBelongsToAnotherListException(Node<T> node)
         {
-            if (node.Next != null || node.Previous != null)
+            if (node.List != this)
             {
                 throw new InvalidOperationException("Node belongs to another list");
             }
