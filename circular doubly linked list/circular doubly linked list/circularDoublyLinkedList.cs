@@ -101,6 +101,7 @@ namespace circular_doubly_linked_list
         {
             sentinel.Next = sentinel;
             sentinel.Previous = sentinel;
+            sentinel.List = null;
             Count = 0;
         }
 
