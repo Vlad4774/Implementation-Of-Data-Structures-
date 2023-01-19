@@ -67,6 +67,7 @@ namespace Dictionary
                 {
                     return true;
                 }
+
                 nodeIndex = nodes[nodeIndex].Next;
             }
 
@@ -80,7 +81,41 @@ namespace Dictionary
 
         public bool Remove(TKey key)
         {
-            throw new NotImplementedException();
+            if (!ContainsKey(key))
+            {
+                return false;
+            }
+            
+            int index = key.GetHashCode() % buckets.Length;
+            int nodeIndex = buckets[index];
+            int previous = -1;
+            
+            while (nodeIndex != -1)
+            {
+                if (nodes[nodeIndex].Key.Equals(key))
+                {
+                    if (previous == -1)
+                    {
+                        buckets[index] = nodes[nodeIndex].Next;
+                    }
+                    else
+                    {
+                        nodes[previous].Next = nodes[nodeIndex].Next;
+                    }
+
+                    nodes[nodeIndex].Value = default(TValue);
+                    nodes[nodeIndex].Key = default(TKey);
+                    nodes[nodeIndex].Next = default(int);
+                    
+                    break;
+                }
+                
+                previous = nodeIndex;
+                nodeIndex = nodes[nodeIndex].Next;
+            }
+
+            Count--;
+            return true;
         }
 
         public bool TryGetValue(TKey key, out TValue value)
