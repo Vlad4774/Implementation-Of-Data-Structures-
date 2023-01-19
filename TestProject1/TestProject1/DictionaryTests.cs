@@ -47,5 +47,20 @@ namespace Dictionary
             Assert.False(dictionary.Remove(2234));
             Assert.Equal(2, dictionary.Count);
         }
+
+        [Fact]
+        public void GetListOfKeys()
+        {
+            var dictionary = new Dictionary<int, string>(5);
+            dictionary.Add(12, "yes");
+            dictionary.Add(23, "no");
+            dictionary.Add(15, "no");
+            var list = dictionary.Keys;
+            Assert.Equal(3, list.Count);
+            Assert.Contains(12, list);
+            Assert.Contains(23, list);
+            Assert.Contains(15, list);
+            Assert.DoesNotContain(10, list);
+        }
     }
 }

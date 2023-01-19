@@ -76,7 +76,19 @@ namespace Dictionary
 
         public ICollection<TKey> Keys
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                var keys = new List<TKey>();
+                for (int i = 0; i < nodes.Length; i++)
+                {
+                    if (nodes[i] != null)
+                    {
+                        keys.Add(nodes[i].Key);
+                    }
+                }
+
+                return keys;
+            }
         }
 
         public bool Remove(TKey key)
