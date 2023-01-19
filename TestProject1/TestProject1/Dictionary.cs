@@ -210,7 +210,7 @@ namespace Dictionary
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            return ContainsKey(item.Key) && TryGetValue(item.Key, out TValue value) && value.Equals(item.Value);
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
