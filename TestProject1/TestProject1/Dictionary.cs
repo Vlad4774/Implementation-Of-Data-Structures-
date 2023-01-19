@@ -199,7 +199,13 @@ namespace Dictionary
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            nodes = new Node<TKey, TValue>[5];
+            buckets = new int[buckets.Length];
+            Count = 0;
+            for (int i = 0; i < buckets.Length; i++)
+            {
+                buckets[i] = -1;
+            }
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
