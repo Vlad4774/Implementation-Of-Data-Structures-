@@ -175,7 +175,25 @@ namespace Dictionary
             }
             set
             {
-                throw new NotImplementedException();
+                if (!ContainsKey(key))
+                {
+                    Add(key, value);
+                }
+                else
+                {
+                    int index = key.GetHashCode() % buckets.Length;
+                    int nodeIndex = buckets[index];
+                    while (nodeIndex != -1)
+                    {
+                        if (nodes[nodeIndex].Key.Equals(key))
+                        {
+                            nodes[nodeIndex].Value = value;
+                            break;
+                        }
+
+                        nodeIndex = nodes[nodeIndex].Next;
+                    }
+                }
             }
         }
 
