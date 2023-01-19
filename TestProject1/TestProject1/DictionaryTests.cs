@@ -62,5 +62,20 @@ namespace Dictionary
             Assert.Contains(15, list);
             Assert.DoesNotContain(10, list);
         }
+
+        [Fact]
+        public void GetListOfValues()
+        {
+            var dictionary = new Dictionary<int, string>(5);
+            dictionary.Add(12, "yes");
+            dictionary.Add(23, "no");
+            dictionary.Add(15, "maybe");
+            var list = dictionary.Values;
+            Assert.Equal(3, list.Count);
+            Assert.Contains("yes", list);
+            Assert.Contains("no", list);
+            Assert.Contains("maybe", list);
+            Assert.DoesNotContain("sure", list);
+        }
     }
 }

@@ -151,7 +151,19 @@ namespace Dictionary
 
         public ICollection<TValue> Values
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                var keys = new List<TValue>();
+                for (int i = 0; i < nodes.Length; i++)
+                {
+                    if (nodes[i] != null)
+                    {
+                        keys.Add(nodes[i].Value);
+                    }
+                }
+
+                return keys;
+            }
         }
 
         public TValue this[TKey key]
