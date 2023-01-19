@@ -215,7 +215,14 @@ namespace Dictionary
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                if (nodes[i] != null)
+                {
+                    array[arrayIndex] = new KeyValuePair<TKey, TValue>(nodes[i].Key, nodes[i].Value);
+                    arrayIndex++;
+                }
+            }
         }
 
         public int Count { get; private set; } = 0;
