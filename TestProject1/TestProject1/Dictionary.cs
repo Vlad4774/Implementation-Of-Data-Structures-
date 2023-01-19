@@ -59,7 +59,18 @@ namespace Dictionary
 
         public bool ContainsKey(TKey key)
         {
-            throw new NotImplementedException();
+            int index = key.GetHashCode() % buckets.Length;
+            int nodeIndex = buckets[index];
+            while (nodeIndex != -1)
+            {
+                if (nodes[nodeIndex].Key.Equals(key))
+                {
+                    return true;
+                }
+                nodeIndex = nodes[nodeIndex].Next;
+            }
+
+            return false;
         }
 
         public ICollection<TKey> Keys
