@@ -6,10 +6,11 @@ namespace Dictionary
     class Dictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
         int[] buckets;
-        Node<TKey, TValue>[] nodes = new Node<TKey, TValue>[5];
+        Node<TKey, TValue>[] nodes;
         public Dictionary(int lenght)
         {
             buckets = new int[lenght];
+            nodes = new Node<TKey, TValue>[lenght];
             for (int i = 0; i < buckets.Length; i++)
             {
                 buckets[i] = -1;
@@ -173,6 +174,7 @@ namespace Dictionary
                 bool succeded = TryGetValue(key, out TValue value);
                 return value;
             }
+            
             set
             {
                 if (!ContainsKey(key))
@@ -199,7 +201,7 @@ namespace Dictionary
 
         public void Clear()
         {
-            nodes = new Node<TKey, TValue>[5];
+            nodes = new Node<TKey, TValue>[buckets.Length];
             buckets = new int[buckets.Length];
             Count = 0;
             for (int i = 0; i < buckets.Length; i++)
@@ -234,17 +236,23 @@ namespace Dictionary
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+           return Remove(item.Key);
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                if (nodes[i] != null)
+                {
+                    yield return new KeyValuePair<TKey, TValue>(nodes[i].Key, nodes[i].Value);
+                }
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
     }
 }
