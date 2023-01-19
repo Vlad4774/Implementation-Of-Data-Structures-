@@ -74,7 +74,21 @@ namespace Dictionary
 
         public bool TryGetValue(TKey key, out TValue value)
         {
-            throw new NotImplementedException();
+            int index = key.GetHashCode() % buckets.Length;
+            int bucketIndex = buckets[index];
+            while (bucketIndex != -1)
+            {
+                if (nodes[bucketIndex].Key.Equals(key))
+                {
+                    value = nodes[bucketIndex].Value;
+                    return true;
+                }
+                
+                bucketIndex = nodes[bucketIndex].Next;
+            }
+
+            value = default(TValue);
+            return false;
         }
 
         public ICollection<TValue> Values
@@ -86,7 +100,8 @@ namespace Dictionary
         {
             get
             {
-                throw new NotImplementedException();
+                bool succeded = TryGetValue(key, out TValue value);
+                return value;
             }
             set
             {
