@@ -2,13 +2,13 @@
 
 namespace Dictionary
 {
-    class Node<Tkey, TValue>
+    class element<Tkey, TValue>
     {
         public Tkey Key { get; set; }
         public TValue Value { get; set; }
         public int Next { get; set; }
 
-        public Node(Tkey key, TValue value, int next)
+        public element(Tkey key, TValue value, int next)
         {
             this.Key = key;
             this.Value = value;
