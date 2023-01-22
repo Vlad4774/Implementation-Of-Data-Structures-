@@ -56,7 +56,7 @@ namespace Dictionary
         {
             for (int i = 0; i < elements.Length; i++)
             {
-                if (elements[i] == null || elements[i].Value.Equals(default(TValue)))
+                if (elements[i] == null || elements[i].Equals(default(element<TKey, TValue>)))
                 {
                     return i;
                 }
@@ -94,7 +94,7 @@ namespace Dictionary
                 List<TKey> keys = new List<TKey>();
                 for (int i = 0; i < elements.Length; i++)
                 {
-                    if (elements[i] != null && elements[i].Key != null && !elements[i].Key.Equals(default(TKey)))
+                    if (elements[i] != null && !elements[i].Equals(default(element<TKey, TValue>)))
                     {
                         keys.Add(elements[i].Key);
                     }
@@ -129,9 +129,7 @@ namespace Dictionary
                         elements[previous].Next = elements[elementIndex].Next;
                     }
 
-                    elements[elementIndex].Value = default(TValue);
-                    elements[elementIndex].Key = default(TKey);
-                    elements[elementIndex].Next = default(int);
+                    elements[elementIndex] = default(element<TKey, TValue>);
 
                     break;
                 }
