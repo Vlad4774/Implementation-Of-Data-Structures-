@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Dictionary
@@ -77,7 +78,7 @@ namespace Dictionary
             Assert.Contains("maybe", list);
             Assert.DoesNotContain("sure", list);
         }
-        
+
         [Fact]
         public void SetAValue()
         {
@@ -98,6 +99,107 @@ namespace Dictionary
             dictionary.Add(23, "no");
             Assert.True(dictionary.Contains(new KeyValuePair<int, string>(12, "yes")));
             Assert.False(dictionary.Contains(new KeyValuePair<int, string>(24, "maybe")));
+        }
+
+        [Fact]
+        public void AddIntUsingStringAsKey()
+        {
+            var dictionary = new Dictionary<string, int>(10);
+            dictionary.Add("key1", 1);
+            dictionary.Add("key2", 2);
+
+            Assert.True(dictionary.ContainsKey("key1"));
+            Assert.True(dictionary.ContainsKey("key2"));
+            Assert.Equal(1, dictionary["key1"]);
+            Assert.Equal(2, dictionary["key2"]);
+        }
+
+        [Fact]
+        public void TryGetValueShouldReturnTrueIfKeyExists()
+        {
+            var dictionary = new Dictionary<string, int>(10);
+            dictionary.Add("key1", 1);
+            var result = dictionary.TryGetValue("key1", out int value);
+
+            Assert.True(result);
+            Assert.Equal(1, value);
+        }
+
+        [Fact]
+        public void TryGetValue_Should_Return_False_If_Key_Does_Not_Exist()
+        {
+            var dictionary = new Dictionary<string, int>(10);
+            dictionary.Add("key1", 1);
+            var result = dictionary.TryGetValue("key2", out int value);
+
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void Remove_Should_Remove_Item_From_Dictionary()
+        {
+            var dictionary = new Dictionary<string, int>(10);
+            dictionary.Add("key1", 1);
+            dictionary.Add("key2", 2);
+            var removed = dictionary.Remove("key1");
+
+            Assert.True(removed);
+            Assert.False(dictionary.ContainsKey("key1"));
+            Assert.True(dictionary.ContainsKey("key2"));
+        }
+
+        [Fact]
+        public void AddAndRemoveShouldWork()
+        {
+            var dictionary = new Dictionary<string, int>(10);
+            dictionary.Add("key1", 1);
+            dictionary.Add("key2", 2);
+            dictionary.Add("key3", 3);
+            dictionary.Add("key4", 4);
+            dictionary.Add("key5", 5);
+            dictionary.Remove("key1");
+            dictionary.Remove("key4");
+            dictionary.Add("key6", 6);
+            dictionary.Add("key7", 7);
+
+            var keys = new List<string>(dictionary.Keys);
+            var values = new List<int>(dictionary.Values);
+            var expectedKeys = new List<string> { "key6", "key2", "key3", "key7", "key5" };
+            var expectedValues = new List<int> { 6, 2, 3, 7, 5 };
+            for (int i = 0; i < keys.Count; i++)
+            {
+                Assert.Equal(expectedKeys[i], keys[i]);
+                Assert.Equal(expectedValues[i], values[i]);
+            }
+        }
+
+        [Fact]
+        public void AddThrowsExceptionWhenKeyIsNull()
+        {
+            var dictionary = new Dictionary<string, int>(10);
+            Assert.Throws<ArgumentNullException>(() => dictionary.Add(null, 1));
+        }
+
+        [Fact]
+        public void AddThrowsExceptionWhenKeyAlreadyExists()
+        {
+            var dictionary = new Dictionary<string, int>(10);
+            dictionary.Add("key", 1);
+            Assert.Throws<ArgumentException>(() => dictionary.Add("key", 2));
+        }
+
+        [Fact]
+        public void RemoveShouldThrowExceptionWhenKeyIsNull()
+        {
+            var dictionary = new Dictionary<string, int>(10);
+            Assert.Throws<ArgumentNullException>(() => dictionary.Remove(null));
+        }
+
+        [Fact]
+        public void TryGetValueShouldThrowExceptionWhenKeyIsNull()
+        {
+            var dictionary = new Dictionary<string, int>(10);
+            Assert.Throws<ArgumentNullException>(() => dictionary.TryGetValue(null, out var value));
         }
     }
 }
