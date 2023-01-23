@@ -126,7 +126,7 @@ namespace Dictionary
         }
 
         [Fact]
-        public void TryGetValue_Should_Return_False_If_Key_Does_Not_Exist()
+        public void TryGetValueShouldReturnFalseIfKeyDoesNotExist()
         {
             var dictionary = new Dictionary<string, int>(10);
             dictionary.Add("key1", 1);
@@ -136,7 +136,7 @@ namespace Dictionary
         }
 
         [Fact]
-        public void Remove_Should_Remove_Item_From_Dictionary()
+        public void RemoveShouldRemoveItemFromDictionary()
         {
             var dictionary = new Dictionary<string, int>(10);
             dictionary.Add("key1", 1);
@@ -164,8 +164,8 @@ namespace Dictionary
 
             var keys = new List<string>(dictionary.Keys);
             var values = new List<int>(dictionary.Values);
-            var expectedKeys = new List<string> { "key6", "key2", "key3", "key7", "key5" };
-            var expectedValues = new List<int> { 6, 2, 3, 7, 5 };
+            var expectedKeys = new List<string> { "key7", "key2", "key3", "key6", "key5" };
+            var expectedValues = new List<int> { 7, 2, 3, 6, 5 };
             for (int i = 0; i < keys.Count; i++)
             {
                 Assert.Equal(expectedKeys[i], keys[i]);

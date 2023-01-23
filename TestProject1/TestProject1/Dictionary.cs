@@ -1,6 +1,5 @@
-﻿
+﻿using System;
 using System.Collections;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Dictionary
 {
@@ -20,19 +19,16 @@ namespace Dictionary
         {
             NullException(key);
             SameKeyException(key);
-            int index = Math.Abs(key.GetHashCode()) % buckets.Length;
+            int index = GetIndexUsingKey(key);
             int elementIndex = FreePosition();
-            if (buckets[index] == -1)
+            int next = -1;
+            if (buckets[index] != -1)
             {
-                buckets[index] = elementIndex;
-                elements[elementIndex] = new element<TKey, TValue>(key, value, -1);
-            }
-            else
-            {
-                elements[elementIndex] = new element<TKey, TValue>(key, value, buckets[index]);
-                buckets[index] = elementIndex;
+                next = buckets[index];
             }
 
+            buckets[index] = elementIndex;
+            elements[elementIndex] = new element<TKey, TValue>(key, value, next);
             Count++;
         }
 
@@ -41,6 +37,11 @@ namespace Dictionary
             Add(item.Key, item.Value);
         }
 
+        private int GetIndexUsingKey(TKey key)
+        {
+            return Math.Abs(key.GetHashCode()) % buckets.Length;
+        }
+        
         private int FreePosition()
         {
             if (freeIndex == -1)
@@ -48,31 +49,18 @@ namespace Dictionary
                 return Count;
             }
 
-            freeIndex = NextFreePosition();
-            return freeIndex;
+            int index = freeIndex;
+            freeIndex = elements[index].Next;
+            return index;
         }
-
-        private int NextFreePosition()
-        {
-            for (int i = 0; i < elements.Length; i++)
-            {
-                if (elements[i] == null || elements[i].Equals(default(element<TKey, TValue>)))
-                {
-                    return i;
-                }
-            }
-
-            throw new InvalidOperationException("Dictionary is full");
-        }
-
 
         private int IndexOfKey(TKey key)
         {
-            int index = Math.Abs(key.GetHashCode()) % buckets.Length;
+            int index = GetIndexUsingKey(key);
             int elementIndex = buckets[index];
             for (int i = elementIndex; i != -1; i = elements[i].Next)
             {
-                if (elements[i] != null && elements[i].Key.Equals(key))
+                if (elements[i].Key.Equals(key))
                 {
                     return i;
                 }
@@ -92,12 +80,9 @@ namespace Dictionary
             get
             {
                 List<TKey> keys = new List<TKey>();
-                for (int i = 0; i < elements.Length; i++)
+                foreach (var element in this)
                 {
-                    if (elements[i] != null && !elements[i].Equals(default(element<TKey, TValue>)))
-                    {
-                        keys.Add(elements[i].Key);
-                    }
+                    keys.Add(element.Key);
                 }
 
                 return keys;
@@ -112,36 +97,50 @@ namespace Dictionary
                 return false;
             }
 
-            int index = Math.Abs(key.GetHashCode() % buckets.Length);
+            int index = GetIndexUsingKey(key);
             int elementIndex = buckets[index];
-            int previous = -1;
+            int previous;
+            elementIndex = FindElementIndexToRemove(key, elementIndex, out previous);
 
+            if (previous == -1)
+            {
+                buckets[index] = elements[elementIndex].Next;
+            }
+            else
+            {
+                elements[previous].Next = elements[elementIndex].Next;
+            }
+
+            RemoveElementAndSetFreeIndex(elementIndex);
+            Count--;
+            return true;
+        }
+
+        private void RemoveElementAndSetFreeIndex(int elementIndex)
+        {
+            elements[elementIndex].Next = freeIndex;
+            freeIndex = elementIndex;
+            elements[elementIndex].Key = default(TKey);
+            elements[elementIndex].Value = default(TValue);
+        }
+
+        private int FindElementIndexToRemove(TKey key, int elementIndex, out int previous)
+        {
+            previous = -1;
             while (elementIndex != -1)
             {
                 if (elements[elementIndex].Key.Equals(key))
                 {
-                    if (previous == -1)
-                    {
-                        buckets[index] = elements[elementIndex].Next;
-                    }
-                    else
-                    {
-                        elements[previous].Next = elements[elementIndex].Next;
-                    }
-
-                    elements[elementIndex] = default(element<TKey, TValue>);
-
-                    break;
+                    return elementIndex;
                 }
 
                 previous = elementIndex;
                 elementIndex = elements[elementIndex].Next;
             }
 
-            freeIndex = elementIndex;
-            Count--;
-            return true;
+            return -1;
         }
+
 
         public bool TryGetValue(TKey key, out TValue value)
         {
@@ -161,17 +160,13 @@ namespace Dictionary
         {
             get
             {
-                var values = new List<TValue>();
-                for (int i = 0; i < elements.Length; i++)
+                List<TValue> values = new List<TValue>();
+                foreach (var element in this)
                 {
-                    if (elements[i] != null && elements[i].Value != null && !elements[i].Value.Equals(default(TValue)))
-                    {
-                        values.Add(elements[i].Value);
-                    }
+                    values.Add(element.Value);
                 }
 
                 return values;
-
             }
         }
 
@@ -210,14 +205,14 @@ namespace Dictionary
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
             NullException(item.Key);
-            return ContainsKey(item.Key) && TryGetValue(item.Key, out TValue value) && value.Equals(item.Value);
+            return TryGetValue(item.Key, out TValue value) && value.Equals(item.Value);
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
             for (int i = 0; i < elements.Length; i++)
             {
-                if (elements[i] != null && elements[i].Key.Equals(default(TKey)))
+                if (elements[i] != null && elements[i].Equals(default(element<TKey, TValue>)))
                 {
                     array[arrayIndex] = new KeyValuePair<TKey, TValue>(elements[i].Key, elements[i].Value);
                     arrayIndex++;
@@ -241,7 +236,7 @@ namespace Dictionary
         {
             for (int i = 0; i < elements.Length; i++)
             {
-                if (elements[i] != null && !elements[i].Key.Equals(default(TKey)))
+                if (elements[i] != null && !elements[i].Equals(default(element<TKey, TValue>)))
                 {
                     yield return new KeyValuePair<TKey, TValue>(elements[i].Key, elements[i].Value);
                 }
