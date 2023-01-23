@@ -21,14 +21,8 @@ namespace Dictionary
             SameKeyException(key);
             int index = GetIndexUsingKey(key);
             int elementIndex = FreePosition();
-            int next = -1;
-            if (buckets[index] != -1)
-            {
-                next = buckets[index];
-            }
-
+            elements[elementIndex] = new element<TKey, TValue>(key, value, buckets[index]);
             buckets[index] = elementIndex;
-            elements[elementIndex] = new element<TKey, TValue>(key, value, next);
             Count++;
         }
 
@@ -54,16 +48,18 @@ namespace Dictionary
             return index;
         }
 
-        private int IndexOfKey(TKey key)
+        private int FindElementIndex(TKey key, out int previous)
         {
             int index = GetIndexUsingKey(key);
-            int elementIndex = buckets[index];
-            for (int i = elementIndex; i != -1; i = elements[i].Next)
+            previous = -1;
+            for (int i = buckets[index]; i != -1; i = elements[i].Next)
             {
                 if (elements[i].Key.Equals(key))
                 {
                     return i;
                 }
+
+                previous = i;
             }
 
             return -1;
@@ -72,7 +68,8 @@ namespace Dictionary
         public bool ContainsKey(TKey key)
         {
             NullException(key);
-            return IndexOfKey(key) != -1;
+            int previous;
+            return FindElementIndex(key, out previous) != -1;
         }
 
         public ICollection<TKey> Keys
@@ -92,15 +89,13 @@ namespace Dictionary
         public bool Remove(TKey key)
         {
             NullException(key);
-            if (!ContainsKey(key))
+            int index = GetIndexUsingKey(key);
+            int previous;
+            int elementIndex = FindElementIndex(key, out previous);
+            if (elementIndex == -1)
             {
                 return false;
             }
-
-            int index = GetIndexUsingKey(key);
-            int elementIndex = buckets[index];
-            int previous;
-            elementIndex = FindElementIndexToRemove(key, elementIndex, out previous);
 
             if (previous == -1)
             {
@@ -124,28 +119,11 @@ namespace Dictionary
             elements[elementIndex].Value = default(TValue);
         }
 
-        private int FindElementIndexToRemove(TKey key, int elementIndex, out int previous)
-        {
-            previous = -1;
-            while (elementIndex != -1)
-            {
-                if (elements[elementIndex].Key.Equals(key))
-                {
-                    return elementIndex;
-                }
-
-                previous = elementIndex;
-                elementIndex = elements[elementIndex].Next;
-            }
-
-            return -1;
-        }
-
-
         public bool TryGetValue(TKey key, out TValue value)
         {
             NullException(key);
-            int index = IndexOfKey(key);
+            int previous;
+            int index = FindElementIndex(key, out previous);
             if (index == -1)
             {
                 value = default(TValue);
@@ -182,7 +160,8 @@ namespace Dictionary
             set
             {
                 NullException(key);
-                int index = IndexOfKey(key);
+                int previous;
+                int index = FindElementIndex(key, out previous);
                 if (index == -1)
                 {
                     Add(key, value);
@@ -210,13 +189,10 @@ namespace Dictionary
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            for (int i = 0; i < elements.Length; i++)
+            foreach (var element in this)
             {
-                if (elements[i] != null && elements[i].Equals(default(element<TKey, TValue>)))
-                {
-                    array[arrayIndex] = new KeyValuePair<TKey, TValue>(elements[i].Key, elements[i].Value);
-                    arrayIndex++;
-                }
+                array[arrayIndex] = new KeyValuePair<TKey, TValue>(element.Key, element.Value);
+                arrayIndex++;
             }
         }
 
