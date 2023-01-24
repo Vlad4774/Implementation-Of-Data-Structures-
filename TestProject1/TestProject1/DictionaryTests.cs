@@ -151,21 +151,21 @@ namespace Dictionary
         [Fact]
         public void AddAndRemoveShouldWork()
         {
-            var dictionary = new Dictionary<string, int>(10);
-            dictionary.Add("key1", 1);
-            dictionary.Add("key2", 2);
-            dictionary.Add("key3", 3);
-            dictionary.Add("key4", 4);
-            dictionary.Add("key5", 5);
-            dictionary.Remove("key1");
-            dictionary.Remove("key4");
-            dictionary.Add("key6", 6);
-            dictionary.Add("key7", 7);
+            var dictionary = new Dictionary<int, string>(10);
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(3,"c");
+            dictionary.Add(4, "d");
+            dictionary.Add(5, "e");
+            dictionary.Remove(1);
+            dictionary.Remove(4);
+            dictionary.Add(6, "f");
+            dictionary.Add(7, "g");
 
-            var keys = new List<string>(dictionary.Keys);
-            var values = new List<int>(dictionary.Values);
-            var expectedKeys = new List<string> { "key7", "key2", "key3", "key6", "key5" };
-            var expectedValues = new List<int> { 7, 2, 3, 6, 5 };
+            var keys = new List<int>(dictionary.Keys);
+            var values = new List<string>(dictionary.Values);
+            var expectedValues = new List<string> { "b", "c", "e", "f", "g" };
+            var expectedKeys = new List<int> { 2, 3, 5, 6, 7 };
             for (int i = 0; i < keys.Count; i++)
             {
                 Assert.Equal(expectedKeys[i], keys[i]);
