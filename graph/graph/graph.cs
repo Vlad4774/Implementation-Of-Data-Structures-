@@ -31,6 +31,12 @@ namespace graph
             return vertexList[firstVertex].Contains(secondVertex) || vertexList[secondVertex].Contains(firstVertex);
         }
 
+        public void AddNewVertex()
+        {
+            Array.Resize(ref vertexList, vertexList.Length + 1);
+            vertexList[vertexList.Length - 1] = new List<int>();
+        }
+
         private void NumberOfVertexIsValid(int node)
         {
             if (node < 0)
