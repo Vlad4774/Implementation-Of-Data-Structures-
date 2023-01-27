@@ -49,7 +49,12 @@ namespace Dictionary
             {
                 NullException(key);
                 bool succeded = TryGetValue(key, out TValue value);
-                return value;
+                if (succeded)
+                {
+                    return value;
+                }
+
+                throw new KeyNotFoundException();
             }
 
             set
