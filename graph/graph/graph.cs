@@ -1,64 +1,56 @@
 ﻿
-
 namespace graph
 {
-    class Graph
+    class Graph<T>
     {
-        List<int>[] vertexList;
-        
-        public Graph(int numberOfVertex)
+        List<Vertex<T>> vertexList;
+        int count;
+
+        public Graph()
         {
-            NumberOfVertexIsValid(numberOfVertex);
-            vertexList = new List<int>[numberOfVertex];
-            for (int i = 0; i < numberOfVertex; i++)
-            {
-                vertexList[i] = new List<int>();
-            }
+            vertexList = new List<Vertex<T>>();
+            count = 0;
         }
 
-        public void AddEdge(int firstVertex, int secondVertex)
+        public void AddNewVertex(T value)
         {
-            ExistAlreadyAEgde(firstVertex, secondVertex);
-            VertexIsValid(firstVertex);
-            VertexIsValid(secondVertex);
-            vertexList[firstVertex].Add(secondVertex);
+            vertexList.Add(new Vertex<T>(value));
+            count++;
         }
-        
+
+        public void AddEdge(T firstVertex, T secondVertex)
+        {
+            int firstIndex = FindIndexForVertex(firstVertex);
+            int secondIndex = FindIndexForVertex(secondVertex);
+            ExistAlreadyAEgdeException(firstIndex, secondIndex);
+            vertexList[firstIndex].EdgesToNextVertices.Add(secondVertex);
+        }
+
         public bool ExistEdgeBetween(int firstVertex, int secondVertex)
         {
-            VertexIsValid(firstVertex);
-            VertexIsValid(secondVertex);
-            return vertexList[firstVertex].Contains(secondVertex) || vertexList[secondVertex].Contains(firstVertex);
+            return vertexList[firstVertex].EdgesToNextVertices.Contains(vertexList[secondVertex].Value)
+                || vertexList[secondVertex].EdgesToNextVertices.Contains(vertexList[firstVertex].Value);
         }
 
-        public void AddNewVertex()
+        private int FindIndexForVertex(T vertex)
         {
-            Array.Resize(ref vertexList, vertexList.Length + 1);
-            vertexList[vertexList.Length - 1] = new List<int>();
-        }
-
-        private void NumberOfVertexIsValid(int node)
-        {
-            if (node < 0)
+            for (int i = 0; i < count; i++)
             {
-                throw new ArgumentException("Node is not valid");
+                if (vertex.Equals(vertexList[i].Value))
+                {
+                    return i;
+                }
+            }
+
+            throw new ArgumentException("Vertex doesnt exist");
+        }
+
+        private void ExistAlreadyAEgdeException(int firstIndex, int secondIndex)
+        {
+            if (ExistEdgeBetween(firstIndex, secondIndex))
+            {
+                throw new ArgumentException("A edge between vertices already exist");
             }
         }
-
-        private void ExistAlreadyAEgde(int firstVertex, int secondVertex)
-        {
-            if (vertexList[firstVertex].Contains(secondVertex) || vertexList[secondVertex].Contains(firstVertex))
-            {
-                throw new ArgumentException("Edge already exist");
-            }
-        }
-
-        private void VertexIsValid(int vertex)
-        {
-            if (vertex < 0 || vertex >= vertexList.Length)
-            {
-                throw new ArgumentException("Vertex is not valid");
-            }
-        }
-    }
+    } 
 }
