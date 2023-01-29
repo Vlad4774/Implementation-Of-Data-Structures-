@@ -22,20 +22,20 @@ namespace graph
         {
             int firstIndex = FindIndexForVertex(firstVertex);
             int secondIndex = FindIndexForVertex(secondVertex);
-            ExistAlreadyAEgdeException(firstIndex, secondIndex);
-            vertexList[firstIndex].EdgesToNextVertices.Add(secondVertex);
+            GraphIsCyclicIfAddEdgeException(firstIndex, secondIndex);    
+            vertexList[firstIndex].adjacencyList.Add(secondVertex);
         }
 
         public bool ExistEdgeBetween(int firstVertex, int secondVertex)
         {
-            return vertexList[firstVertex].EdgesToNextVertices.Contains(vertexList[secondVertex].Value)
-                || vertexList[secondVertex].EdgesToNextVertices.Contains(vertexList[firstVertex].Value);
+            return vertexList[firstVertex].adjacencyList.Contains(vertexList[secondVertex].Value)
+                || vertexList[secondVertex].adjacencyList.Contains(vertexList[firstVertex].Value);
         }
 
         public List<T> GetNeighbours(T vertex)
         {
             int index = FindIndexForVertex(vertex);
-            return vertexList[index].EdgesToNextVertices;
+            return vertexList[index].adjacencyList;
         }
 
         public List<T> TogologicalSort()
@@ -51,6 +51,34 @@ namespace graph
             }
 
             return sortedList;
+        }
+
+        public bool CanReachVertex(int startIndex, int endIndex)
+        {
+            var visitedVertices = new List<T>();
+            var startVertex = vertexList[startIndex].Value;
+            var endVertex = vertexList[endIndex].Value;
+            return CanReach(startVertex, endVertex, visitedVertices);
+        }
+
+        private bool CanReach(T currentVertex, T endVertex, List<T> visitedVertices)
+        {
+            if (currentVertex.Equals(endVertex))
+            {
+                return true;
+            }
+
+            visitedVertices.Add(currentVertex);
+            var neighbours = GetNeighbours(currentVertex);
+            foreach (var neighbour in neighbours)
+            {
+                if (!visitedVertices.Contains(neighbour) && CanReach(neighbour, endVertex, visitedVertices))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void Sort(T vertex, List<T> visitedVertices, List<T> sortedList)
@@ -81,11 +109,11 @@ namespace graph
             throw new ArgumentException("Vertex doesnt exist");
         }
 
-        private void ExistAlreadyAEgdeException(int firstIndex, int secondIndex)
+        private void GraphIsCyclicIfAddEdgeException(int firstIndex, int endIndex)
         {
-            if (ExistEdgeBetween(firstIndex, secondIndex))
+            if (CanReachVertex(firstIndex, endIndex) || CanReachVertex(endIndex, firstIndex))
             {
-                throw new ArgumentException("A edge between vertices already exist");
+                throw new ArgumentException("Graph is cyclic");
             }
         }
     } 

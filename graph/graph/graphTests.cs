@@ -27,7 +27,6 @@ namespace graph
             graph.AddNewVertex(1);
             graph.AddNewVertex(2);
             graph.AddEdge(0, 1);
-            graph.AddEdge(0, 2);
             Assert.Throws<ArgumentException>(() => graph.AddEdge(1, 0));
         }
 
@@ -102,6 +101,57 @@ namespace graph
 
             var sortedList = graph.TogologicalSort();
             Assert.Equal(new List<int> { 8, 4, 5, 2, 6, 7, 3, 1 }, sortedList);
+        }
+
+        [Fact]
+        public void CanReachTest()
+        {
+            var graph = new Graph<int>();
+            graph.AddNewVertex(0);
+            graph.AddNewVertex(1);
+            graph.AddNewVertex(2);
+            graph.AddNewVertex(3);
+            graph.AddNewVertex(4);
+            graph.AddEdge(0, 1);
+            graph.AddEdge(1, 2);
+            graph.AddEdge(2, 3);
+            Assert.True(graph.CanReachVertex(0, 3));
+            Assert.False(graph.CanReachVertex(0, 4));
+        }
+
+        [Fact]
+        public void DetectsAcycleConsistingOf4Vertices()
+        {
+            var graph = new Graph<int>();
+            graph.AddNewVertex(0);
+            graph.AddNewVertex(1);
+            graph.AddNewVertex(2);
+            graph.AddNewVertex(3);
+            graph.AddEdge(0, 1);
+            graph.AddEdge(1, 2);
+            graph.AddEdge(2, 3);
+            Assert.Throws<ArgumentException>(() => graph.AddEdge(3, 0));
+        }
+
+        [Fact]
+        public void DetectsAcycleInAComplexGraph()
+        {
+            var graph = new Graph<int>();
+            graph.AddNewVertex(0);
+            graph.AddNewVertex(1);
+            graph.AddNewVertex(2);
+            graph.AddNewVertex(3);
+            graph.AddNewVertex(4);
+            graph.AddNewVertex(5);
+            graph.AddNewVertex(6);
+            graph.AddEdge(0, 1);
+            graph.AddEdge(1, 2);
+            graph.AddEdge(2, 3);
+            graph.AddEdge(3, 4);
+            graph.AddEdge(0, 6);
+            graph.AddEdge(1, 5);
+            graph.AddEdge(5, 6);
+            Assert.Throws<ArgumentException>(() => graph.AddEdge(4, 2));
         }
     }
 }
