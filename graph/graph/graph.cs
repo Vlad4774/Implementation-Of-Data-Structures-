@@ -61,6 +61,39 @@ namespace graph
             return CanReach(startVertex, endVertex, visitedVertices);
         }
 
+        public bool CanReachVertexNonRecursiv(int startIndex, int endIndex)
+        {
+            var startVertex = vertexList[startIndex].Value;
+            var endVertex = vertexList[endIndex].Value;
+            var visitedVertices = new List<T>();
+            var stack = new Stack<T>();
+            
+            stack.Push(startVertex);
+            visitedVertices.Add(startVertex);
+
+            while (stack.Count > 0)
+            {
+                var currentVertex = stack.Pop();
+                if (currentVertex.Equals(endVertex))
+                {
+                    return true;
+                }
+
+                var neighbours = GetNeighbours(currentVertex);
+                foreach (var neighbour in neighbours)
+                {
+                    if (!visitedVertices.Contains(neighbour))
+                    {
+                        stack.Push(neighbour);
+                        visitedVertices.Add(neighbour);
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
         private bool CanReach(T currentVertex, T endVertex, List<T> visitedVertices)
         {
             if (currentVertex.Equals(endVertex))

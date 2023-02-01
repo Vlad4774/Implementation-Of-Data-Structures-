@@ -120,6 +120,22 @@ namespace graph
         }
 
         [Fact]
+        public void CanReachNonRecursivTest()
+        {
+            var graph = new Graph<int>();
+            graph.AddNewVertex(0);
+            graph.AddNewVertex(1);
+            graph.AddNewVertex(2);
+            graph.AddNewVertex(3);
+            graph.AddNewVertex(4);
+            graph.AddEdge(0, 1);
+            graph.AddEdge(1, 2);
+            graph.AddEdge(2, 3);
+            Assert.True(graph.CanReachVertexNonRecursiv(0, 3));
+            Assert.False(graph.CanReachVertexNonRecursiv(0, 4));
+        }
+
+        [Fact]
         public void DetectsAcycleConsistingOf4Vertices()
         {
             var graph = new Graph<int>();
