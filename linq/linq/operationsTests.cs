@@ -56,7 +56,7 @@ namespace linq
         }
 
         [Fact]
-        public void Select_AppliesTransformToEachElement()
+        public void SelectAppliesTransformToEachElement()
         {
             int[] numbers = { 1, 2, 3, 4, 5 };
             Func<int, string> selector = n => n.ToString();
@@ -65,12 +65,22 @@ namespace linq
         }
 
         [Fact]
-        public void Select_WithEmptySource_ReturnsEmptyResult()
+        public void SelectReturnsCorrectly()
         {
             int[] numbers = { 1, 3 , 7, 25};
             Func<int, int> selector = n => n * 2;
             int[] result = numbers.Select(selector).ToArray();
             Assert.Equal(new int[] { 2, 6, 14, 50 }, result);
         }
+
+        [Fact]
+        public void SelectManyReturnsCorrectly()
+        {
+            int[] numbers = { 1, 3, 7, 25 };
+            Func<int, IEnumerable<int>> selector = n => new int[] { n, n * 2 };
+            int[] result = numbers.SelectMany(selector).ToArray();
+            Assert.Equal(new int[] { 1, 2, 3, 6, 7, 14, 25, 50 }, result);
+        }
+        
     }
 }
