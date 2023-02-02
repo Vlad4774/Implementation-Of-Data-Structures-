@@ -37,5 +37,23 @@ namespace linq
             bool result = strings.Any(predicate);
             Assert.False(result);
         }
+
+        [Fact]
+        public void FirstReturnRightElement()
+        {
+            string[] strings = { "Hello", "World", "Goodbye" };
+            Func<string, bool> predicate = s => s.Length > 6;
+            string result = strings.First(predicate);
+            Assert.Equal("Goodbye", result);
+        }
+
+        [Fact]
+        public void FirstThrowsExceptionIfTheMatch()
+        {
+            string[] strings = { "Hello", "World", "Goodbye" };
+            Func<string, bool> predicate = s => s == "Hey";
+            Assert.Throws<InvalidOperationException>(() => strings.First(predicate));
+        }
+
     }
 }

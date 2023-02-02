@@ -28,5 +28,18 @@ namespace linq
             
             return false;
         }
+
+        public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            foreach (TSource element in source)
+            {
+                if (predicate(element))
+                {
+                    return element;
+                }
+            }
+
+            throw new InvalidOperationException();
+        }
     }
 }
