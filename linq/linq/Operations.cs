@@ -41,5 +41,13 @@ namespace linq
 
             throw new InvalidOperationException();
         }
+
+        public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        {
+            foreach (TSource element in source)
+            {
+                yield return selector(element);
+            }
+        }
     }
 }

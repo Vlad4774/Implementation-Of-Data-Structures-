@@ -55,5 +55,22 @@ namespace linq
             Assert.Throws<InvalidOperationException>(() => strings.First(predicate));
         }
 
+        [Fact]
+        public void Select_AppliesTransformToEachElement()
+        {
+            int[] numbers = { 1, 2, 3, 4, 5 };
+            Func<int, string> selector = n => n.ToString();
+            string[] result = numbers.Select(selector).ToArray();
+            Assert.Equal(new string[] { "1", "2", "3", "4", "5" }, result);
+        }
+
+        [Fact]
+        public void Select_WithEmptySource_ReturnsEmptyResult()
+        {
+            int[] numbers = { 1, 3 , 7, 25};
+            Func<int, int> selector = n => n * 2;
+            int[] result = numbers.Select(selector).ToArray();
+            Assert.Equal(new int[] { 2, 6, 14, 50 }, result);
+        }
     }
 }
