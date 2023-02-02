@@ -81,6 +81,24 @@ namespace linq
             int[] result = numbers.SelectMany(selector).ToArray();
             Assert.Equal(new int[] { 1, 2, 3, 6, 7, 14, 25, 50 }, result);
         }
-        
+
+        [Fact]
+        public void WhereReturnsCorrectElements()
+        {
+            int[] numbers = { 1, 2, 3, 4, 5 };
+            Func<int, bool> predicate = n => n % 2 == 0;
+            int[] result = numbers.Where(predicate).ToArray();
+            Assert.Equal(new int[] { 2, 4 }, result);
+        }
+
+        [Fact]
+        public void WhereReturnsEmptyEnumerableForNoMatches()
+        {
+            int[] numbers = { 1, 3, 5, 7, 9 };
+            Func<int, bool> predicate = n => n % 2 == 0;
+            int[] result = numbers.Where(predicate).ToArray();
+            Assert.Empty(result);
+        }
+
     }
 }
