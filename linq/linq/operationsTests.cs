@@ -67,7 +67,7 @@ namespace linq
         [Fact]
         public void SelectReturnsCorrectly()
         {
-            int[] numbers = { 1, 3 , 7, 25};
+            int[] numbers = { 1, 3, 7, 25 };
             Func<int, int> selector = n => n * 2;
             int[] result = numbers.Select(selector).ToArray();
             Assert.Equal(new int[] { 2, 6, 14, 50 }, result);
@@ -103,7 +103,7 @@ namespace linq
         [Fact]
         public void ToDictionaryWithValidInputReturnsCorrectDictionary()
         {
-            var source = new List<string> { "Hello", "world", "hey" , "yes", "no", "maybe"};
+            var source = new List<string> { "Hello", "world", "hey", "yes", "no", "maybe" };
             var expected = new Dictionary<int, string> { { 0, "Hello" }, { 1, "world" }, { 2, "hey" }, { 3, "yes" }, { 4, "no" }, { 5, "maybe" } };
             var result = source.ToDictionary(x => source.IndexOf(x), x => x);
 
@@ -115,6 +115,27 @@ namespace linq
         {
             var source = new List<string> { "Hello", "World" };
             Assert.Throws<ArgumentException>(() => source.ToDictionary(x => x.Length, x => x));
+        }
+
+        [Fact]
+        public void ZipAddElementsFromTwoArraysReturCorectResult()
+        {
+            var first = new[] { 1, 2, 3 };
+            var second = new[] { 4, 5, 6 };
+            var expected = new[] { 5, 7, 9 };
+            var result = first.Zip(second, (f, s) => f + s);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void Zip_WithDifferentLengthSequences_ThrowsException()
+        {
+            var first = new[] { 1, 2, 3 };
+            var second = new[] { 1, 2 };
+            var result = first.Zip(second, (f, s) => f + s);
+            var expected = new[] { 2, 4 };
+            Assert.Equal(expected, result);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace linq
     {
         public static bool All<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            foreach (TSource element in source)
+            foreach (var element in source)
             {
                 if (!predicate(element))
                 {
@@ -18,7 +18,7 @@ namespace linq
 
         public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            foreach (TSource element in source)
+            foreach (var element in source)
             {
                 if (predicate(element))
                 {
@@ -31,7 +31,7 @@ namespace linq
 
         public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            foreach (TSource element in source)
+            foreach (var element in source)
             {
                 if (predicate(element))
                 {
@@ -44,7 +44,7 @@ namespace linq
 
         public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            foreach (TSource element in source)
+            foreach (var element in source)
             {
                 yield return selector(element);
             }
@@ -52,7 +52,7 @@ namespace linq
 
         public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
         {
-            foreach (TSource element in source)
+            foreach (var element in source)
             {
                 foreach (TResult result in selector(element))
                 {
@@ -63,7 +63,7 @@ namespace linq
 
         public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            foreach (TSource element in source)
+            foreach (var element in source)
             {
                 if (predicate(element))
                 {
@@ -77,13 +77,26 @@ namespace linq
     Func<TSource, TKey> keySelector,
     Func<TSource, TElement> elementSelector)
         {
-            Dictionary<TKey, TElement> dictionary = new Dictionary<TKey, TElement>();
-            foreach (TSource element in source)
+            var dictionary = new Dictionary<TKey, TElement>();
+            foreach (var element in source)
             {
                 dictionary.Add(keySelector(element), elementSelector(element));
             }
 
             return dictionary;
+        }
+
+        public static IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(
+    this IEnumerable<TFirst> first,
+    IEnumerable<TSecond> second,
+    Func<TFirst, TSecond, TResult> resultSelector)
+        {
+            var firstEnumerator = first.GetEnumerator();
+            var secondEnumerator = second.GetEnumerator();
+            while (firstEnumerator.MoveNext() && secondEnumerator.MoveNext())
+            {
+                yield return resultSelector(firstEnumerator.Current, secondEnumerator.Current);
+            }
         }
     }
 }
