@@ -154,5 +154,20 @@ namespace linq
             Assert.Equal("helloworld", result);
         }
 
+        [Fact]
+        public void TestJoinMethod()
+        {
+            List<int> list1 = new List<int> { 1, 2, 3 };
+            List<int> list2 = new List<int> { 2, 3, 4 };
+
+            var result = list1.Join(
+                list2,
+                num1 => num1,
+                num2 => num2,
+                (num1, num2) => num1
+            );
+
+            Assert.Equal(new List<int> { 2, 3 }, result.ToList());
+        }
     }
 }

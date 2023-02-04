@@ -112,5 +112,28 @@ namespace linq
 
             return accumulator;
         }
+
+        public static IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(
+    this IEnumerable<TOuter> outer,
+    IEnumerable<TInner> inner,
+    Func<TOuter, TKey> outerKeySelector,
+    Func<TInner, TKey> innerKeySelector,
+    Func<TOuter, TInner, TResult> resultSelector)
+        {
+            foreach (var outElement in outer)
+            {
+                var outerKey = outerKeySelector(outElement);
+
+                foreach (var inElement in inner)
+                {
+                    var innerKey = innerKeySelector(inElement);
+
+                    if (innerKey.Equals(outerKey))
+                    {
+                        yield return resultSelector(outElement, inElement);
+                    }
+                }
+            }
+        }
     }
 }
