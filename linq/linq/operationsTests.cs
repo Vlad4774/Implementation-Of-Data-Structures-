@@ -100,5 +100,21 @@ namespace linq
             Assert.Empty(result);
         }
 
+        [Fact]
+        public void ToDictionaryWithValidInputReturnsCorrectDictionary()
+        {
+            var source = new List<string> { "Hello", "world", "hey" , "yes", "no", "maybe"};
+            var expected = new Dictionary<int, string> { { 0, "Hello" }, { 1, "world" }, { 2, "hey" }, { 3, "yes" }, { 4, "no" }, { 5, "maybe" } };
+            var result = source.ToDictionary(x => source.IndexOf(x), x => x);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void ToDictionaryWithDuplicateKeyThrowsException()
+        {
+            var source = new List<string> { "Hello", "World" };
+            Assert.Throws<ArgumentException>(() => source.ToDictionary(x => x.Length, x => x));
+        }
     }
 }

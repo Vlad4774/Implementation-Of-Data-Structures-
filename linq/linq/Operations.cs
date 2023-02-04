@@ -71,5 +71,19 @@ namespace linq
                 }
             }
         }
+
+        public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(
+    this IEnumerable<TSource> source,
+    Func<TSource, TKey> keySelector,
+    Func<TSource, TElement> elementSelector)
+        {
+            Dictionary<TKey, TElement> dictionary = new Dictionary<TKey, TElement>();
+            foreach (TSource element in source)
+            {
+                dictionary.Add(keySelector(element), elementSelector(element));
+            }
+
+            return dictionary;
+        }
     }
 }
