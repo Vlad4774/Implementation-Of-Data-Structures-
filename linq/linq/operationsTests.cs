@@ -118,7 +118,7 @@ namespace linq
         }
 
         [Fact]
-        public void ZipAddElementsFromTwoArraysReturCorectResult()
+        public void ZipAddElementsFromTwoArraysReturnCorectResult()
         {
             var first = new[] { 1, 2, 3 };
             var second = new[] { 4, 5, 6 };
@@ -129,7 +129,7 @@ namespace linq
         }
 
         [Fact]
-        public void Zip_WithDifferentLengthSequences_ThrowsException()
+        public void ZipWithDifferentLengthReturnsCorectResult()
         {
             var first = new[] { 1, 2, 3 };
             var second = new[] { 1, 2 };
@@ -137,5 +137,22 @@ namespace linq
             var expected = new[] { 2, 4 };
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void AggregateReturnsSumOfNumbers()
+        {
+            int[] numbers = new int[] { 1, 2, 3, 4 };
+            int result = numbers.Aggregate(0, (acc, next) => acc + next);
+            Assert.Equal(10, result);
+        }
+
+        [Fact]
+        public void AggregateWithStringsReturnsConcatenatedString()
+        {
+            string[] words = new string[] { "hello", "world" };
+            string result = words.Aggregate("", (acc, next) => acc + next);
+            Assert.Equal("helloworld", result);
+        }
+
     }
 }
