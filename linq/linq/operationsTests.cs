@@ -167,7 +167,58 @@ namespace linq
                 (num1, num2) => num1
             );
 
-            Assert.Equal(new List<int> { 2, 3 }, result.ToList());
+            Assert.Equal(new List<int> { 2, 3 }, result);
+        }
+
+        [Fact]
+        public void DistinctReturnsUniqueElements()
+        {
+            int[] source = { 1, 2, 3, 4, 5, 1, 2, 3 };
+            int[] expected = { 1, 2, 3, 4, 5 };
+            var result = source.Distinct();
+            
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void DistinctWithCustomComparerReturnsExpectedResult()
+        {
+            string[] source = { "apple", "banana", "cherry", "banana", "apple" };
+            string[] expected = { "apple", "banana", "cherry" };
+            var result = source.Distinct();
+            Assert.Equal(expected, result);
+
+        }
+
+        [Fact]
+        public void DistinctWithPersonEqualityComparerTest()
+        {
+            Person[] source = {
+        new Person { Name = "John", Age = 30 },
+        new Person { Name = "Jane", Age = 30 },
+        new Person { Name = "Jim", Age = 25 }
+    };
+            var result = source.Distinct(new PersonEqualityComparer());
+            Assert.Equal(2, result.Count());
+        }
+
+        public class Person
+        {
+            public string Name { get; set; }
+            public int Age { get; set; }
+        }
+
+        public class PersonEqualityComparer : IEqualityComparer<Person>
+        {
+            public bool Equals(Person x, Person y)
+            {
+                return x.Age == y.Age;
+            }
+
+            public int GetHashCode(Person obj)
+            {
+                return obj.Age.GetHashCode();
+            }
         }
     }
 }

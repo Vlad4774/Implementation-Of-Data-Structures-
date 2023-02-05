@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace linq
 {
     static class Operations
@@ -135,5 +137,20 @@ namespace linq
                 }
             }
         }
+
+        public static IEnumerable<TSource> Distinct<TSource>(
+    this IEnumerable<TSource> source,
+    IEqualityComparer<TSource> comparer = null)
+        { 
+            var hashSet = new HashSet<TSource>(comparer);
+            foreach (var item in source)
+            {
+                if (hashSet.Add(item))
+                {
+                    yield return item;
+                }
+            }
+        }
+
     }
 }
