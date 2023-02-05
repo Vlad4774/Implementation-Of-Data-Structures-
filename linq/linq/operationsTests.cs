@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+
 namespace linq
 {
     public class OperationsTests
@@ -20,6 +23,15 @@ namespace linq
             Assert.False(result);
         }
 
+        public void AllThrowsExceptionWhenSourceIsNull()
+        {
+            IEnumerable<int> source = null;
+            Func<int, bool> predicate = x => x > 0;
+
+            Assert.Throws<ArgumentNullException>(() => source.All(predicate));
+        }
+
+
         [Fact]
         public void AnyElementsSatisfyingPredicateReturnsTrue()
         {
@@ -36,6 +48,15 @@ namespace linq
             Func<string, bool> predicate = s => s.Length > 10;
             bool result = strings.Any(predicate);
             Assert.False(result);
+        }
+
+        [Fact]
+        public void AnyThrowsArgumentNullExceptionWhenSourceIsNull()
+        {
+            IEnumerable<int> source = null;
+            Func<int, bool> predicate = x => x > 0;
+
+            Assert.Throws<ArgumentNullException>(() => source.Any(predicate));
         }
 
         [Fact]
@@ -74,12 +95,28 @@ namespace linq
         }
 
         [Fact]
+        public void SelectThrowsExceptionForNull()
+        {
+            int[] numbers = { 1, 3, 7, 25 };
+            Func<int, IEnumerable<int>> selector = null;
+            Assert.Throws<ArgumentNullException>(() => numbers.Select(selector).ToArray());
+        }
+
+        [Fact]
         public void SelectManyReturnsCorrectly()
         {
             int[] numbers = { 1, 3, 7, 25 };
             Func<int, IEnumerable<int>> selector = n => new int[] { n, n * 2 };
             int[] result = numbers.SelectMany(selector).ToArray();
             Assert.Equal(new int[] { 1, 2, 3, 6, 7, 14, 25, 50 }, result);
+        }
+
+        [Fact]
+        public void SelectManyThrowsExceptionForNull()
+        {
+            int[] numbers = { 1, 3, 7, 25 };
+            Func<int, IEnumerable<int>> selector = null;
+            Assert.Throws<ArgumentNullException>(() => numbers.SelectMany(selector).ToArray());
         }
 
         [Fact]
@@ -101,6 +138,14 @@ namespace linq
         }
 
         [Fact]
+        public void WhereThrowsExceptionIfSelectorIsNull()
+        {
+            int[] numbers = { 1, 3, 5, 7, 9 };
+            Func<int, bool> predicate = null;
+            Assert.Throws<ArgumentNullException>(() => numbers.Where(predicate).ToArray());
+        }
+
+        [Fact]
         public void ToDictionaryWithValidInputReturnsCorrectDictionary()
         {
             var source = new List<string> { "Hello", "world", "hey", "yes", "no", "maybe" };
@@ -115,6 +160,15 @@ namespace linq
         {
             var source = new List<string> { "Hello", "World" };
             Assert.Throws<ArgumentException>(() => source.ToDictionary(x => x.Length, x => x));
+        }
+
+        [Fact]
+        public void ToDictionaryThrowsExceptionForNull()
+        {
+            int[] numbers = { 1, 3, 5, 7, 9 };
+            Func<int, int> keySelector = null;
+            Func<int, int> elementSelector = n => n * n;
+            Assert.Throws<ArgumentNullException>(() => numbers.ToDictionary(keySelector, elementSelector));
         }
 
         [Fact]
@@ -139,10 +193,19 @@ namespace linq
         }
 
         [Fact]
+        public void ZipThrowsExceptionForNull()
+        {
+            int[] first = { 1, 3, 5, 7, 9 };
+            int[] second = null;
+            Func<int, int, int> resultSelector = (f, s) => f + s;
+            Assert.Throws<ArgumentNullException>(() => first.Zip(second, resultSelector).ToArray());
+        }
+
+        [Fact]
         public void AggregateReturnsSumOfNumbers()
         {
             int[] numbers = new int[] { 1, 2, 3, 4 };
-            int result = numbers.Aggregate(0, (acc, next) => acc + next);
+            int result = numbers.Aggregate(0, (seed, next) => seed + next);
             Assert.Equal(10, result);
         }
 
@@ -153,6 +216,15 @@ namespace linq
             string result = words.Aggregate("", (acc, next) => acc + next);
             Assert.Equal("helloworld", result);
         }
+
+        [Fact]
+        public void AggregateThrowsExceptionForNull()
+        {
+            int[] numbers = { 1, 2, 3, 4 };
+            Func<int, int, int> func = null;
+            Assert.Throws<ArgumentNullException>(() => numbers.Aggregate(0, func));
+        }
+
 
         [Fact]
         public void TestJoinMethod()
@@ -169,6 +241,47 @@ namespace linq
 
             Assert.Equal(new List<int> { 2, 3 }, result);
         }
+
+        [Fact]
+        public void Join_WithCustomComparer_ReturnsExpectedResult()
+        {
+            var outer = new[]
+            {
+        new Person { Name = "Octa", Age = 30 },
+        new Person { Name = "Vlad", Age = 25 },
+        new Person { Name = "Radu", Age = 35 }
+    };
+
+            var inner = new[]
+            {
+        new Person { Name = "Ana", Age = 31 },
+        new Person { Name = "Teodora", Age = 25 },
+        new Person { Name = "Ioana", Age = 36 }
+    };
+
+            var result = outer.Join(
+                inner,
+                person => person.Age,
+                person => person.Age,
+                (outerPerson, innerPerson) => new { outerPerson, innerPerson });
+
+            Assert.Equal(1, result.Count());
+            Assert.Equal("Vlad", result.First().outerPerson.Name);
+            Assert.Equal("Teodora", result.First().innerPerson.Name);
+        }
+
+        [Fact]
+        public void JoinThrowsExceptionForNull()
+        {
+            int[] outer = { 1, 2, 3 };
+            int[] inner = { 2, 3, 4 };
+            Func<int, int> outerKeySelector = null;
+            Func<int, int> innerKeySelector = x => x;
+            Func<int, int, int> resultSelector = (x, y) => x + y;
+
+            Assert.Throws<ArgumentNullException>(() => outer.Join(inner, outerKeySelector, innerKeySelector, resultSelector).ToArray());
+        }
+
 
         [Fact]
         public void DistinctReturnsUniqueElements()
@@ -200,6 +313,13 @@ namespace linq
     };
             var result = source.Distinct(new PersonEqualityComparer());
             Assert.Equal(2, result.Count());
+        }
+
+        [Fact]
+        public void DistinctThrowsExceptionWhenSourceIsNull()
+        {
+            int[] numbers = null;
+            Assert.Throws<ArgumentNullException>(() => numbers.Distinct(null).ToArray());
         }
 
         public class Person

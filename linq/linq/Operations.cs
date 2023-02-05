@@ -7,6 +7,11 @@ namespace linq
     {
         public static bool All<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
+            if (source == null || predicate == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             foreach (var element in source)
             {
                 if (!predicate(element))
@@ -20,6 +25,11 @@ namespace linq
 
         public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException();
+            }
+            
             foreach (var element in source)
             {
                 if (predicate(element))
@@ -33,6 +43,11 @@ namespace linq
 
         public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             foreach (var element in source)
             {
                 if (predicate(element))
@@ -46,6 +61,11 @@ namespace linq
 
         public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
+            if (source == null || selector == null)
+            {
+                throw new ArgumentNullException();
+            }
+            
             foreach (var element in source)
             {
                 yield return selector(element);
@@ -54,6 +74,11 @@ namespace linq
 
         public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
         {
+            if (source == null || selector == null)
+            {
+                throw new ArgumentNullException();
+            }
+            
             foreach (var element in source)
             {
                 foreach (TResult result in selector(element))
@@ -65,6 +90,11 @@ namespace linq
 
         public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
+            if (source == null || predicate == null)
+            {
+                throw new ArgumentNullException();
+            }
+            
             foreach (var element in source)
             {
                 if (predicate(element))
@@ -79,9 +109,14 @@ namespace linq
     Func<TSource, TKey> keySelector,
     Func<TSource, TElement> elementSelector)
         {
+            if (source == null || keySelector == null || elementSelector == null)
+            {
+                throw new ArgumentNullException();
+            }
+            
             var dictionary = new Dictionary<TKey, TElement>();
             foreach (var element in source)
-            {
+            {   
                 dictionary.Add(keySelector(element), elementSelector(element));
             }
 
@@ -93,6 +128,11 @@ namespace linq
     IEnumerable<TSecond> second,
     Func<TFirst, TSecond, TResult> resultSelector)
         {
+            if (first == null || second == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             var firstEnumerator = first.GetEnumerator();
             var secondEnumerator = second.GetEnumerator();
             while (firstEnumerator.MoveNext() && secondEnumerator.MoveNext())
@@ -106,13 +146,17 @@ namespace linq
     TAccumulate seed,
     Func<TAccumulate, TSource, TAccumulate> func)
         {
-            var accumulator = seed;
+            if (source == null || seed == null || func == null)
+            {
+                throw new ArgumentNullException();
+            }
+            
             foreach (var element in source)
             {
-                accumulator = func(accumulator, element);
+                seed = func(seed, element);
             }
 
-            return accumulator;
+            return seed;
         }
 
         public static IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(
@@ -122,6 +166,11 @@ namespace linq
     Func<TInner, TKey> innerKeySelector,
     Func<TOuter, TInner, TResult> resultSelector)
         {
+            if (outer == null || inner == null || outerKeySelector == null || innerKeySelector == null || resultSelector == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             foreach (var outElement in outer)
             {
                 var outerKey = outerKeySelector(outElement);
@@ -140,8 +189,13 @@ namespace linq
 
         public static IEnumerable<TSource> Distinct<TSource>(
     this IEnumerable<TSource> source,
-    IEqualityComparer<TSource> comparer = null)
+    IEqualityComparer<TSource> comparer)
         { 
+            if (source == null)
+            {
+                throw new ArgumentNullException();
+            }
+            
             var hashSet = new HashSet<TSource>(comparer);
             foreach (var item in source)
             {
@@ -151,6 +205,5 @@ namespace linq
                 }
             }
         }
-
     }
 }
