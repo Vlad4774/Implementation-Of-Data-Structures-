@@ -25,9 +25,8 @@ namespace linq
 
         public void AllThrowsExceptionWhenSourceIsNull()
         {
-            IEnumerable<int> source = null;
+            int[] source = null;
             Func<int, bool> predicate = x => x > 0;
-
             Assert.Throws<ArgumentNullException>(() => source.All(predicate));
         }
 
@@ -51,9 +50,9 @@ namespace linq
         }
 
         [Fact]
-        public void AnyThrowsArgumentNullExceptionWhenSourceIsNull()
+        public void AnyThrowsExceptionWhenSourceIsNull()
         {
-            IEnumerable<int> source = null;
+            int[] source = null;
             Func<int, bool> predicate = x => x > 0;
 
             Assert.Throws<ArgumentNullException>(() => source.Any(predicate));
@@ -243,7 +242,7 @@ namespace linq
         }
 
         [Fact]
-        public void Join_WithCustomComparer_ReturnsExpectedResult()
+        public void JoinReturnsExpectedResult()
         {
             var outer = new[]
             {
@@ -307,9 +306,9 @@ namespace linq
         public void DistinctWithPersonEqualityComparerTest()
         {
             Person[] source = {
-        new Person { Name = "John", Age = 30 },
-        new Person { Name = "Jane", Age = 30 },
-        new Person { Name = "Jim", Age = 25 }
+        new Person { Name = "Vlad", Age = 30 },
+        new Person { Name = "Ion", Age = 30 },
+        new Person { Name = "Marcel", Age = 25 }
     };
             var result = source.Distinct(new PersonEqualityComparer());
             Assert.Equal(2, result.Count());
@@ -339,6 +338,36 @@ namespace linq
             {
                 return obj.Age.GetHashCode();
             }
+        }
+
+        [Fact]
+        public void UnionWithTwoSequencesReturnsCorrectValues()
+        {
+            int[] first = new int[] { 1, 2, 3, 4, 5 };
+            int[] second = new int[] { 4, 5, 6, 7, 8 };
+            int[] expected = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+            int[] result = first.Union(second).ToArray();
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void UnionWorksProprielyWithStrings()
+        {
+            string[] first = new string[] { "A", "B", "C", "D", "E" };
+            string[] second = new string[] { "D", "E", "F", "G", "H" };
+            string[] expected = new string[] { "A", "B", "C", "D", "E", "F", "G", "H" };
+            string[] result = first.Union(second).ToArray();
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void UnionThrowsException()
+        {
+            int[] first = null;
+            int[] second = new int[] { 4, 5, 6, 7, 8 };
+            Assert.Throws<ArgumentNullException>(() => first.Union(second).ToArray());
         }
     }
 }

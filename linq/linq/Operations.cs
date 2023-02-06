@@ -205,5 +205,18 @@ namespace linq
                 }
             }
         }
+
+        public static IEnumerable<TSource> Union<TSource>(
+    this IEnumerable<TSource> first,
+    IEnumerable<TSource> second,
+    IEqualityComparer<TSource> comparer)
+        {
+            if (first == null || second == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return first.Concat(second).Distinct(comparer);
+        }
     }
 }
