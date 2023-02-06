@@ -369,5 +369,35 @@ namespace linq
             int[] second = new int[] { 4, 5, 6, 7, 8 };
             Assert.Throws<ArgumentNullException>(() => first.Union(second).ToArray());
         }
+
+        [Fact]
+        public void InstersectWithTwoSequencesReturnsCorrectValues()
+        {
+            int[] first = new int[] { 1, 2, 3, 4, 5 };
+            int[] second = new int[] { 4, 5, 6, 7, 8 };
+            int[] expected = new int[] { 4, 5 };
+            int[] result = first.Intersect(second).ToArray();
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void IntersectnWorksProprielyWithStrings()
+        {
+            string[] first = new string[] { "A", "B", "C", "D", "E" };
+            string[] second = new string[] { "D", "E", "F", "G", "H" };
+            string[] expected = new string[] { "D", "E" };
+            string[] result = first.Intersect(second).ToArray();
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void IntersectThrowsException()
+        {
+            int[] first = null;
+            int[] second = new int[] { 4, 5, 6, 7, 8 };
+            Assert.Throws<ArgumentNullException>(() => first.Intersect(second).ToArray());
+        }
     }
 }
