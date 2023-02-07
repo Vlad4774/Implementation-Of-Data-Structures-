@@ -238,5 +238,25 @@ namespace linq
                 }
             }
         }
+
+        public static IEnumerable<TSource> Except<TSource>(
+    this IEnumerable<TSource> first,
+    IEnumerable<TSource> second,
+    IEqualityComparer<TSource> comparer)
+        {
+            if (first == null || second == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var hashSet = new HashSet<TSource>(second, comparer);
+            foreach (var item in first)
+            {
+                if (hashSet.Add(item))
+                {
+                    yield return item;
+                }
+            }
+        }
     }
 }

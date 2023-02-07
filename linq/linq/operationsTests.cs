@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -382,7 +383,7 @@ namespace linq
         }
 
         [Fact]
-        public void IntersectnWorksProprielyWithStrings()
+        public void IntersectWorksProprielyWithStrings()
         {
             string[] first = new string[] { "A", "B", "C", "D", "E" };
             string[] second = new string[] { "D", "E", "F", "G", "H" };
@@ -398,6 +399,37 @@ namespace linq
             int[] first = null;
             int[] second = new int[] { 4, 5, 6, 7, 8 };
             Assert.Throws<ArgumentNullException>(() => first.Intersect(second).ToArray());
+        }
+
+        [Fact]
+        public void ExceptReturnsExpectedResult()
+        {
+            var first = new List<Person>{
+        new Person { Name = "Ion", Age = 25 },
+        new Person { Name = "Maria", Age = 30 },
+        new Person { Name = "Lucian", Age = 35 }};
+            var second = new List<Person>{
+        new Person { Name = "Ana", Age = 30 },
+        new Person { Name = "Paul", Age = 35 }};
+
+            var comparer = new PersonEqualityComparer();
+            var result = first.Except(second, comparer);
+            Assert.Equal(1, result.Count());
+            Assert.Equal("Ion", result.First().Name);
+        }
+
+        [Fact]
+        public void ExceptThrowsException()
+        {
+            var first = new List<Person>{
+        new Person { Name = "Ion", Age = 25 },
+        new Person { Name = "Maria", Age = 30 },
+        new Person { Name = "Lucian", Age = 35 }};
+            List<Person> second = null;
+
+            var comparer = new PersonEqualityComparer();
+
+            Assert.Throws<ArgumentNullException>(() => first.Except(second, comparer).ToArray());
         }
     }
 }
