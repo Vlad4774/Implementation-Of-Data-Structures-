@@ -291,5 +291,25 @@ namespace linq
                 yield return resultSelector(key, dictionary[key]);
             }
         }
+
+        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(
+    this IEnumerable<TSource> source,
+    Func<TSource, TKey> keySelector,
+    IComparer<TKey> comparer)
+        {
+            if (source == null || keySelector == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var sortedList = new SortedList<TKey, TSource>(comparer);
+            foreach (var element in source)
+            {
+                sortedList.Add(keySelector(element), element);
+            }
+
+            return (IOrderedEnumerable<TSource>)sortedList;
+        }
+
     }
 }

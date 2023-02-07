@@ -446,11 +446,43 @@ namespace linq
         }
 
         [Fact]
-        public void GroupBy_ThrowsException_WhenSourceIsNull()
+        public void GroupByThrowsExceptionWhenSourceIsNull()
         {
             List<Person> source = null;
 
             Assert.Throws<ArgumentNullException>(() => source.GroupBy(p => p).ToArray());
+        }
+
+        [Fact]
+        public void OrderByShouldSortElements()
+        {
+            var source = new[] { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 };
+            var expected = new[] { 1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9 };
+            var result = source.OrderBy(x => x);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void OrderSortPersonsByAge()
+        {
+            var source = new[]
+            {
+                new Person { Name = "John", Age = 35 },
+                new Person { Name = "Jane", Age = 29 },
+                new Person { Name = "Jim", Age = 42 },
+                new Person { Name = "Jack", Age = 36 }
+            };
+            var expected = new[]
+            {
+                new Person { Name = "Jane", Age = 29 },
+                new Person { Name = "John", Age = 35 },
+                new Person { Name = "Jack", Age = 36 },
+                new Person { Name = "Jim", Age = 42 }
+            };
+
+            var result = source.OrderBy(x => x.Age);
+
+            Assert.Equal(expected, result, new PersonEqualityComparer());
         }
     }
 }
