@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace linq
 {
@@ -430,6 +431,26 @@ namespace linq
             var comparer = new PersonEqualityComparer();
 
             Assert.Throws<ArgumentNullException>(() => first.Except(second, comparer).ToArray());
+        }
+
+        [Fact]
+        public void TestGroupByWithComparer()
+        {
+            var persons = new List<Person>{
+        new Person { Name = "Ion", Age = 30 },
+        new Person { Name = "Maria", Age = 30 },
+        new Person { Name = "Ana", Age = 25 }};
+            var comparer = new PersonEqualityComparer();
+            var result = persons.GroupBy(p => p, comparer);
+            Assert.Equal(2, result.Count());
+        }
+
+        [Fact]
+        public void GroupBy_ThrowsException_WhenSourceIsNull()
+        {
+            List<Person> source = null;
+
+            Assert.Throws<ArgumentNullException>(() => source.GroupBy(p => p).ToArray());
         }
     }
 }
