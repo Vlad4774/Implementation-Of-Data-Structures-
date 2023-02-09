@@ -8,8 +8,8 @@ namespace linq
     {
         public static bool All<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            NullExceptionForSource(source);
-            NullExceptionForPredicate(predicate);
+            NullException(source, nameof(source));
+            NullException(predicate, nameof(predicate));
 
             foreach (var element in source)
             {
@@ -24,7 +24,7 @@ namespace linq
 
         public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            NullExceptionForSource(source);
+            NullException(source, nameof(source));
 
             foreach (var element in source)
             {
@@ -39,7 +39,7 @@ namespace linq
 
         public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            NullExceptionForSource(source);
+            NullException(source, nameof(source));
 
             foreach (var element in source)
             {
@@ -54,9 +54,9 @@ namespace linq
 
         public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            NullExceptionForSource(source);
-            NullExceptionForSelector(selector);
-            
+            NullException(source, nameof(source));
+            NullException(selector, nameof(selector));
+
             foreach (var element in source)
             {
                 yield return selector(element);
@@ -65,9 +65,9 @@ namespace linq
 
         public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
         {
-            NullExceptionForSource(source);
-            NullExceptionForSelector(selector);
-            
+            NullException(source, nameof(source));
+            NullException(selector, nameof(selector));
+
             foreach (var element in source)
             {
                 foreach (TResult result in selector(element))
@@ -79,8 +79,8 @@ namespace linq
 
         public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            NullExceptionForSource(source);
-            NullExceptionForPredicate(predicate);
+            NullException(source, nameof(source));
+            NullException(predicate, nameof(predicate));
 
             foreach (var element in source)
             {
@@ -96,10 +96,10 @@ namespace linq
     Func<TSource, TKey> keySelector,
     Func<TSource, TElement> elementSelector)
         {
-            NullExceptionForSource(source);
-            NullExceptionForSelector(keySelector);
-            NullExceptionForSelector(elementSelector);
-            
+            NullException(source, nameof(source));
+            NullException(keySelector, nameof(keySelector));
+            NullException(elementSelector, nameof(elementSelector));
+
             var dictionary = new Dictionary<TKey, TElement>();
             foreach (var element in source)
             {   
@@ -114,8 +114,8 @@ namespace linq
     IEnumerable<TSecond> second,
     Func<TFirst, TSecond, TResult> resultSelector)
         {
-            NullExceptionForSource(first);
-            NullExceptionForSource(second);
+            NullException(first, nameof(first));
+            NullException(second, nameof(second));
 
             var firstEnumerator = first.GetEnumerator();
             var secondEnumerator = second.GetEnumerator();
@@ -130,16 +130,17 @@ namespace linq
     TAccumulate seed,
     Func<TAccumulate, TSource, TAccumulate> func)
         {
-            NullExceptionForSource(source);
-            NullExceptionForSeed(seed);
-            NullExceptionForFunc(func);
-            
+            NullException(source, nameof(source));
+            NullException(seed, nameof(seed));
+            NullException(func, nameof(func));
+
+            var agg = seed;
             foreach (var element in source)
             {
-                seed = func(seed, element);
+                agg = func(agg, element);
             }
 
-            return seed;
+            return agg;
         }
 
         public static IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(
@@ -149,11 +150,11 @@ namespace linq
     Func<TInner, TKey> innerKeySelector,
     Func<TOuter, TInner, TResult> resultSelector)
         {
-            NullExceptionForSource(outer);
-            NullExceptionForSource(inner);
-            NullExceptionForSelector(outerKeySelector);
-            NullExceptionForSelector(innerKeySelector);
-            NullExceptionForResultSelector(resultSelector);
+            NullException(outer, nameof(outer));
+            NullException(inner, nameof(inner));
+            NullException(outerKeySelector, nameof(outerKeySelector));
+            NullException(innerKeySelector, nameof(innerKeySelector));
+            NullException(resultSelector, nameof(resultSelector));
 
             var dictionaryInner = inner.ToDictionary(innerKeySelector);
 
@@ -172,7 +173,7 @@ namespace linq
     this IEnumerable<TSource> source,
     IEqualityComparer<TSource> comparer)
         {
-            NullExceptionForSource(source);
+            NullException(source, nameof(source));
 
             var hashSet = new HashSet<TSource>(comparer);
             foreach (var item in source)
@@ -189,8 +190,8 @@ namespace linq
     IEnumerable<TSource> second,
     IEqualityComparer<TSource> comparer)
         {
-            NullExceptionForSource(first);
-            NullExceptionForSource(second);
+            NullException(first, nameof(first));
+            NullException(second, nameof(second));
 
             return first.Concat(second).Distinct(comparer);
         }
@@ -200,8 +201,8 @@ namespace linq
     IEnumerable<TSource> second,
     IEqualityComparer<TSource> comparer)
         {
-            NullExceptionForSource(first);
-            NullExceptionForSource(second);
+            NullException(first, nameof(first));
+            NullException(second, nameof(second));
 
             var hashSet = new HashSet<TSource>(second, comparer);
             foreach (var item in first)
@@ -218,8 +219,8 @@ namespace linq
     IEnumerable<TSource> second,
     IEqualityComparer<TSource> comparer)
         {
-            NullExceptionForSource(first);
-            NullExceptionForSource(second);
+            NullException(first, nameof(first));
+            NullException(second, nameof(second));
 
             var hashSet = new HashSet<TSource>(second, comparer);
             foreach (var item in first)
@@ -238,10 +239,10 @@ namespace linq
     Func<TKey, IEnumerable<TElement>, TResult> resultSelector,
     IEqualityComparer<TKey> comparer)
         {
-            NullExceptionForSource(source);
-            NullExceptionForSelector(keySelector);
-            NullExceptionForSelector(elementSelector);
-            NullExceptionForResultSelector(resultSelector);
+            NullException(source, nameof(source));
+            NullException(keySelector, nameof(keySelector));
+            NullException(elementSelector, nameof(elementSelector));
+            NullException(resultSelector, nameof(resultSelector));
 
             var dictionary = new Dictionary<TKey, List<TElement>>(comparer);
             foreach (var element in source)
@@ -269,8 +270,8 @@ namespace linq
     Func<TSource, TKey> keySelector,
     IComparer<TKey> comparer)
         {
-            NullExceptionForSource(source);
-            NullExceptionForSelector(keySelector);
+            NullException(source, nameof(source));
+            NullException(keySelector, nameof(keySelector));
 
             var sortedList = new SortedList<TKey, TSource>(comparer);
             foreach (var element in source)
@@ -289,53 +290,13 @@ namespace linq
             return source.OrderBy(keySelector, comparer);
         }
 
-        private static void NullExceptionForSource<TSource>(IEnumerable<TSource> source)
+        private static void NullException<T>(T argument, string name)
         {
-            if (source == null)
+            if (argument == null)
             {
-                throw new ArgumentNullException(nameof(source));
+                throw new ArgumentNullException(name);
             }
         }
 
-        private static void NullExceptionForPredicate<TSource>(Func<TSource, bool> predicate)
-        {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-        }
-
-        private static void NullExceptionForSelector<TSource, TResult>(Func<TSource, TResult> selector)
-        {
-            if (selector == null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
-        }
-
-        private static void NullExceptionForResultSelector<TOuter, TInner, TResult>(Func<TOuter, TInner, TResult> resultSelector)
-        {
-            if (resultSelector == null)
-            {
-                throw new ArgumentNullException(nameof(resultSelector));
-            }
-        }
-
-        private static void NullExceptionForSeed<TAccumulate>(TAccumulate seed)
-        {
-            if (seed == null)
-            {
-                throw new ArgumentNullException(nameof(seed));
-            }
-        }
-
-        private static void NullExceptionForFunc<TSource, TAccumulate>(
-    Func<TAccumulate, TSource, TAccumulate> func)
-        {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
-        }
     }
 }
