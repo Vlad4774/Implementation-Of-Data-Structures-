@@ -1,7 +1,7 @@
 ﻿
 namespace linq
 {
-    public class FirstElementWhichIsUniqueTests
+    public class FirstCharacterWhichIsUniqueTests
     {
         [Fact]
         public void GetFirstUniqueCharacter()
