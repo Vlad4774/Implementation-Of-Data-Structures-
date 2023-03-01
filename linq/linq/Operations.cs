@@ -316,7 +316,7 @@ namespace linq
                 return GetEnumerator();
             }
 
-            public IOrderedEnumerable<TSource> CreateOrderedEnumerable(
+            public IOrderedEnumerable<TSource> CreateOrderedEnumerable<TKey>(
                 Func<TSource, TKey> keySelector,
                 IComparer<TKey> comparer,
                 bool descending)
