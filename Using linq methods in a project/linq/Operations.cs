@@ -265,7 +265,7 @@ namespace linq
             NullException(source, nameof(source));
             NullException(keySelector, nameof(keySelector));
 
-            return new OrderedEnumerable<TSource, TKey>(source, keySelector, comparer, false);
+            return new Ordered<TSource, TKey>(source, keySelector, comparer, false);
         }
 
         public static IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(
@@ -277,50 +277,6 @@ namespace linq
             NullException(keySelector, nameof(keySelector));
 
             return source.CreateOrderedEnumerable(keySelector, comparer, false);
-        }
-
-        private class OrderedEnumerable<TSource, Tkey> : IOrderedEnumerable<TSource>
-        {
-            private IEnumerable<TSource> source;
-            private Func<TSource, Tkey> keySelector;
-            private IComparer<Tkey> comparer;
-            private bool descending;
-
-            public OrderedEnumerable(
-                IEnumerable<TSource> source,
-                Func<TSource, Tkey> keySelector,
-                IComparer<Tkey> comparer,
-                bool descending)
-            {
-                this.source = source;
-                this.keySelector = keySelector;
-                this.comparer = comparer;
-                this.descending = descending;
-            }
-
-            public IEnumerator<TSource> GetEnumerator()
-            {
-                var sortedList = new SortedList<Tkey, TSource>(comparer);
-                foreach (var element in source)
-                {
-                    sortedList.Add(keySelector(element), element);
-                }
-                
-                return sortedList.Values.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
-
-            public IOrderedEnumerable<TSource> CreateOrderedEnumerable<TKey>(
-                Func<TSource, TKey> keySelector,
-                IComparer<TKey> comparer,
-                bool descending)
-            {
-                return new OrderedEnumerable<TSource, TKey>(source, keySelector, comparer, descending);
-            }
         }
         
         private static void NullException<T>(T argument, string name)

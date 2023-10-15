@@ -468,7 +468,7 @@ namespace linq
                 new Person { Name = "Jim", Age = 42 },
                 new Person { Name = "Jack", Age = 36 }
             };
-            var expected = new[]
+            var expected = new List<Person>
             {
                 new Person { Name = "Jane", Age = 29 },
                 new Person { Name = "John", Age = 35 },
@@ -476,33 +476,38 @@ namespace linq
                 new Person { Name = "Jim", Age = 42 }
             };
 
-            var result = source.OrderBy(x => x.Age);
+            var result = Operations.OrderBy(source, x => x.Age, Comparer<int>.Default).ToList();
+            Assert.Equal(result, expected, new PersonEqualityComparer());
+        }
+
+        [Fact]
+        public void ThenSortListOfPeopleByNameAfterSortingByAge()
+        {
+            var people = new List<Person>
+            {
+        new Person { Name = "Ioan", Age = 32 },
+        new Person { Name = "Maria", Age = 27 },
+        new Person { Name = "Adrian", Age = 36 },
+        new Person { Name = "Stefan", Age = 25 },
+        new Person { Name = "Elena", Age = 25 }
+            };
+
+            var expected = new List<Person>
+            {
+        new Person { Name = "Adrian", Age = 36 },
+        new Person { Name = "Elena", Age = 25 },
+        new Person { Name = "Ioan", Age = 32 },
+        new Person { Name = "Maria", Age = 27 },
+        new Person { Name = "Stefan", Age = 25 }
+            };
+
+            var result = Operations.OrderBy(people, x => x.Name, Comparer<string>.Default)
+                                    .ThenBy(x => x.Age, Comparer<int>.Default)
+                                    .ToList();
 
             Assert.Equal(expected, result, new PersonEqualityComparer());
         }
 
-        [Fact]
-        public void ThenSortListOfPeopleByAge()
-        {
-            List<Person> people = new List<Person>
-            {
-                new Person { Name = "Ioan", Age = 32 },
-                new Person { Name = "Maria", Age = 27 },
-                new Person { Name = "Adrian", Age = 36 },
-                new Person { Name = "Stefan", Age = 25 },
-                new Person { Name = "Elena", Age = 25 }
-            };
-
-            var sortedPeople = people.OrderBy(x => x.Age).ThenBy(x => x.Name);
-
-            Assert.Equal(25, sortedPeople.ElementAt(0).Age);
-            Assert.Equal(25, sortedPeople.ElementAt(1).Age);
-            Assert.Equal(27, sortedPeople.ElementAt(2).Age);
-            Assert.Equal(32, sortedPeople.ElementAt(3).Age);
-            Assert.Equal(36, sortedPeople.ElementAt(4).Age);
-            Assert.Equal("Elena", sortedPeople.ElementAt(0).Name);
-            Assert.Equal("Stefan", sortedPeople.ElementAt(1).Name);
-        }
 
         [Fact]
         public void ThenByThrowExceptionWhenListIsNull()
